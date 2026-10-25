@@ -422,100 +422,100 @@
             </div>
           </div>
 
-          <!-- Editor Form Fields -->
-          <form id="editor-form" onsubmit="event.preventDefault(); saveCurrentPage();" class="space-y-6">
-            
-            <!-- Basic Meta Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
-              <div>
-                <label class="block text-xs font-bold text-gray-700 mb-1">Seitentitel</label>
-                <input type="text" id="edit-title" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. A1">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-700 mb-1">Kategorie</label>
-                <select id="edit-category" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="A">Autobahn (A)</option>
-                  <option value="L">Lukolandstraße (L)</option>
-                  <option value="C">Centralroute (C)</option>
-                  <option value="K">Kreisstraße (K)</option>
-                  <option value="Ueber">Übersicht</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-700 mb-1">Straßenbeginn</label>
-                <input type="text" id="edit-start" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. Grenze">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-700 mb-1">Straßenende</label>
-                <input type="text" id="edit-end" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. Stadtzentrum">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-700 mb-1">Gesamtlänge (km)</label>
-                <input type="text" id="edit-length" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 45.5">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-gray-700 mb-1">Davon in Bau (km)</label>
-                <input type="text" id="edit-construction" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 5.0">
-              </div>
-            </div>
+          <!-- Editor: Zwei-Spalten-Layout (Links: Formular mit Scroll, Rechts: Live-Artikel) -->
+          <div class="flex flex-col lg:flex-row gap-6 -mx-2">
 
-            <!-- Route Editor -->
-            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-              <div class="flex items-center justify-between mb-2">
-                <label class="block text-xs font-bold text-gray-700">Straßenverlauf</label>
-              </div>
-              <textarea id="edit-route" oninput="updateRoutePreview()" placeholder="Straßenverlauf eingeben. Icons: [AK], [AS], etc. Links: [[A1]]" class="w-full h-32 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono resize-none"></textarea>
-              <div class="text-xs text-gray-500 mt-1 mb-3">💡 Tipps: [AK] = Autobahnkreuz, [AS] = Anschlussstelle, [[Seitenname]] = Link</div>
+            <!-- LINKE SPALTE: Editor-Formular (scrollbar) -->
+            <form id="editor-form" onsubmit="event.preventDefault(); saveCurrentPage();" class="lg:w-1/2 space-y-4 overflow-y-auto max-h-[calc(100vh-200px)] pr-3 pl-2">
               
-              <!-- Icon Insert Bar -->
-              <div id="icon-insert-bar" class="flex flex-wrap gap-1 mb-3 bg-white p-2 rounded border border-gray-100 max-h-20 overflow-y-auto"></div>
-
-              <!-- Live Preview -->
-              <div class="mt-3">
-                <div class="text-xs font-bold text-gray-700 mb-1">Live-Vorschau:</div>
-                <div id="route-live-preview" class="bg-white p-3 border border-gray-200 rounded text-xs max-h-32 overflow-y-auto"></div>
-              </div>
-            </div>
-
-            <!-- Sections (1-6) -->
-            <div class="space-y-4">
-              <div class="text-sm font-bold text-gray-800">Textabschnitte</div>
-              <div class="space-y-4">
+              <!-- Basic Meta Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200 sticky top-0 z-10">
                 <div>
-                  <label class="block text-xs font-bold text-gray-700 mb-1">1. Allgemeines</label>
-                  <textarea id="edit-sec-1" class="w-full h-20 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Seitentitel</label>
+                  <input type="text" id="edit-title" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. A1">
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-gray-700 mb-1">2. Geschichte</label>
-                  <textarea id="edit-sec-2" class="w-full h-20 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Kategorie</label>
+                  <select id="edit-category" onchange="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="A">Autobahn (A)</option>
+                    <option value="L">Lukolandstraße (L)</option>
+                    <option value="C">Centralroute (C)</option>
+                    <option value="K">Kreisstraße (K)</option>
+                    <option value="Ueber">Übersicht</option>
+                  </select>
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-gray-700 mb-1">3. Verlauf</label>
-                  <textarea id="edit-sec-3" class="w-full h-20 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Straßenbeginn</label>
+                  <input type="text" id="edit-start" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. Grenze">
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-gray-700 mb-1">4. Ausbauzustand</label>
-                  <textarea id="edit-sec-4" class="w-full h-20 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Straßenende</label>
+                  <input type="text" id="edit-end" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. Stadtzentrum">
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-gray-700 mb-1">5. Besonderheiten</label>
-                  <textarea id="edit-sec-5" class="w-full h-20 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Gesamtlänge (km)</label>
+                  <input type="text" id="edit-length" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 45.5">
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-gray-700 mb-1">6. Zukunft</label>
-                  <textarea id="edit-sec-6" class="w-full h-20 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Davon in Bau (km)</label>
+                  <input type="text" id="edit-construction" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 5.0">
                 </div>
               </div>
-            </div>
 
-            <div class="pt-4 border-t border-gray-200 flex justify-end space-x-3">
-              <button type="button" onclick="setMode('reader')" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900">Abbrechen</button>
-              <button type="submit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow transition">
-                Änderungen Speichern
+              <!-- Straßenverlauf -->
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <label class="block text-xs font-bold text-gray-700 mb-2">Straßenverlauf</label>
+                <textarea id="edit-route" oninput="updateEditorPreview()" placeholder="Icons: [AK], [AS], etc. | Links: [[A1]]" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono resize-none" style="height: 120px;"></textarea>
+                <div class="text-xs text-gray-500 mt-1 mb-2">💡 [AK] = Kreuz, [AS] = Anschlussstelle, [[Seite]] = Link</div>
+                <div id="icon-insert-bar" class="flex flex-wrap gap-1 bg-white p-2 rounded border border-gray-100 max-h-16 overflow-y-auto"></div>
+              </div>
+
+              <!-- Artikel-Abschnitte (dynamisch) -->
+              <div id="editor-sections-container" class="space-y-3">
+                <!-- Wird dynamisch gefüllt -->
+              </div>
+
+              <!-- Button: Neuen Abschnitt hinzufügen -->
+              <button type="button" onclick="addEditorSection()" class="w-full py-2 px-3 text-xs font-semibold text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-plus"></i>
+                <span>Abschnitt hinzufügen</span>
               </button>
+
+              <!-- Speichern/Abbrechen -->
+              <div class="sticky bottom-0 bg-white pt-3 border-t border-gray-200 flex justify-end space-x-2">
+                <button type="button" onclick="setMode('reader')" class="px-3 py-2 text-sm text-gray-600 hover:text-gray-900">Abbrechen</button>
+                <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow transition">
+                  Speichern
+                </button>
+              </div>
+
+            </form>
+
+            <!-- RECHTE SPALTE: Live-Vorschau (komplett Artikel) -->
+            <div class="lg:w-1/2 bg-gray-50 rounded-lg border border-gray-200 p-6 overflow-y-auto max-h-[calc(100vh-200px)]">
+              <div class="bg-white rounded-lg p-6 space-y-6">
+                
+                <!-- Artikel-Titel -->
+                <div>
+                  <h1 id="preview-title" class="text-3xl font-bold text-gray-900 border-b border-gray-300 pb-2 mb-2">
+                    Autobahn
+                  </h1>
+                </div>
+
+                <!-- Infobox -->
+                <div id="preview-infobox" class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans float-right ml-4 w-80 mb-4">
+                  <!-- Wird dynamisch gefüllt -->
+                </div>
+
+                <!-- Artikel-Abschnitte (Live) -->
+                <div id="preview-sections" class="wiki-content space-y-6">
+                  <!-- Wird dynamisch gefüllt -->
+                </div>
+
+              </div>
             </div>
 
-          </form>
+          </div>
 
         </div>
 
@@ -570,17 +570,46 @@
 
     /* ===== ICON MAPPING ===== */
     const ICON_MAPPING = {
-      "AK": "https://via.placeholder.com/20?text=AK",
-      "AD": "https://via.placeholder.com/20?text=AD",
-      "Kreuz": "https://via.placeholder.com/20?text=Kreuz",
-      "AS": "https://via.placeholder.com/20?text=AS",
-      "Kreisel": "https://via.placeholder.com/20?text=Kreisel",
-      "Parkplatz": "https://via.placeholder.com/20?text=P",
-      "Tankstelle": "https://via.placeholder.com/20?text=Tank",
-      "Raststaette": "https://via.placeholder.com/20?text=Rast",
-      "Tunnel": "https://via.placeholder.com/20?text=~",
-      "Bruecke": "https://via.placeholder.com/20?text=Br",
-      "Info": "https://via.placeholder.com/20?text=i"
+      "AK": "AK.webp",
+      "AD": "AD.webp",
+      "Kreuz": "Kreuz.webp",
+      "Dreieck": "Dreieck.webp",
+      "AS": "AS.webp",
+      "ASEinbahn": "ASEinbahn.webp",
+      "Linksanschluss": "Linksanschluss.webp",
+      "Kreisel": "Kreisel.webp",
+      "Parkplatz": "Parkplatz.webp",
+      "Tankstelle": "Tankstelle.webp",
+      "Raststaette": "Raststaette.webp",
+      "Gewaesser": "Gewaesser.webp",
+      "Gabelung": "Gabelung.webp",
+      "Bahn": "Bahn.webp",
+      "Bahnhof": "Bahnhof.webp",
+      "Bahnstrecke": "Bahnstrecke.webp",
+      "Sperrung": "Sperrung.webp",
+      "Bruecke": "Bruecke.webp",
+      "Gruenbruecke": "Gruenbruecke.webp",
+      "Tunnel": "Tunnel.webp",
+      "TASUp": "TASUp.webp",
+      "TASDn": "TASDn.webp",
+      "RastLi": "RastLi.webp",
+      "RastRe": "RastRe.webp",
+      "Airport": "Airport.webp",
+      "VBABeginn": "VBABeginn.webp",
+      "VBAEnde": "VBAEnde.webp",
+      "VBA": "VBA.webp",
+      "Info": "Info.webp",
+      "Gegenverkehr": "Gegenverkehr.webp",
+      "Kreuzung": "Kreuzung.webp",
+      "Grenze": "Grenze.webp",
+      "Maut": "Maut.webp",
+      "Autohof": "Autohof.webp",
+      "WC": "WC.webp",
+      "AutobahnBlau": "AutobahnBlau.webp",
+      "AutobahnBlauEnde": "AutobahnBlauEnde.webp",
+      "AutobahnGruen": "AutobahnGruen.webp",
+      "AutobahnGruenEnde": "AutobahnGruenEnde.webp",
+      "AB": "AB.webp"
     };
 
     /* ===== PREDEFINED PAGE LISTS ===== */
@@ -952,19 +981,157 @@
       document.getElementById('edit-construction').value = page.construction || "";
       document.getElementById('edit-route').value = page.route || "";
 
-      for (let i = 1; i <= 6; i++) {
-        const secVal = (page.sections && page.sections[i - 1]) ? page.sections[i - 1] : "";
-        document.getElementById(`edit-sec-${i}`).value = secVal;
+      // Rendere Sections dynamisch
+      const sectionsContainer = document.getElementById('editor-sections-container');
+      sectionsContainer.innerHTML = '';
+      
+      const sectionTitles = [
+        "1. Allgemeines",
+        "2. Geschichte",
+        "3. Verlauf",
+        "4. Ausbauzustand",
+        "5. Besonderheiten",
+        "6. Zukunft"
+      ];
+
+      if (page.sections && page.sections.length > 0) {
+        page.sections.forEach((content, idx) => {
+          addEditorSection(sectionTitles[idx] || `Abschnitt ${idx+1}`, content, idx);
+        });
+      } else {
+        sectionTitles.slice(0, 6).forEach((title, idx) => {
+          addEditorSection(title, "", idx);
+        });
       }
 
-      updateRoutePreview();
+      updateEditorPreview();
     }
 
-    function updateRoutePreview() {
-      const routeText = document.getElementById('edit-route').value;
-      const previewEl = document.getElementById('route-live-preview');
-      previewEl.innerHTML = parseCustomMarkup(routeText) || '<span class="italic text-gray-400">Live-Vorschau...</span>';
-    }
+    window.addEditorSection = function(title = "Neuer Abschnitt", content = "", index = -1) {
+      const container = document.getElementById('editor-sections-container');
+      const sectionId = 'section-' + Date.now() + Math.random();
+      const sectionCount = container.children.length;
+
+      const sectionHTML = `
+        <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 group" data-section-id="${sectionId}">
+          <div class="flex items-center justify-between mb-2">
+            <input type="text" class="section-title text-sm font-bold text-gray-700 px-2 py-1 border border-transparent rounded hover:border-gray-300 focus:border-blue-500 focus:outline-none flex-1" value="${title}" oninput="updateEditorPreview()">
+            <button type="button" onclick="removeEditorSection('${sectionId}')" class="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:bg-red-50 rounded text-xs transition" title="Abschnitt löschen">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+          <textarea class="section-content w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" oninput="updateEditorPreview()" style="height: 80px;">${content}</textarea>
+        </div>
+      `;
+
+      const div = document.createElement('div');
+      div.innerHTML = sectionHTML;
+      container.appendChild(div.firstElementChild);
+    };
+
+    window.removeEditorSection = function(sectionId) {
+      const container = document.getElementById('editor-sections-container');
+      const section = container.querySelector(`[data-section-id="${sectionId}"]`);
+      if (section) {
+        section.remove();
+        updateEditorPreview();
+      }
+    };
+
+    window.updateEditorPreview = function() {
+      const title = document.getElementById('edit-title').value || "Seite";
+      const category = document.getElementById('edit-category').value;
+      const start = document.getElementById('edit-start').value;
+      const end = document.getElementById('edit-end').value;
+      const length = document.getElementById('edit-length').value;
+      const construction = document.getElementById('edit-construction').value;
+      const route = document.getElementById('edit-route').value;
+
+      // Preview-Titel
+      document.getElementById('preview-title').innerText = title;
+
+      // Infobox aktualisieren
+      const cat = category || getCategoryFromTitle(title);
+      let shieldBg = "bg-emerald-600 text-white border-emerald-800";
+      if (cat === 'L') shieldBg = "bg-amber-500 text-white border-amber-700";
+      if (cat === 'C') shieldBg = "bg-yellow-400 text-gray-900 border-yellow-600";
+      if (cat === 'K') shieldBg = "bg-white text-gray-900 border-black";
+      if (cat === 'Ueber') shieldBg = "bg-blue-600 text-white border-blue-800";
+
+      let routeParsed = parseCustomMarkup(route || "");
+
+      const infoboxHTML = `
+        <div class="bg-blue-900 text-white text-center py-1.5 px-2 font-bold text-sm tracking-wide">
+          ${title} in Lukoland
+        </div>
+        <div class="p-4 bg-white flex justify-center border-b border-gray-200">
+          <div class="road-shield road-shield-${cat} text-xl px-5 py-2 font-black shadow-md rounded border-2">
+            ${title.replace('Autobahn ', '').replace('Lukolandstraße ', '')}
+          </div>
+        </div>
+        <div class="bg-blue-800 text-white text-center py-1 font-semibold text-xs uppercase tracking-wider">
+          Basisdaten
+        </div>
+        <table class="w-full text-left border-collapse bg-white text-xs">
+          <tbody>
+            <tr class="border-b border-gray-100">
+              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Betreiber:</td>
+              <td class="py-1 px-2 text-gray-800">Kraksrepublik Lukoland</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Start:</td>
+              <td class="py-1 px-2 text-gray-800">${start || 'Unbekannt'}</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Ende:</td>
+              <td class="py-1 px-2 text-gray-800">${end || 'Unbekannt'}</td>
+            </tr>
+            <tr class="border-b border-gray-100">
+              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Länge:</td>
+              <td class="py-1 px-2 font-bold text-gray-900">${length || '0'} km</td>
+            </tr>
+            <tr class="border-b border-gray-200">
+              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td>
+              <td class="py-1 px-2 text-amber-700 font-semibold">${construction || '0'} km</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="bg-blue-800 text-white px-2 py-1 font-semibold text-xs uppercase tracking-wider">
+          Verlauf
+        </div>
+        <div class="p-2 bg-white text-xs space-y-0.5">
+          ${routeParsed || '<span class="italic text-gray-400">Kein Verlauf</span>'}
+        </div>
+      `;
+
+      document.getElementById('preview-infobox').innerHTML = infoboxHTML;
+
+      // Artikel-Abschnitte aktualisieren
+      const sectionsContainer = document.getElementById('editor-sections-container');
+      const previewSectionsDiv = document.getElementById('preview-sections');
+      let sectionsHTML = '';
+
+      const sections = sectionsContainer.querySelectorAll('[data-section-id]');
+      sections.forEach(section => {
+        const titleEl = section.querySelector('.section-title');
+        const contentEl = section.querySelector('.section-content');
+        const sectionTitle = titleEl ? titleEl.value : '';
+        const sectionContent = contentEl ? contentEl.value : '';
+
+        if (sectionTitle && sectionContent) {
+          sectionsHTML += `
+            <div class="mb-6">
+              <h2 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">
+                ${sectionTitle}
+              </h2>
+              <p class="leading-relaxed text-gray-800 whitespace-pre-wrap text-sm">${parseMarkdownText(sectionContent)}</p>
+            </div>
+          `;
+        }
+      });
+
+      previewSectionsDiv.innerHTML = sectionsHTML || '<p class="italic text-gray-500">Keine Abschnitte vorhanden</p>';
+    };
 
     function renderIconInsertBar() {
       const bar = document.getElementById('icon-insert-bar');
