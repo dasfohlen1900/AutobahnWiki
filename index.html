@@ -627,7 +627,7 @@
           console.log("Firestore leer, lade Standard-Daten...");
           wikiData = createDefaultDatabase();
           // Auto-Upload zur Firestore
-          await uploadToFirestore();
+          await saveToFirestore();
         } else {
           wikiData = firestoreData;
           saveToLocalStorage();
