@@ -411,6 +411,14 @@
       indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>Sync aktiv</span>';
     }
 
+    /* ===== FARB-MAPPING für {farbe = ...} ===== */
+    const FARBE_MAPPING = {
+      'section': { bg: '#ccdfff', label: 'Section Control' },
+      'bau':     { bg: '#ffdcb8', label: 'in Bau' },
+      'planung': { bg: '#f2c5dd', label: 'in Planung' },
+      'vba':     { bg: '#ccffec', label: 'Verkehrsbeeinflussungsanlage' }
+    };
+
     /* ===== CUSTOM MARKUP PARSER ===== */
     function parseCustomMarkup(text) {
       if (!text) return "";
@@ -418,6 +426,15 @@
         let l = line.trim();
         if (!l) return "";
         if (l === "---") return `<div class="my-2 border-b border-gray-300"></div>`;
+
+        // Farb-Hinterlegung: {farbe = section/bau/planung/vba} am Zeilenende
+        let rowBg = "";
+        l = l.replace(/\{farbe\s*=\s*([a-z]+)\}/i, (match, key) => {
+          const k = key.toLowerCase();
+          if (FARBE_MAPPING[k]) { rowBg = FARBE_MAPPING[k].bg; }
+          return ""; // Tag aus dem Anzeigetext entfernen
+        });
+
         // Icons & road shields
         l = l.replace(/\[([A-Za-z0-9_]+)\]/g, (match, iconKey) => {
           if (ICON_MAPPING[iconKey]) {
@@ -439,8 +456,24 @@
         });
         l = l.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold">$1</strong>');
         l = l.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>');
-        return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none">${l}</div>`;
+
+        const bgStyle = rowBg ? `style="background-color:${rowBg};"` : "";
+        return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none" ${bgStyle}>${l}</div>`;
       }).join('');
+    }
+
+    /* ===== LEGENDE-HTML GENERATOR ===== */
+    function buildLegendHTML() {
+      return `
+        <div class="bg-blue-800 text-white px-3 py-1.5 font-semibold text-xs uppercase tracking-wider">Legende</div>
+        <div class="p-2 bg-white space-y-1">
+          ${Object.entries(FARBE_MAPPING).map(([key, val]) => `
+            <div class="flex items-center gap-2 text-xs">
+              <span class="inline-block w-4 h-4 rounded border border-gray-300 flex-shrink-0" style="background-color:${val.bg};"></span>
+              <span class="text-gray-700">${val.label}</span>
+            </div>`).join('')}
+        </div>
+      `;
     }
 
     /* ===== NAVIGATION ===== */
@@ -566,6 +599,7 @@
           <div id="infobox-route-content" class="p-2 bg-white max-h-96 overflow-y-auto space-y-1">
             ${routeParsed || '<span class="italic text-gray-400">Kein Streckenverlauf angegeben</span>'}
           </div>
+          ${buildLegendHTML()}
         </div>`;
       document.getElementById('reader-infobox-container').innerHTML = html;
     }
@@ -661,6 +695,7 @@
         <div class="p-2 bg-white text-xs space-y-0.5">
           ${routeParsed || '<span class="italic text-gray-400">Kein Verlauf</span>'}
         </div>
+        ${buildLegendHTML()}
       `;
 
       const sectionsContainer = document.getElementById('editor-sections-container');
