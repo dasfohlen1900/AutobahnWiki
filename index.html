@@ -8,49 +8,60 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Barlow&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            wiki: { blue: '#0645ad', darkblue: '#0b0080', bg: '#f8f9fa', border: '#a2a9b1', header: '#eaecf0', card: '#f0f4f8' },
-            road: { autobahn: '#00875A', lukoland: '#FF8B00', central: '#FFC400', kreis: '#6B778C' }
-          },
-          fontFamily: { sans: ['Inter', 'sans-serif'], wiki: ['Source Sans Pro', 'sans-serif'] }
-        }
-      }
+      theme: { extend: {
+        colors: {
+          wiki: { blue:'#0645ad', darkblue:'#0b0080', bg:'#f8f9fa', border:'#a2a9b1', header:'#eaecf0', card:'#f0f4f8' },
+          road: { autobahn:'#00875A', lukoland:'#FF8B00', central:'#FFC400', kreis:'#6B778C' }
+        },
+        fontFamily: { sans:['Inter','sans-serif'], wiki:['Source Sans Pro','sans-serif'] }
+      }}
     }
   </script>
   <style>
-    body { font-family: 'Source Sans Pro', sans-serif; background-color: #f6f8fa; }
-    .wiki-content h1 { font-size: 1.875rem; font-weight: 700; border-bottom: 1px solid #a2a9b1; padding-bottom: .375rem; margin-bottom: 1rem; color: #000; }
-    .wiki-content h2 { font-size: 1.35rem; font-weight: 600; border-bottom: 1px solid #eaecf0; padding-bottom: .25rem; margin-top: 1.5rem; margin-bottom: .75rem; color: #202122; }
-    .road-shield { display: inline-flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; padding: 1px 6px; font-size: .85rem; text-decoration: none !important; box-shadow: 0 1px 2px rgba(0,0,0,.2); margin: 0 2px; vertical-align: middle; font-family: 'Barlow', sans-serif; letter-spacing: .5px; }
-    .road-shield-A { background-color: #00875a; color: #fff; border: 1.5px solid #005c3e; }
-    .road-shield-L { background-color: #ff8b00; color: #fff; border: 1.5px solid #c26a00; }
-    .road-shield-C { background-color: #ffc400; color: #172b4d; border: 1.5px solid #d9a500; }
-    .road-shield-K { background-color: #fff; color: #172b4d; border: 1.5px solid #000; }
-    .road-shield-Ueber { background-color: #0645ad; color: #fff; border: 1.5px solid #0b0080; }
-    .wiki-link { color: #0645ad; text-decoration: none; cursor: pointer; }
-    .wiki-link:hover { text-decoration: underline; }
-    .wiki-link-missing { color: #ba0000; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
-    .sync-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; padding: 4px 8px; border-radius: 4px; }
-    .sync-indicator.syncing { background-color: #fef3c7; color: #92400e; }
-    .sync-indicator.synced { background-color: #dcfce7; color: #166534; }
-    .sync-indicator.error { background-color: #fee2e2; color: #991b1b; }
-    .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(0,0,0,.1); border-top-color: currentColor; border-radius: 50%; animation: spin .6s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    body { font-family:'Source Sans Pro',sans-serif; background-color:#f6f8fa; }
+    .wiki-content h1 { font-size:1.875rem; font-weight:700; border-bottom:1px solid #a2a9b1; padding-bottom:.375rem; margin-bottom:1rem; color:#000; }
+    .wiki-content h2 { font-size:1.35rem; font-weight:600; border-bottom:1px solid #eaecf0; padding-bottom:.25rem; margin-top:1.5rem; margin-bottom:.75rem; color:#202122; }
+    .road-shield { display:inline-flex; align-items:center; justify-content:center; font-weight:bold; border-radius:4px; padding:1px 6px; font-size:.85rem; text-decoration:none !important; box-shadow:0 1px 2px rgba(0,0,0,.2); margin:0 2px; vertical-align:middle; font-family:'Inter',sans-serif; letter-spacing:.5px; }
+    .road-shield-A { background-color:#00875a; color:#fff; border:1.5px solid #005c3e; }
+    .road-shield-L { background-color:#ff8b00; color:#fff; border:1.5px solid #c26a00; }
+    .road-shield-C { background-color:#ffc400; color:#172b4d; border:1.5px solid #d9a500; }
+    .road-shield-K { background-color:#fff; color:#172b4d; border:1.5px solid #000; }
+    .road-shield-Ueber { background-color:#0645ad; color:#fff; border:1.5px solid #0b0080; }
+    .wiki-link { color:#0645ad; text-decoration:none; cursor:pointer; }
+    .wiki-link:hover { text-decoration:underline; }
+    .wiki-link-missing { color:#ba0000; }
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-track { background:#f1f1f1; }
+    ::-webkit-scrollbar-thumb { background:#c1c1c1; border-radius:3px; }
+    .sync-indicator { display:inline-flex; align-items:center; gap:6px; font-size:.75rem; padding:4px 8px; border-radius:4px; }
+    .sync-indicator.syncing { background-color:#fef3c7; color:#92400e; }
+    .sync-indicator.synced { background-color:#dcfce7; color:#166534; }
+    .sync-indicator.error { background-color:#fee2e2; color:#991b1b; }
+    .spinner { display:inline-block; width:12px; height:12px; border:2px solid rgba(0,0,0,.1); border-top-color:currentColor; border-radius:50%; animation:spin .6s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* ===== PRINT STYLES ===== */
+    @media print {
+      body { background:#fff !important; }
+      header, aside, #reader-topbar, footer, #toast, .no-print { display:none !important; }
+      main { box-shadow:none !important; border:none !important; padding:0 !important; }
+      #reader-view { display:block !important; }
+      #editor-view { display:none !important; }
+      .print-infobox { float:right; width:220px; margin-left:16px; font-size:10px; }
+      .road-shield { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .route-row-bg { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      @page { size:A4; margin:18mm 15mm; }
+    }
   </style>
 </head>
 <body class="text-gray-900 min-h-screen flex flex-col">
 
   <!-- Header -->
-  <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('Startseite')">
@@ -74,7 +85,6 @@
               <i class="fa-solid fa-pen-to-square text-amber-600"></i><span class="hidden sm:inline">Editor-Modus</span>
             </button>
           </div>
-
           <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 text-gray-600 hover:text-gray-900 bg-gray-100 rounded-lg">
             <i class="fa-solid fa-bars text-lg"></i>
           </button>
@@ -87,7 +97,7 @@
   <div class="flex-1 max-w-7xl w-full mx-auto flex flex-col lg:flex-row gap-6 p-4 sm:p-6">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="w-full lg:w-72 bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex-shrink-0 hidden lg:block">
+    <aside id="sidebar" class="w-full lg:w-72 bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex-shrink-0 hidden lg:block no-print">
       <div class="relative mb-4">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
         <input type="text" id="search-input" oninput="handleSearch()" placeholder="Seite suchen (z.B. A1, L2)..."
@@ -96,39 +106,59 @@
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-      <div class="mb-4">
+      <div class="mb-3 grid grid-cols-1 gap-1.5">
         <button onclick="promptCreatePage()" class="w-full py-2 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition flex items-center justify-center space-x-1.5">
           <i class="fa-solid fa-plus"></i><span>Neue Wiki-Seite erstellen</span>
+        </button>
+        <button onclick="navigateTo('_Uebersichtstabelle')" class="w-full py-2 px-3 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 transition flex items-center justify-center space-x-1.5">
+          <i class="fa-solid fa-table text-gray-500"></i><span>Straßennetz-Übersicht</span>
+        </button>
+        <button onclick="navigateTo('_Aenderungsprotokoll')" class="w-full py-2 px-3 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 transition flex items-center justify-center space-x-1.5">
+          <i class="fa-solid fa-clock-rotate-left text-gray-500"></i><span>Änderungsprotokoll</span>
         </button>
       </div>
       <div id="search-results-box" class="hidden mb-4 max-h-60 overflow-y-auto border-b border-gray-200 pb-2">
         <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Suchergebnisse</div>
         <div id="search-results-list" class="space-y-1"></div>
       </div>
-      <div class="space-y-3 overflow-y-auto max-h-[calc(100vh-250px)] pr-1">
+      <div class="space-y-3 overflow-y-auto max-h-[calc(100vh-300px)] pr-1">
         <div>
           <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5 px-2">Übersichten</div>
           <ul class="space-y-0.5 text-sm">
             <li><button onclick="navigateTo('Startseite')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><i class="fa-solid fa-house text-gray-400 w-4"></i><span>Startseite</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Autobahnen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span>Alle Autobahnen (A)</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Lukolandstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span><span>Alle Lukolandstraßen (L)</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Centralrouten')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span><span>Centralrouten (C)</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Kreisstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span><span>Kreisstraßen (K)</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Autobahnen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-A text-[10px] px-1.5 py-0">A</span><span>Alle Autobahnen</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Lukolandstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-L text-[10px] px-1.5 py-0">L</span><span>Alle Lukolandstraßen</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Centralrouten')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-C text-[10px] px-1.5 py-0">C</span><span>Centralrouten</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Kreisstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-K text-[10px] px-1.5 py-0">K</span><span>Kreisstraßen</span></button></li>
           </ul>
         </div>
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-autobahnen')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-emerald-600"></span><span>Autobahnen (A)</span></span>
+            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-A text-[10px] px-1.5 py-0">A</span><span>Autobahnen</span></span>
             <i id="cat-autobahnen-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-autobahnen-list" class="mt-1 space-y-0.5 text-xs pl-2"></div>
         </div>
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-lukoland')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-amber-600"></span><span>Lukolandstraßen (L)</span></span>
+            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-L text-[10px] px-1.5 py-0">L</span><span>Lukolandstraßen</span></span>
             <i id="cat-lukoland-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-lukoland-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
+        </div>
+        <div class="border-t border-gray-100 pt-2">
+          <button onclick="toggleNavCategory('cat-central')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
+            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-C text-[10px] px-1.5 py-0">C</span><span>Centralrouten</span></span>
+            <i id="cat-central-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+          <div id="cat-central-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
+        </div>
+        <div class="border-t border-gray-100 pt-2">
+          <button onclick="toggleNavCategory('cat-kreis')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
+            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-K text-[10px] px-1.5 py-0">K</span><span>Kreisstraßen</span></span>
+            <i id="cat-kreis-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+          <div id="cat-kreis-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
         </div>
       </div>
     </aside>
@@ -139,13 +169,16 @@
 
         <!-- READER VIEW -->
         <div id="reader-view">
-          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-6">
+          <div id="reader-topbar" class="flex items-center justify-between border-b border-gray-100 pb-3 mb-6 no-print">
             <div class="text-xs text-gray-500 flex items-center space-x-2">
               <span onclick="navigateTo('Startseite')" class="hover:underline cursor-pointer">Wiki</span>
               <span>/</span>
               <span id="reader-category-tag" class="font-medium text-gray-700">Autobahn</span>
             </div>
             <div class="flex items-center space-x-2">
+              <button onclick="printCurrentPage()" class="px-2.5 py-1 text-xs font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-md flex items-center space-x-1">
+                <i class="fa-solid fa-print"></i><span>Drucken / PDF</span>
+              </button>
               <button onclick="setMode('editor')" class="px-2.5 py-1 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-md flex items-center space-x-1">
                 <i class="fa-solid fa-pen"></i><span>Seite Bearbeiten</span>
               </button>
@@ -154,10 +187,21 @@
           <div class="flex flex-col lg:flex-row gap-8">
             <div class="flex-1 min-w-0 wiki-content">
               <h1 id="reader-title" class="text-3xl font-bold tracking-tight text-gray-900 border-b border-gray-300 pb-2 mb-6">Autobahn A1</h1>
+              <!-- Verlinkungsübersicht (Reader) -->
+              <div id="backlinks-bar" class="hidden mb-4 text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 flex flex-wrap items-center gap-2">
+                <i class="fa-solid fa-arrow-turn-up text-gray-400"></i>
+                <span class="font-semibold text-gray-600">Verlinkt von:</span>
+                <span id="backlinks-list"></span>
+              </div>
               <div id="reader-sections" class="space-y-6 text-gray-800 leading-relaxed text-base"></div>
             </div>
             <div id="reader-infobox-container" class="w-full lg:w-80 flex-shrink-0"></div>
           </div>
+        </div>
+
+        <!-- SONDERSICHTEN: Übersichtstabelle & Änderungsprotokoll -->
+        <div id="special-view" class="hidden">
+          <div id="special-content"></div>
         </div>
 
         <!-- EDITOR VIEW -->
@@ -216,14 +260,33 @@
                 </div>
               </div>
 
+              <!-- Bild-Upload -->
+              <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-2">
+                <label class="text-sm font-bold text-gray-800 flex items-center space-x-2">
+                  <i class="fa-solid fa-image text-purple-500"></i><span>Seitenbild (optional)</span>
+                </label>
+                <div class="flex items-center gap-3">
+                  <label class="cursor-pointer px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold rounded-lg border border-purple-200 flex items-center gap-1.5">
+                    <i class="fa-solid fa-upload"></i><span>Bild hochladen</span>
+                    <input type="file" id="edit-image-upload" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+                  </label>
+                  <button type="button" onclick="removePageImage()" id="btn-remove-image" class="hidden px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold rounded-lg border border-red-200 flex items-center gap-1.5">
+                    <i class="fa-solid fa-xmark"></i><span>Entfernen</span>
+                  </button>
+                </div>
+                <div id="image-preview-container" class="hidden">
+                  <img id="image-preview" src="" alt="Vorschau" class="max-h-32 rounded border border-gray-200 object-contain">
+                  <p class="text-[10px] text-gray-400 mt-1" id="image-size-info"></p>
+                </div>
+              </div>
+
               <!-- Route Editor -->
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
                   <label class="text-sm font-bold text-gray-800 flex items-center space-x-2">
-                    <i class="fa-solid fa-route text-blue-600"></i>
-                    <span>Streckenverlauf (Custom Markup Editor)</span>
+                    <i class="fa-solid fa-route text-blue-600"></i><span>Streckenverlauf</span>
                   </label>
-                  <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** ---</span>
+                  <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** {farbe=bau} ---</span>
                 </div>
                 <div class="bg-gray-100 p-2.5 rounded-lg border border-gray-200">
                   <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Schnellauswahl Strecken-Icons</div>
@@ -236,9 +299,9 @@
                               class="w-full p-3 font-mono text-xs bg-gray-900 text-emerald-400 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 leading-relaxed"></textarea>
                   </div>
                   <div>
-                    <div class="text-xs font-semibold text-gray-600 mb-1">Live-Vorschau Streckenverlauf:</div>
-                    <div class="border border-gray-300 rounded-lg bg-white p-3 h-[255px] overflow-y-auto">
-                      <div id="route-live-preview" class="space-y-1 text-xs"></div>
+                    <div class="text-xs font-semibold text-gray-600 mb-1">Live-Vorschau:</div>
+                    <div class="border border-gray-300 rounded-lg bg-white p-3 min-h-[80px]">
+                      <div id="route-live-preview" class="space-y-0 text-xs"></div>
                     </div>
                   </div>
                 </div>
@@ -263,7 +326,7 @@
                 <div>
                   <h1 id="preview-title" class="text-3xl font-bold text-gray-900 border-b border-gray-300 pb-2 mb-2">Autobahn</h1>
                 </div>
-                <div id="preview-infobox" class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans float-right ml-4 w-80 mb-4"></div>
+                <div id="preview-infobox" class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans float-right ml-4 w-72 mb-4"></div>
                 <div id="preview-sections" class="wiki-content space-y-6"></div>
               </div>
             </div>
@@ -271,7 +334,7 @@
         </div>
       </div>
 
-      <footer class="mt-12 pt-6 border-t border-gray-200 text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <footer class="mt-12 pt-6 border-t border-gray-200 text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2 no-print">
         <div><strong>Lukolisches Straßen- & Autobahn-Wiki</strong> &copy; 2026. Mit Firestore ☁️</div>
         <div class="flex items-center space-x-1 font-medium bg-gray-100 px-2.5 py-1 rounded border border-gray-200 text-gray-600">
           <i class="fa-brands fa-creative-commons"></i><span>Lizenz: CC-BY-NC-ND</span>
@@ -281,7 +344,7 @@
   </div>
 
   <!-- Toast -->
-  <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-3 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-3 flex items-center space-x-3 z-50 text-sm">
+  <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-3 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-3 flex items-center space-x-3 z-50 text-sm no-print">
     <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
     <span id="toast-message">Nachricht</span>
   </div>
@@ -320,16 +383,31 @@
       "AB":"AB.webp","Baustelle":"Baustelle.webp"
     };
 
+    const FARBE_MAPPING = {
+      'section': { bg:'#ccdfff', label:'Section Control' },
+      'bau':     { bg:'#ffdcb8', label:'in Bau' },
+      'planung': { bg:'#f2c5dd', label:'in Planung' },
+      'vba':     { bg:'#ccffec', label:'Verkehrsbeeinflussungsanlage' }
+    };
+
+    const CAT_CONFIG = {
+      'A': { label:'Autobahn', color:'bg-emerald-600', shield:'road-shield-A' },
+      'L': { label:'Lukolandstraße', color:'bg-amber-500', shield:'road-shield-L' },
+      'C': { label:'Centralroute', color:'bg-yellow-400', shield:'road-shield-C' },
+      'K': { label:'Kreisstraße', color:'bg-gray-300', shield:'road-shield-K' },
+      'Ueber': { label:'Übersicht', color:'bg-blue-600', shield:'road-shield-Ueber' }
+    };
+
     const AUTOBAHNEN_LIST = ["A1","A2","A3","A5","A6","A8","A10","A11","A12","A16","A22","A27","A33","A37","A39","A41","A44","A45"];
     const LUKOLANDSTRASSEN_LIST = ["L1","L2","L3","L4","L5","L6","L7","L8","L9"];
     const SECTION_TITLES = ["1. Allgemeines","2. Geschichte","3. Verlauf","4. Ausbauzustand","5. Besonderheiten","6. Zukunft"];
-
     const EDITOR_PASSWORD = "KrakeGuenter";
 
     let wikiData = {};
     let currentPageId = "Startseite";
     let currentMode = "reader";
     let editorUnlocked = false;
+    let changeLog = []; // [{ts, pageId, action}]
 
     /* ===== INIT ===== */
     window.addEventListener('load', initApp);
@@ -356,6 +434,9 @@
           wikiData = firestoreData;
           saveToLocalStorage();
         }
+        // Changelog aus LocalStorage laden
+        const lc = localStorage.getItem('lukopolis_changelog');
+        if (lc) changeLog = JSON.parse(lc);
         updateSyncStatus('synced', 'Daten geladen');
         setTimeout(() => clearSyncStatus(), 3000);
       } catch (error) {
@@ -363,6 +444,8 @@
         updateSyncStatus('error', 'Offline - nutze Lokal-Daten');
         const localData = localStorage.getItem('lukopolis_wiki_db');
         wikiData = localData ? JSON.parse(localData) : createDefaultDatabase();
+        const lc = localStorage.getItem('lukopolis_changelog');
+        if (lc) changeLog = JSON.parse(lc);
       }
     }
 
@@ -395,17 +478,24 @@
       catch (e) { console.error("LocalStorage voll:", e); }
     }
 
+    function saveChangelog() {
+      try { localStorage.setItem('lukopolis_changelog', JSON.stringify(changeLog.slice(-200))); }
+      catch(e) {}
+    }
+
+    function addChangelogEntry(pageId, action) {
+      changeLog.unshift({ ts: new Date().toISOString(), pageId, action });
+      if (changeLog.length > 200) changeLog = changeLog.slice(0, 200);
+      saveChangelog();
+    }
+
     /* ===== SYNC STATUS ===== */
     function updateSyncStatus(status, message) {
       const indicator = document.getElementById('sync-status');
       indicator.className = 'sync-indicator ' + status;
-      if (status === 'syncing') {
-        indicator.innerHTML = '<div class="spinner"></div><span>' + message + '</span>';
-      } else if (status === 'synced') {
-        indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>' + message + '</span>';
-      } else {
-        indicator.innerHTML = '<i class="fa-solid fa-exclamation text-sm"></i><span>' + message + '</span>';
-      }
+      if (status === 'syncing') indicator.innerHTML = '<div class="spinner"></div><span>' + message + '</span>';
+      else if (status === 'synced') indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>' + message + '</span>';
+      else indicator.innerHTML = '<i class="fa-solid fa-exclamation text-sm"></i><span>' + message + '</span>';
     }
 
     function clearSyncStatus() {
@@ -414,42 +504,27 @@
       indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>Sync aktiv</span>';
     }
 
-    /* ===== FARB-MAPPING für {farbe = ...} ===== */
-    const FARBE_MAPPING = {
-      'section': { bg: '#ccdfff', label: 'Section Control' },
-      'bau':     { bg: '#ffdcb8', label: 'in Bau' },
-      'planung': { bg: '#f2c5dd', label: 'in Planung' },
-      'vba':     { bg: '#ccffec', label: 'Verkehrsbeeinflussungsanlage' }
-    };
-
-    /* ===== CUSTOM MARKUP PARSER ===== */
+    /* ===== MARKUP PARSER ===== */
     function parseCustomMarkup(text) {
       if (!text) return "";
       return text.split('\n').map(line => {
         let l = line.trim();
         if (!l) return "";
         if (l === "---") return `<div class="my-2 border-b border-gray-300"></div>`;
-
-        // Farb-Hinterlegung: {farbe = section/bau/planung/vba} am Zeilenende
         let rowBg = "";
         l = l.replace(/\{farbe\s*=\s*([a-z]+)\}/i, (match, key) => {
           const k = key.toLowerCase();
-          if (FARBE_MAPPING[k]) { rowBg = FARBE_MAPPING[k].bg; }
-          return ""; // Tag aus dem Anzeigetext entfernen
+          if (FARBE_MAPPING[k]) rowBg = FARBE_MAPPING[k].bg;
+          return "";
         });
-
-        // Icons & road shields
         l = l.replace(/\[([A-Za-z0-9_]+)\]/g, (match, iconKey) => {
-          if (ICON_MAPPING[iconKey]) {
-            return `<img src="${ICON_MAPPING[iconKey]}" alt="${iconKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
-          }
+          if (ICON_MAPPING[iconKey]) return `<img src="${ICON_MAPPING[iconKey]}" alt="${iconKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
           if (/^[ALCK]\d+[A-Za-z]?$/i.test(iconKey)) {
             const cat = iconKey.charAt(0).toUpperCase();
             return `<a onclick="navigateTo('${iconKey}')" class="road-shield road-shield-${cat} cursor-pointer">${iconKey}</a>`;
           }
           return `<span class="road-shield road-shield-K">${iconKey}</span>`;
         });
-        // Wiki links
         l = l.replace(/\[\[([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, label) => {
           const display = label || target;
           const exists = wikiData.hasOwnProperty(target);
@@ -459,118 +534,9 @@
         });
         l = l.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold">$1</strong>');
         l = l.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>');
-
-        const bgStyle = rowBg ? `style="background-color:${rowBg};"` : "";
-        return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none" ${bgStyle}>${l}</div>`;
+        const bgStyle = rowBg ? ` style="background-color:${rowBg};"` : "";
+        return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none"${bgStyle}>${l}</div>`;
       }).join('');
-    }
-
-    /* ===== LEGENDE-HTML GENERATOR ===== */
-    function buildLegendHTML() {
-      return `
-        <div class="bg-blue-800 text-white px-3 py-1.5 font-semibold text-xs uppercase tracking-wider">Legende</div>
-        <div class="p-2 bg-white space-y-1">
-          ${Object.entries(FARBE_MAPPING).map(([key, val]) => `
-            <div class="flex items-center gap-2 text-xs">
-              <span class="inline-block w-4 h-4 rounded border border-gray-300 flex-shrink-0" style="background-color:${val.bg};"></span>
-              <span class="text-gray-700">${val.label}</span>
-            </div>`).join('')}
-        </div>
-      `;
-    }
-
-    /* ===== NAVIGATION ===== */
-    function navigateTo(pageId) {
-      if (!wikiData[pageId]) {
-        if (confirm(`Die Seite "${pageId}" existiert noch nicht. Erstellen?`)) {
-          createNewPage(pageId);
-          return;
-        }
-        return;
-      }
-      currentPageId = pageId;
-      // Mobile: Sidebar schließen
-      const sidebar = document.getElementById('sidebar');
-      if (window.innerWidth < 1024) sidebar.classList.add('hidden');
-      updateActiveNavHighlight();
-      if (currentMode === 'reader') {
-        renderReaderView();
-      } else {
-        renderEditorView();
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function setMode(mode) {
-      if (mode === 'editor' && !editorUnlocked) {
-        const pw = prompt("🔒 Passwort zum Bearbeiten:");
-        if (pw === null) return; // Abbrechen
-        if (pw !== EDITOR_PASSWORD) {
-          showToast("Falsches Passwort!", "error");
-          return;
-        }
-        editorUnlocked = true;
-        showToast("Editor entsperrt ✓", "success");
-      }
-      currentMode = mode;
-      const btnReader = document.getElementById('btn-mode-reader');
-      const btnEditor = document.getElementById('btn-mode-editor');
-      const readerView = document.getElementById('reader-view');
-      const editorView = document.getElementById('editor-view');
-      if (mode === 'reader') {
-        btnReader.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 bg-white shadow-sm text-gray-800 font-semibold";
-        btnEditor.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 text-gray-600 hover:text-gray-900";
-        readerView.classList.remove('hidden');
-        editorView.classList.add('hidden');
-        renderReaderView();
-      } else {
-        btnEditor.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 bg-white shadow-sm text-amber-800 font-semibold";
-        btnReader.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 text-gray-600 hover:text-gray-900";
-        editorView.classList.remove('hidden');
-        readerView.classList.add('hidden');
-        renderEditorView();
-      }
-    }
-
-    window.toggleMobileSidebar = function() {
-      document.getElementById('sidebar').classList.toggle('hidden');
-    };
-
-    window.toggleNavCategory = function(id) {
-      const list = document.getElementById(`${id}-list`);
-      const icon = document.getElementById(`${id}-icon`);
-      list.classList.toggle('hidden');
-      icon.classList.toggle('rotate-180');
-    };
-
-    /* ===== READER VIEW ===== */
-    function renderReaderView() {
-      const page = wikiData[currentPageId];
-      if (!page) return;
-      document.getElementById('reader-title').innerText = page.title;
-      let catLabel = "Übersicht";
-      if (page.category === 'A') catLabel = "Autobahn (Kategorie A)";
-      if (page.category === 'L') catLabel = "Lukolandstraße (Kategorie L)";
-      if (page.category === 'C') catLabel = "Centralroute (Kategorie C)";
-      if (page.category === 'K') catLabel = "Kreisstraße (Kategorie K)";
-      document.getElementById('reader-category-tag').innerText = catLabel;
-
-      let secHTML = "";
-      if (page.sections && page.sections.some(s => s && s.trim())) {
-        page.sections.forEach((content, idx) => {
-          if (content && content.trim()) {
-            secHTML += `
-              <div class="mb-6">
-                <h2 class="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">${SECTION_TITLES[idx] || `Abschnitt ${idx+1}`}</h2>
-                <p class="leading-relaxed text-gray-800 whitespace-pre-line">${parseMarkdownText(content)}</p>
-              </div>`;
-          }
-        });
-      } else {
-        secHTML = `<p class="italic text-gray-500">Diese Seite hat noch keine Abschnitte.</p>`;
-      }
-      document.getElementById('reader-sections').innerHTML = secHTML;
-      renderInfobox(page);
     }
 
     function parseMarkdownText(str) {
@@ -584,17 +550,242 @@
       return s;
     }
 
+    function buildLegendHTML() {
+      return `
+        <div class="bg-blue-800 text-white px-3 py-1.5 font-semibold text-xs uppercase tracking-wider">Legende</div>
+        <div class="p-2 bg-white space-y-1">
+          ${Object.entries(FARBE_MAPPING).map(([key, val]) => `
+            <div class="flex items-center gap-2 text-xs">
+              <span class="inline-block w-4 h-4 rounded border border-gray-300 flex-shrink-0" style="background-color:${val.bg};"></span>
+              <span class="text-gray-700">${val.label}</span>
+            </div>`).join('')}
+        </div>`;
+    }
+
+    /* ===== BACKLINKS ===== */
+    function findBacklinks(pageId) {
+      const links = [];
+      Object.entries(wikiData).forEach(([id, page]) => {
+        if (id === pageId) return;
+        const allText = (page.route || "") + (page.sections || []).join(" ");
+        const regex = new RegExp(`\\[\\[${pageId.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(\\|[^\\]]+)?\\]\\]`);
+        if (regex.test(allText)) links.push(id);
+      });
+      return links;
+    }
+
+    /* ===== NAVIGATION ===== */
+    function navigateTo(pageId) {
+      // Sonderseiten
+      if (pageId === '_Uebersichtstabelle') { showSpecialView('table'); return; }
+      if (pageId === '_Aenderungsprotokoll') { showSpecialView('changelog'); return; }
+
+      if (!wikiData[pageId]) {
+        if (confirm(`Die Seite "${pageId}" existiert noch nicht. Erstellen?`)) {
+          createNewPage(pageId); return;
+        }
+        return;
+      }
+      currentPageId = pageId;
+      const sidebar = document.getElementById('sidebar');
+      if (window.innerWidth < 1024) sidebar.classList.add('hidden');
+      updateActiveNavHighlight();
+
+      document.getElementById('special-view').classList.add('hidden');
+      document.getElementById('reader-view').classList.remove('hidden');
+
+      if (currentMode === 'reader') renderReaderView();
+      else renderEditorView();
+      window.scrollTo({ top:0, behavior:'smooth' });
+    }
+
+    function showSpecialView(type) {
+      document.getElementById('reader-view').classList.add('hidden');
+      document.getElementById('editor-view').classList.add('hidden');
+      document.getElementById('special-view').classList.remove('hidden');
+      const content = document.getElementById('special-content');
+      if (type === 'table') content.innerHTML = buildNetworkTable();
+      else if (type === 'changelog') content.innerHTML = buildChangelogView();
+    }
+
+    function buildNetworkTable() {
+      const catOrder = ['A','L','C','K','Ueber'];
+      let rows = Object.values(wikiData)
+        .filter(p => p.category !== 'Ueber' || !['Startseite','Kategorie_Autobahnen','Kategorie_Lukolandstrassen','Kategorie_Centralrouten','Kategorie_Kreisstrassen'].includes(p.title))
+        .sort((a,b) => {
+          const ci = catOrder.indexOf(a.category) - catOrder.indexOf(b.category);
+          if (ci !== 0) return ci;
+          return (a.title||'').localeCompare(b.title||'', 'de', {numeric:true});
+        });
+
+      const rowsHTML = rows.map(p => {
+        const cat = p.category || 'Ueber';
+        const cfg = CAT_CONFIG[cat] || CAT_CONFIG['Ueber'];
+        const len = parseFloat(p.length) || 0;
+        const bau = parseFloat(p.construction) || 0;
+        const fertig = len > 0 ? Math.round((len-bau)/len*100) : 0;
+        const barColor = bau > 0 ? '#ffdcb8' : '#ccffec';
+        const statusLabel = bau > 0 ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold" style="background:#ffdcb8;color:#7c4a00;">${bau} km in Bau</span>` : `<span class="px-1.5 py-0.5 rounded text-[10px] font-semibold" style="background:#ccffec;color:#065f46;">Fertig</span>`;
+        return `<tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="navigateTo('${p.title}')">
+          <td class="px-3 py-2"><span class="road-shield road-shield-${cat} text-xs">${escapeHtml(p.title)}</span></td>
+          <td class="px-3 py-2 text-xs text-gray-600">${escapeHtml(p.start||'—')}</td>
+          <td class="px-3 py-2 text-xs text-gray-600">${escapeHtml(p.end||'—')}</td>
+          <td class="px-3 py-2 text-xs font-semibold text-gray-800 text-right">${len > 0 ? len.toFixed(1)+' km' : '—'}</td>
+          <td class="px-3 py-2">${statusLabel}</td>
+          <td class="px-3 py-2 w-24">
+            ${len > 0 ? `<div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden"><div class="h-2 rounded-full" style="width:${fertig}%;background:#00875a;"></div></div><div class="text-[10px] text-gray-400 text-center">${fertig}%</div>` : ''}
+          </td>
+        </tr>`;
+      }).join('');
+
+      return `
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h1 class="text-2xl font-bold text-gray-900">Straßennetz-Übersicht</h1>
+            <button onclick="navigateTo('Startseite')" class="text-sm text-blue-600 hover:underline flex items-center gap-1"><i class="fa-solid fa-arrow-left text-xs"></i> Zurück</button>
+          </div>
+          <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="bg-blue-900 text-white text-xs uppercase tracking-wider">
+                  <th class="px-3 py-2 text-left">Straße</th>
+                  <th class="px-3 py-2 text-left">Beginn</th>
+                  <th class="px-3 py-2 text-left">Ende</th>
+                  <th class="px-3 py-2 text-right">Länge</th>
+                  <th class="px-3 py-2 text-left">Status</th>
+                  <th class="px-3 py-2 text-center">Fertig</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHTML}</tbody>
+            </table>
+          </div>
+          <p class="text-xs text-gray-400 mt-2">${rows.length} Einträge. Klick auf Zeile öffnet die Seite.</p>
+        </div>`;
+    }
+
+    function buildChangelogView() {
+      const rows = changeLog.slice(0, 100).map(e => {
+        const date = new Date(e.ts);
+        const ds = date.toLocaleDateString('de-DE') + ' ' + date.toLocaleTimeString('de-DE', {hour:'2-digit',minute:'2-digit'});
+        const iconMap = { 'gespeichert':'fa-floppy-disk text-emerald-600', 'erstellt':'fa-plus text-blue-600', 'gelöscht':'fa-trash-can text-red-500' };
+        const icon = iconMap[e.action] || 'fa-circle-info text-gray-400';
+        return `<tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-3 py-2 text-xs text-gray-500 whitespace-nowrap">${ds}</td>
+          <td class="px-3 py-2"><span class="road-shield road-shield-${getCategoryFromTitle(e.pageId)} text-xs cursor-pointer" onclick="navigateTo('${e.pageId}')">${escapeHtml(e.pageId)}</span></td>
+          <td class="px-3 py-2 text-xs"><i class="fa-solid ${icon} mr-1"></i>${e.action}</td>
+        </tr>`;
+      }).join('');
+
+      return `
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h1 class="text-2xl font-bold text-gray-900">Änderungsprotokoll</h1>
+            <div class="flex items-center gap-2">
+              <button onclick="if(confirm('Protokoll löschen?')){changeLog=[];saveChangelog();showSpecialView('changelog');}" class="text-xs text-red-500 hover:underline flex items-center gap-1"><i class="fa-solid fa-trash-can text-xs"></i> Leeren</button>
+              <button onclick="navigateTo('Startseite')" class="text-sm text-blue-600 hover:underline flex items-center gap-1 ml-3"><i class="fa-solid fa-arrow-left text-xs"></i> Zurück</button>
+            </div>
+          </div>
+          ${changeLog.length === 0 ? '<p class="italic text-gray-500 text-sm">Noch keine Einträge.</p>' : `
+          <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-blue-900 text-white text-xs uppercase tracking-wider">
+                <th class="px-3 py-2 text-left">Zeitpunkt</th>
+                <th class="px-3 py-2 text-left">Seite</th>
+                <th class="px-3 py-2 text-left">Aktion</th>
+              </tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+          <p class="text-xs text-gray-400 mt-2">Letzte ${Math.min(changeLog.length,100)} von ${changeLog.length} Einträgen.</p>`}
+        </div>`;
+    }
+
+    function setMode(mode) {
+      if (mode === 'editor' && !editorUnlocked) {
+        const pw = prompt("🔒 Passwort zum Bearbeiten:");
+        if (pw === null) return;
+        if (pw !== EDITOR_PASSWORD) { showToast("Falsches Passwort!", "error"); return; }
+        editorUnlocked = true;
+        showToast("Editor entsperrt ✓", "success");
+      }
+      currentMode = mode;
+      const btnReader = document.getElementById('btn-mode-reader');
+      const btnEditor = document.getElementById('btn-mode-editor');
+      document.getElementById('special-view').classList.add('hidden');
+      if (mode === 'reader') {
+        btnReader.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 bg-white shadow-sm text-gray-800 font-semibold";
+        btnEditor.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 text-gray-600 hover:text-gray-900";
+        document.getElementById('reader-view').classList.remove('hidden');
+        document.getElementById('editor-view').classList.add('hidden');
+        renderReaderView();
+      } else {
+        btnEditor.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 bg-white shadow-sm text-amber-800 font-semibold";
+        btnReader.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 text-gray-600 hover:text-gray-900";
+        document.getElementById('editor-view').classList.remove('hidden');
+        document.getElementById('reader-view').classList.add('hidden');
+        renderEditorView();
+      }
+    }
+
+    window.toggleMobileSidebar = function() { document.getElementById('sidebar').classList.toggle('hidden'); };
+    window.toggleNavCategory = function(id) {
+      document.getElementById(`${id}-list`).classList.toggle('hidden');
+      document.getElementById(`${id}-icon`).classList.toggle('rotate-180');
+    };
+
+    /* ===== PRINT ===== */
+    window.printCurrentPage = function() { window.print(); };
+
+    /* ===== READER VIEW ===== */
+    function renderReaderView() {
+      const page = wikiData[currentPageId];
+      if (!page) return;
+      document.getElementById('reader-title').innerText = page.title;
+      const cat = page.category || 'Ueber';
+      const cfg = CAT_CONFIG[cat] || CAT_CONFIG['Ueber'];
+      document.getElementById('reader-category-tag').innerText = cfg.label;
+
+      // Backlinks
+      const bl = findBacklinks(currentPageId);
+      const blBar = document.getElementById('backlinks-bar');
+      const blList = document.getElementById('backlinks-list');
+      if (bl.length > 0) {
+        blList.innerHTML = bl.map(id => `<a onclick="navigateTo('${id}')" class="wiki-link font-semibold">${escapeHtml(id)}</a>`).join(', ');
+        blBar.classList.remove('hidden');
+      } else {
+        blBar.classList.add('hidden');
+      }
+
+      let secHTML = "";
+      if (page.sections && page.sections.some(s => s && s.trim())) {
+        page.sections.forEach((content, idx) => {
+          if (content && content.trim()) {
+            secHTML += `<div class="mb-6">
+              <h2 class="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">${SECTION_TITLES[idx] || `Abschnitt ${idx+1}`}</h2>
+              <p class="leading-relaxed text-gray-800 whitespace-pre-line">${parseMarkdownText(content)}</p>
+            </div>`;
+          }
+        });
+      } else {
+        secHTML = `<p class="italic text-gray-500">Diese Seite hat noch keine Abschnitte.</p>`;
+      }
+      document.getElementById('reader-sections').innerHTML = secHTML;
+      renderInfobox(page);
+    }
+
     function renderInfobox(page) {
       const cat = page.category || getCategoryFromTitle(page.title);
       const routeParsed = parseCustomMarkup(page.route || "");
+      const imgHTML = page.image ? `<div class="p-2 bg-white border-b border-gray-200"><img src="${page.image}" alt="Bild" class="w-full rounded object-contain max-h-40"></div>` : '';
       const html = `
-        <div class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans">
+        <div class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans print-infobox">
           <div class="bg-blue-900 text-white text-center py-1.5 px-2 font-bold text-sm tracking-wide">${page.title} in Lukoland</div>
           <div class="p-4 bg-white flex justify-center border-b border-gray-200">
             <div class="road-shield road-shield-${cat} text-xl px-5 py-2 font-black shadow-md rounded border-2">
               ${page.title.replace('Autobahn ','').replace('Lukolandstraße ','')}
             </div>
           </div>
+          ${imgHTML}
           <div class="bg-blue-800 text-white text-center py-1 font-semibold text-xs uppercase tracking-wider">Basisdaten</div>
           <table class="w-full text-left border-collapse bg-white">
             <tbody>
@@ -607,9 +798,9 @@
           </table>
           <div class="bg-blue-800 text-white px-3 py-1.5 flex items-center justify-between font-semibold text-xs">
             <span>Straßenverlauf</span>
-            <button onclick="toggleInfoboxRoute()" class="text-[10px] text-blue-200 hover:text-white underline">[Einklappen/Ausklappen]</button>
+            <button onclick="toggleInfoboxRoute()" class="text-[10px] text-blue-200 hover:text-white underline no-print">[Einklappen/Ausklappen]</button>
           </div>
-          <div id="infobox-route-content" class="p-2 bg-white max-h-96 overflow-y-auto space-y-1">
+          <div id="infobox-route-content" class="p-2 bg-white space-y-0">
             ${routeParsed || '<span class="italic text-gray-400">Kein Streckenverlauf angegeben</span>'}
           </div>
           ${buildLegendHTML()}
@@ -634,16 +825,55 @@
       document.getElementById('edit-construction').value = page.construction || "";
       document.getElementById('edit-route').value = page.route || "";
 
+      // Bild-Vorschau
+      if (page.image) {
+        document.getElementById('image-preview').src = page.image;
+        document.getElementById('image-preview-container').classList.remove('hidden');
+        document.getElementById('btn-remove-image').classList.remove('hidden');
+        const approxKB = Math.round(page.image.length * 0.75 / 1024);
+        document.getElementById('image-size-info').innerText = `Ca. ${approxKB} KB`;
+      } else {
+        document.getElementById('image-preview-container').classList.add('hidden');
+        document.getElementById('btn-remove-image').classList.add('hidden');
+      }
+
       const sectionsContainer = document.getElementById('editor-sections-container');
       sectionsContainer.innerHTML = '';
       const sections = page.sections && page.sections.length > 0 ? page.sections : Array(6).fill("");
-      sections.forEach((content, idx) => {
-        addEditorSection(SECTION_TITLES[idx] || `Abschnitt ${idx+1}`, content, idx);
-      });
+      sections.forEach((content, idx) => addEditorSection(SECTION_TITLES[idx] || `Abschnitt ${idx+1}`, content, idx));
       updateEditorPreview();
     }
 
-    /* ===== FIX 1: addEditorSection - correct textarea referencing ===== */
+    /* ===== BILD-UPLOAD ===== */
+    window.handleImageUpload = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) { showToast("Bild zu groß! Max. 2 MB.", "error"); return; }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const b64 = e.target.result;
+        document.getElementById('image-preview').src = b64;
+        document.getElementById('image-preview-container').classList.remove('hidden');
+        document.getElementById('btn-remove-image').classList.remove('hidden');
+        const approxKB = Math.round(b64.length * 0.75 / 1024);
+        document.getElementById('image-size-info').innerText = `Ca. ${approxKB} KB`;
+        // Temporär im wikiData speichern für updateEditorPreview
+        if (!wikiData[currentPageId]) wikiData[currentPageId] = {};
+        wikiData[currentPageId]._tempImage = b64;
+        updateEditorPreview();
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.removePageImage = function() {
+      document.getElementById('image-preview-container').classList.add('hidden');
+      document.getElementById('btn-remove-image').classList.add('hidden');
+      document.getElementById('image-preview').src = '';
+      document.getElementById('edit-image-upload').value = '';
+      if (wikiData[currentPageId]) delete wikiData[currentPageId]._tempImage;
+      updateEditorPreview();
+    };
+
     window.addEditorSection = function(title = "Neuer Abschnitt", content = "", index = -1) {
       const container = document.getElementById('editor-sections-container');
       const sectionId = 'section-' + Date.now() + '-' + Math.floor(Math.random()*10000);
@@ -653,12 +883,11 @@
       sectionDiv.innerHTML = `
         <div class="flex items-center justify-between mb-2">
           <input type="text" class="section-title text-sm font-bold text-gray-700 px-2 py-1 border border-transparent rounded hover:border-gray-300 focus:border-blue-500 focus:outline-none flex-1" value="${escapeHtml(title)}" oninput="updateEditorPreview()">
-          <button type="button" onclick="removeEditorSection('${sectionId}')" class="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:bg-red-50 rounded text-xs transition" title="Abschnitt löschen">
+          <button type="button" onclick="removeEditorSection('${sectionId}')" class="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:bg-red-50 rounded text-xs transition">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </div>
-        <textarea class="section-content w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" oninput="updateEditorPreview()" style="height:80px;">${escapeHtml(content)}</textarea>
-      `;
+        <textarea class="section-content w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" oninput="updateEditorPreview()" style="height:80px;">${escapeHtml(content)}</textarea>`;
       container.appendChild(sectionDiv);
     };
 
@@ -667,11 +896,10 @@
       if (section) { section.remove(); updateEditorPreview(); }
     };
 
-    /* ===== FIX 2: updateRoutePreview - was missing entirely ===== */
     window.updateRoutePreview = function() {
       const route = document.getElementById('edit-route').value;
-      const preview = document.getElementById('route-live-preview');
-      preview.innerHTML = parseCustomMarkup(route) || '<span class="italic text-gray-400">Kein Streckenverlauf eingegeben</span>';
+      document.getElementById('route-live-preview').innerHTML =
+        parseCustomMarkup(route) || '<span class="italic text-gray-400">Kein Streckenverlauf eingegeben</span>';
       updateEditorPreview();
     };
 
@@ -683,6 +911,8 @@
       const length = document.getElementById('edit-length').value;
       const construction = document.getElementById('edit-construction').value;
       const route = document.getElementById('edit-route').value;
+      const tempImg = wikiData[currentPageId]?._tempImage || (wikiData[currentPageId]?.image || null);
+      const imgHTML = tempImg ? `<div class="p-2 bg-white border-b border-gray-200"><img src="${tempImg}" alt="Bild" class="w-full rounded object-contain max-h-40"></div>` : '';
 
       document.getElementById('preview-title').innerText = title;
       const routeParsed = parseCustomMarkup(route || "");
@@ -694,46 +924,43 @@
             ${escapeHtml(title.replace('Autobahn ','').replace('Lukolandstraße ',''))}
           </div>
         </div>
+        ${imgHTML}
         <div class="bg-blue-800 text-white text-center py-1 font-semibold text-xs uppercase tracking-wider">Basisdaten</div>
         <table class="w-full text-left border-collapse bg-white text-xs">
           <tbody>
             <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Betreiber:</td><td class="py-1 px-2 text-gray-800">Kraksrepublik Lukoland</td></tr>
-            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Start:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(start || 'Unbekannt')}</td></tr>
-            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Ende:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(end || 'Unbekannt')}</td></tr>
-            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Länge:</td><td class="py-1 px-2 font-bold text-gray-900">${escapeHtml(length || '0')} km</td></tr>
-            <tr><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td><td class="py-1 px-2 text-amber-700 font-semibold">${escapeHtml(construction || '0')} km</td></tr>
+            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Start:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(start||'Unbekannt')}</td></tr>
+            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Ende:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(end||'Unbekannt')}</td></tr>
+            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Länge:</td><td class="py-1 px-2 font-bold text-gray-900">${escapeHtml(length||'0')} km</td></tr>
+            <tr><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td><td class="py-1 px-2 text-amber-700 font-semibold">${escapeHtml(construction||'0')} km</td></tr>
           </tbody>
         </table>
         <div class="bg-blue-800 text-white px-2 py-1 font-semibold text-xs uppercase tracking-wider">Verlauf</div>
-        <div class="p-2 bg-white text-xs space-y-0.5">
+        <div class="p-2 bg-white text-xs space-y-0">
           ${routeParsed || '<span class="italic text-gray-400">Kein Verlauf</span>'}
         </div>
-        ${buildLegendHTML()}
-      `;
+        ${buildLegendHTML()}`;
 
-      const sectionsContainer = document.getElementById('editor-sections-container');
-      const sections = sectionsContainer.querySelectorAll('[data-section-id]');
+      const sections = document.getElementById('editor-sections-container').querySelectorAll('[data-section-id]');
       let sectionsHTML = '';
       sections.forEach(section => {
         const sectionTitle = section.querySelector('.section-title')?.value || '';
         const sectionContent = section.querySelector('.section-content')?.value || '';
         if (sectionTitle && sectionContent) {
-          sectionsHTML += `
-            <div class="mb-6">
-              <h2 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">${escapeHtml(sectionTitle)}</h2>
-              <p class="leading-relaxed text-gray-800 whitespace-pre-wrap text-sm">${parseMarkdownText(sectionContent)}</p>
-            </div>`;
+          sectionsHTML += `<div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">${escapeHtml(sectionTitle)}</h2>
+            <p class="leading-relaxed text-gray-800 whitespace-pre-wrap text-sm">${parseMarkdownText(sectionContent)}</p>
+          </div>`;
         }
       });
       document.getElementById('preview-sections').innerHTML = sectionsHTML || '<p class="italic text-gray-500">Keine Abschnitte vorhanden</p>';
     };
 
     function renderIconInsertBar() {
-      const bar = document.getElementById('icon-insert-bar');
-      bar.innerHTML = Object.keys(ICON_MAPPING).map(key => `
+      document.getElementById('icon-insert-bar').innerHTML = Object.keys(ICON_MAPPING).map(key => `
         <button type="button" onclick="insertIconTag('${key}')"
-                class="px-2 py-1 bg-gray-50 hover:bg-amber-100 border border-gray-200 rounded flex items-center space-x-1 text-xs font-mono transition" title="[${key}] einfügen">
-          <span>[${key}]</span>
+                class="px-2 py-1 bg-gray-50 hover:bg-amber-100 border border-gray-200 rounded text-xs font-mono transition" title="[${key}] einfügen">
+          [${key}]
         </button>`).join('');
     }
 
@@ -741,14 +968,12 @@
       const textarea = document.getElementById('edit-route');
       const tag = `[${key}] `;
       const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      textarea.value = textarea.value.substring(0, start) + tag + textarea.value.substring(end);
+      textarea.value = textarea.value.substring(0, start) + tag + textarea.value.substring(start);
       textarea.focus();
       textarea.selectionStart = textarea.selectionEnd = start + tag.length;
       updateRoutePreview();
     };
 
-    /* ===== FIX 3: saveCurrentPage - reads sections from DOM correctly ===== */
     async function saveCurrentPage() {
       const title = document.getElementById('edit-title').value.trim();
       if (!title) { showToast("Bitte einen Seitentitel angeben!", "error"); return; }
@@ -760,21 +985,24 @@
       const construction = document.getElementById('edit-construction').value.trim();
       const route = document.getElementById('edit-route').value;
 
-      // Collect sections from dynamic DOM (not by edit-sec-{i} IDs!)
       const sections = [];
-      document.querySelectorAll('#editor-sections-container [data-section-id] .section-content').forEach(ta => {
-        sections.push(ta.value);
-      });
+      document.querySelectorAll('#editor-sections-container [data-section-id] .section-content').forEach(ta => sections.push(ta.value));
+
+      // Bild aus tempImage oder behalte altes
+      const imgPreviewSrc = document.getElementById('image-preview').src;
+      const image = imgPreviewSrc && imgPreviewSrc !== window.location.href && !imgPreviewSrc.endsWith('/') ? imgPreviewSrc : (wikiData[currentPageId]?.image || null);
 
       if (title !== currentPageId && wikiData[currentPageId]) {
         delete wikiData[currentPageId];
         await deleteFromFirestore(currentPageId);
       }
 
-      wikiData[title] = { title, category, start, end, length, construction, route, sections };
+      const isNew = !wikiData[title];
+      wikiData[title] = { title, category, start, end, length, construction, route, sections, image };
       currentPageId = title;
 
       saveToLocalStorage();
+      addChangelogEntry(title, 'gespeichert');
       await saveToFirestore(title);
       renderSidebarNavigation();
       setMode('reader');
@@ -784,6 +1012,7 @@
     async function deleteCurrentPage() {
       if (currentPageId === "Startseite") { showToast("Die Startseite kann nicht gelöscht werden!", "error"); return; }
       if (confirm(`Seite "${currentPageId}" wirklich löschen?`)) {
+        addChangelogEntry(currentPageId, 'gelöscht');
         delete wikiData[currentPageId];
         saveToLocalStorage();
         await deleteFromFirestore(currentPageId);
@@ -811,8 +1040,10 @@
         title, category: cat,
         start: "Startpunkt", end: "Endpunkt", length: "10.0", construction: "0",
         route: "[AS] (1) Anschlussstelle 1\n[Kreuz] (2) Autobahnkreuz [[A1]]",
-        sections: SECTION_TITLES.map((_, i) => i === 0 ? `Allgemeine Informationen zur ${title}.` : "")
+        sections: SECTION_TITLES.map((_, i) => i === 0 ? `Allgemeine Informationen zur ${title}.` : ""),
+        image: null
       };
+      addChangelogEntry(title, 'erstellt');
       saveToLocalStorage();
       renderSidebarNavigation();
       navigateTo(title);
@@ -822,15 +1053,16 @@
 
     /* ===== SIDEBAR ===== */
     function renderSidebarNavigation() {
-      ['cat-autobahnen', 'cat-lukoland'].forEach(cat => {
-        const prefix = cat === 'cat-autobahnen' ? 'A' : 'L';
-        const catVal = prefix;
-        const listEl = document.getElementById(`${cat}-list`);
+      const cats = { 'cat-autobahnen':'A', 'cat-lukoland':'L', 'cat-central':'C', 'cat-kreis':'K' };
+      Object.entries(cats).forEach(([domId, catVal]) => {
+        const listEl = document.getElementById(`${domId}-list`);
+        if (!listEl) return;
         listEl.innerHTML = Object.entries(wikiData)
-          .filter(([key, val]) => val.category === catVal)
+          .filter(([k, v]) => v.category === catVal)
+          .sort(([a],[b]) => a.localeCompare(b,'de',{numeric:true}))
           .map(([key, val]) => `
             <button onclick="navigateTo('${key}')" class="nav-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100 flex items-center justify-between text-gray-700">
-              <span class="font-medium">${escapeHtml(key)}</span>
+              <span class="flex items-center gap-1.5"><span class="road-shield road-shield-${catVal} text-[10px] px-1 py-0">${escapeHtml(key)}</span></span>
               <span class="text-[10px] text-gray-400">${val.length || ''} km</span>
             </button>`).join('');
       });
@@ -867,8 +1099,6 @@
       document.getElementById('search-clear').classList.add('hidden');
     };
 
-
-
     /* ===== UTILITIES ===== */
     function getCategoryFromTitle(title) {
       if (/^A\d+/i.test(title)) return 'A';
@@ -894,21 +1124,18 @@
       setTimeout(() => toast.classList.add('opacity-0','pointer-events-none','translate-y-3'), 3000);
     }
 
-    /* ===== FIX 4: createDefaultDatabase - missing categories added ===== */
     function createDefaultDatabase() {
       const data = {};
-      data["Startseite"] = { title:"Startseite", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
-      data["Kategorie_Autobahnen"] = { title:"Kategorie: Autobahnen (A)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
-      data["Kategorie_Lukolandstrassen"] = { title:"Kategorie: Lukolandstraßen (L)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
-      // FIX: fehlende Kategorien hinzugefügt
-      data["Kategorie_Centralrouten"] = { title:"Kategorie: Centralrouten (C)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
-      data["Kategorie_Kreisstrassen"] = { title:"Kategorie: Kreisstraßen (K)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
-
+      data["Startseite"] = { title:"Startseite", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
+      data["Kategorie_Autobahnen"] = { title:"Kategorie: Autobahnen (A)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
+      data["Kategorie_Lukolandstrassen"] = { title:"Kategorie: Lukolandstraßen (L)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
+      data["Kategorie_Centralrouten"] = { title:"Kategorie: Centralrouten (C)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
+      data["Kategorie_Kreisstrassen"] = { title:"Kategorie: Kreisstraßen (K)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
       AUTOBAHNEN_LIST.forEach((id, index) => {
-        data[id] = { title:id, category:"A", start:"", end:"", length:(45+index*3.5).toFixed(1), construction:(index%4===0?(index*0.8).toFixed(1):"0"), route:"", sections:Array(6).fill("") };
+        data[id] = { title:id, category:"A", start:"", end:"", length:(45+index*3.5).toFixed(1), construction:(index%4===0?(index*0.8).toFixed(1):"0"), route:"", sections:Array(6).fill(""), image:null };
       });
       LUKOLANDSTRASSEN_LIST.forEach((id, index) => {
-        data[id] = { title:id, category:"L", start:"", end:"", length:(12+index*2.1).toFixed(1), construction:"0", route:"", sections:Array(6).fill("") };
+        data[id] = { title:id, category:"L", start:"", end:"", length:(12+index*2.1).toFixed(1), construction:"0", route:"", sections:Array(6).fill(""), image:null };
       });
       return data;
     }
@@ -919,6 +1146,9 @@
     window.saveCurrentPage = saveCurrentPage;
     window.deleteCurrentPage = deleteCurrentPage;
     window.showToast = showToast;
+    window.showSpecialView = showSpecialView;
+    window.changeLog = changeLog;
+    window.saveChangelog = saveChangelog;
   </script>
 </body>
 </html>
