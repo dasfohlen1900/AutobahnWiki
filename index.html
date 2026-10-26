@@ -4,186 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lukolisches Straßen- & Autobahn-Wiki</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Inter & Source Sans Pro -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            wiki: {
-              blue: '#0645ad',
-              darkblue: '#0b0080',
-              bg: '#f8f9fa',
-              border: '#a2a9b1',
-              header: '#eaecf0',
-              card: '#f0f4f8'
-            },
-            road: {
-              autobahn: '#00875A',
-              lukoland: '#FF8B00',
-              central: '#FFC400',
-              kreis: '#6B778C'
-            }
+            wiki: { blue: '#0645ad', darkblue: '#0b0080', bg: '#f8f9fa', border: '#a2a9b1', header: '#eaecf0', card: '#f0f4f8' },
+            road: { autobahn: '#00875A', lukoland: '#FF8B00', central: '#FFC400', kreis: '#6B778C' }
           },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            wiki: ['Source Sans Pro', 'sans-serif']
-          }
+          fontFamily: { sans: ['Inter', 'sans-serif'], wiki: ['Source Sans Pro', 'sans-serif'] }
         }
       }
     }
   </script>
-
   <style>
-    body {
-      font-family: 'Source Sans Pro', sans-serif;
-      background-color: #f6f8fa;
-    }
-    
-    .wiki-content h1 {
-      font-size: 1.875rem;
-      font-weight: 700;
-      border-bottom: 1px solid #a2a9b1;
-      padding-bottom: 0.375rem;
-      margin-bottom: 1rem;
-      color: #000;
-    }
-
-    .wiki-content h2 {
-      font-size: 1.35rem;
-      font-weight: 600;
-      border-bottom: 1px solid #eaecf0;
-      padding-bottom: 0.25rem;
-      margin-top: 1.5rem;
-      margin-bottom: 0.75rem;
-      color: #202122;
-    }
-
-    .road-shield {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 1px 6px;
-      font-size: 0.85rem;
-      text-decoration: none !important;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-      margin: 0 2px;
-      vertical-align: middle;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.5px;
-    }
-
-    .road-shield-A {
-      background-color: #00875a;
-      color: #ffffff;
-      border: 1.5px solid #005c3e;
-    }
-
-    .road-shield-L {
-      background-color: #ff8b00;
-      color: #ffffff;
-      border: 1.5px solid #c26a00;
-    }
-
-    .road-shield-C {
-      background-color: #ffc400;
-      color: #172b4d;
-      border: 1.5px solid #d9a500;
-    }
-
-    .road-shield-K {
-      background-color: #ffffff;
-      color: #172b4d;
-      border: 1.5px solid #000000;
-    }
-
-    .wiki-link {
-      color: #0645ad;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .wiki-link:hover {
-      text-decoration: underline;
-    }
-
-    .wiki-link-missing {
-      color: #ba0000;
-    }
-
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #c1c1c1;
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #a8a8a8;
-    }
-
-    .sync-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-
-    .sync-indicator.syncing {
-      background-color: #fef3c7;
-      color: #92400e;
-    }
-
-    .sync-indicator.synced {
-      background-color: #dcfce7;
-      color: #166534;
-    }
-
-    .sync-indicator.error {
-      background-color: #fee2e2;
-      color: #991b1b;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border: 2px solid rgba(0,0,0,0.1);
-      border-top-color: currentColor;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    body { font-family: 'Source Sans Pro', sans-serif; background-color: #f6f8fa; }
+    .wiki-content h1 { font-size: 1.875rem; font-weight: 700; border-bottom: 1px solid #a2a9b1; padding-bottom: .375rem; margin-bottom: 1rem; color: #000; }
+    .wiki-content h2 { font-size: 1.35rem; font-weight: 600; border-bottom: 1px solid #eaecf0; padding-bottom: .25rem; margin-top: 1.5rem; margin-bottom: .75rem; color: #202122; }
+    .road-shield { display: inline-flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; padding: 1px 6px; font-size: .85rem; text-decoration: none !important; box-shadow: 0 1px 2px rgba(0,0,0,.2); margin: 0 2px; vertical-align: middle; font-family: 'Inter', sans-serif; letter-spacing: .5px; }
+    .road-shield-A { background-color: #00875a; color: #fff; border: 1.5px solid #005c3e; }
+    .road-shield-L { background-color: #ff8b00; color: #fff; border: 1.5px solid #c26a00; }
+    .road-shield-C { background-color: #ffc400; color: #172b4d; border: 1.5px solid #d9a500; }
+    .road-shield-K { background-color: #fff; color: #172b4d; border: 1.5px solid #000; }
+    .road-shield-Ueber { background-color: #0645ad; color: #fff; border: 1.5px solid #0b0080; }
+    .wiki-link { color: #0645ad; text-decoration: none; cursor: pointer; }
+    .wiki-link:hover { text-decoration: underline; }
+    .wiki-link-missing { color: #ba0000; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+    .sync-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; padding: 4px 8px; border-radius: 4px; }
+    .sync-indicator.syncing { background-color: #fef3c7; color: #92400e; }
+    .sync-indicator.synced { background-color: #dcfce7; color: #166534; }
+    .sync-indicator.error { background-color: #fee2e2; color: #991b1b; }
+    .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(0,0,0,.1); border-top-color: currentColor; border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body class="text-gray-900 min-h-screen flex flex-col">
 
-  <!-- Header / Navigation Bar -->
+  <!-- Header -->
   <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
-        
-        <!-- Logo & Title -->
         <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('Startseite')">
           <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xl shadow">
             <i class="fa-solid fa-road"></i>
@@ -193,59 +62,22 @@
             <span class="text-xs text-gray-500 block">Straßen- & Autobahnnetz</span>
           </div>
         </div>
-
-        <!-- Mode Toggle & Action Buttons -->
         <div class="flex items-center space-x-2 sm:space-x-3">
-          
-          <!-- Sync Status Indicator -->
           <div id="sync-status" class="sync-indicator syncing">
-            <div class="spinner"></div>
-            <span>Lade Daten...</span>
+            <div class="spinner"></div><span>Lade Daten...</span>
           </div>
-          
-          <!-- Mode Selector -->
           <div class="bg-gray-100 p-1 rounded-lg border border-gray-200 flex items-center text-xs sm:text-sm font-medium">
             <button id="btn-mode-reader" onclick="setMode('reader')" class="px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 bg-white shadow-sm text-gray-800">
-              <i class="fa-solid fa-book-open text-blue-600"></i>
-              <span class="hidden sm:inline">Reader-Modus</span>
+              <i class="fa-solid fa-book-open text-blue-600"></i><span class="hidden sm:inline">Reader-Modus</span>
             </button>
             <button id="btn-mode-editor" onclick="setMode('editor')" class="px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 text-gray-600 hover:text-gray-900">
-              <i class="fa-solid fa-pen-to-square text-amber-600"></i>
-              <span class="hidden sm:inline">Editor-Modus</span>
+              <i class="fa-solid fa-pen-to-square text-amber-600"></i><span class="hidden sm:inline">Editor-Modus</span>
             </button>
           </div>
 
-          <!-- Actions Dropdown / Quick Buttons -->
-          <div class="relative group">
-            <button class="p-2 text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 flex items-center space-x-1 text-sm font-medium" title="Daten Import/Export">
-              <i class="fa-solid fa-file-export text-gray-600"></i>
-              <span class="hidden md:inline">Export / Import</span>
-              <i class="fa-solid fa-chevron-down text-xs"></i>
-            </button>
-            
-            <div class="absolute right-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-gray-200 hidden group-hover:block z-50 py-1">
-              <button onclick="exportJSON()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 flex items-center space-x-2">
-                <i class="fa-solid fa-download text-emerald-600"></i>
-                <span>JSON Sicherung</span>
-              </button>
-              <label class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 flex items-center space-x-2 cursor-pointer">
-                <i class="fa-solid fa-upload text-amber-600"></i>
-                <span>JSON Importieren</span>
-                <input type="file" id="import-file" accept=".json" class="hidden" onchange="importJSON(event)">
-              </label>
-              <hr class="my-1 border-gray-100">
-              <button onclick="resetToDefaultData()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2">
-                <i class="fa-solid fa-rotate-left text-red-500"></i>
-                <span>Auf Standard zurücksetzen</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Mobile Sidebar Toggle -->
           <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 text-gray-600 hover:text-gray-900 bg-gray-100 rounded-lg">
             <i class="fa-solid fa-bars text-lg"></i>
           </button>
-
         </div>
       </div>
     </div>
@@ -253,111 +85,60 @@
 
   <!-- Main Container -->
   <div class="flex-1 max-w-7xl w-full mx-auto flex flex-col lg:flex-row gap-6 p-4 sm:p-6">
-    
-    <!-- Sidebar Navigation -->
+
+    <!-- Sidebar -->
     <aside id="sidebar" class="w-full lg:w-72 bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex-shrink-0 hidden lg:block">
-      
-      <!-- Live Search Box -->
       <div class="relative mb-4">
         <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
-        <input type="text" id="search-input" oninput="handleSearch()" placeholder="Seite suchen (z.B. A1, L2)..." 
+        <input type="text" id="search-input" oninput="handleSearch()" placeholder="Seite suchen (z.B. A1, L2)..."
                class="w-full pl-9 pr-8 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white">
         <button id="search-clear" onclick="clearSearch()" class="absolute right-2.5 top-2.5 text-gray-400 hover:text-gray-600 hidden">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
-
-      <!-- Quick Action: Create New Page -->
       <div class="mb-4">
         <button onclick="promptCreatePage()" class="w-full py-2 px-3 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition flex items-center justify-center space-x-1.5">
-          <i class="fa-solid fa-plus"></i>
-          <span>Neue Wiki-Seite erstellen</span>
+          <i class="fa-solid fa-plus"></i><span>Neue Wiki-Seite erstellen</span>
         </button>
       </div>
-
-      <!-- Search Results Box (Dynamic) -->
       <div id="search-results-box" class="hidden mb-4 max-h-60 overflow-y-auto border-b border-gray-200 pb-2">
         <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Suchergebnisse</div>
         <div id="search-results-list" class="space-y-1"></div>
       </div>
-
-      <!-- Navigation Accordion / Category Tree -->
       <div class="space-y-3 overflow-y-auto max-h-[calc(100vh-250px)] pr-1">
-        
-        <!-- Übersichten -->
         <div>
           <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5 px-2">Übersichten</div>
           <ul class="space-y-0.5 text-sm">
-            <li>
-              <button onclick="navigateTo('Startseite')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700">
-                <i class="fa-solid fa-house text-gray-400 w-4"></i>
-                <span>Startseite</span>
-              </button>
-            </li>
-            <li>
-              <button onclick="navigateTo('Kategorie_Autobahnen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                <span>Alle Autobahnen (A)</span>
-              </button>
-            </li>
-            <li>
-              <button onclick="navigateTo('Kategorie_Lukolandstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                <span>Alle Lukolandstraßen (L)</span>
-              </button>
-            </li>
-            <li>
-              <button onclick="navigateTo('Kategorie_Centralrouten')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700">
-                <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
-                <span>Centralrouten (C)</span>
-              </button>
-            </li>
-            <li>
-              <button onclick="navigateTo('Kategorie_Kreisstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700">
-                <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
-                <span>Kreisstraßen (K)</span>
-              </button>
-            </li>
+            <li><button onclick="navigateTo('Startseite')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><i class="fa-solid fa-house text-gray-400 w-4"></i><span>Startseite</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Autobahnen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span>Alle Autobahnen (A)</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Lukolandstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span><span>Alle Lukolandstraßen (L)</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Centralrouten')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span><span>Centralrouten (C)</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Kreisstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span><span>Kreisstraßen (K)</span></button></li>
           </ul>
         </div>
-
-        <!-- Autobahnen (A) Accordion -->
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-autobahnen')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-              <span>Autobahnen (A)</span>
-            </span>
+            <span class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-emerald-600"></span><span>Autobahnen (A)</span></span>
             <i id="cat-autobahnen-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-autobahnen-list" class="mt-1 space-y-0.5 text-xs pl-2"></div>
         </div>
-
-        <!-- Lukolandstraßen (L) Accordion -->
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-lukoland')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5">
-              <span class="w-2 h-2 rounded-full bg-amber-600"></span>
-              <span>Lukolandstraßen (L)</span>
-            </span>
+            <span class="flex items-center space-x-1.5"><span class="w-2 h-2 rounded-full bg-amber-600"></span><span>Lukolandstraßen (L)</span></span>
             <i id="cat-lukoland-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-lukoland-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
         </div>
-
       </div>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <main class="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm p-5 sm:p-8 min-w-0 flex flex-col justify-between">
-      
-      <!-- Content Container -->
       <div id="view-container">
-        
-        <!-- READER MODE VIEW -->
+
+        <!-- READER VIEW -->
         <div id="reader-view">
-          
-          <!-- Top Page Bar (Breadcrumb / Actions) -->
           <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-6">
             <div class="text-xs text-gray-500 flex items-center space-x-2">
               <span onclick="navigateTo('Startseite')" class="hover:underline cursor-pointer">Wiki</span>
@@ -366,69 +147,42 @@
             </div>
             <div class="flex items-center space-x-2">
               <button onclick="setMode('editor')" class="px-2.5 py-1 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-md flex items-center space-x-1">
-                <i class="fa-solid fa-pen"></i>
-                <span>Seite Bearbeiten</span>
+                <i class="fa-solid fa-pen"></i><span>Seite Bearbeiten</span>
               </button>
             </div>
           </div>
-
-          <!-- Title & Main Grid Layout (Article + Right Infobox) -->
           <div class="flex flex-col lg:flex-row gap-8">
-            
-            <!-- Left: Article Content -->
             <div class="flex-1 min-w-0 wiki-content">
-              <h1 id="reader-title" class="text-3xl font-bold tracking-tight text-gray-900 border-b border-gray-300 pb-2 mb-6">
-                Autobahn A1
-              </h1>
-
-              <!-- Dynamic Content Sections -->
-              <div id="reader-sections" class="space-y-6 text-gray-800 leading-relaxed text-base">
-                <!-- Sections rendered via JS -->
-              </div>
+              <h1 id="reader-title" class="text-3xl font-bold tracking-tight text-gray-900 border-b border-gray-300 pb-2 mb-6">Autobahn A1</h1>
+              <div id="reader-sections" class="space-y-6 text-gray-800 leading-relaxed text-base"></div>
             </div>
-
-            <!-- Right: Wikipedia-Style Infobox -->
-            <div id="reader-infobox-container" class="w-full lg:w-80 flex-shrink-0">
-              <!-- Infobox rendered via JS -->
-            </div>
-
+            <div id="reader-infobox-container" class="w-full lg:w-80 flex-shrink-0"></div>
           </div>
-
         </div>
 
-        <!-- EDITOR MODE VIEW -->
+        <!-- EDITOR VIEW -->
         <div id="editor-view" class="hidden">
-          
-          <!-- Editor Header Bar -->
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-4 mb-6">
             <div>
               <h2 class="text-xl font-bold text-gray-900 flex items-center space-x-2">
-                <i class="fa-solid fa-pen-to-square text-amber-600"></i>
-                <span>Wiki-Seite bearbeiten</span>
+                <i class="fa-solid fa-pen-to-square text-amber-600"></i><span>Wiki-Seite bearbeiten</span>
               </h2>
               <p class="text-xs text-gray-500">Änderungen werden automatisch zu Firestore synchronisiert.</p>
             </div>
             <div class="flex items-center space-x-2">
               <button onclick="saveCurrentPage()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-sm transition flex items-center space-x-1.5">
-                <i class="fa-solid fa-floppy-disk"></i>
-                <span>Speichern</span>
+                <i class="fa-solid fa-floppy-disk"></i><span>Speichern</span>
               </button>
               <button onclick="deleteCurrentPage()" class="px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-lg border border-red-200 transition" title="Seite Löschen">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              <button onclick="setMode('reader')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg transition">
-                Abbrechen
-              </button>
+              <button onclick="setMode('reader')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg transition">Abbrechen</button>
             </div>
           </div>
 
-          <!-- Editor: Zwei-Spalten-Layout (Links: Formular mit Scroll, Rechts: Live-Artikel) -->
           <div class="flex flex-col lg:flex-row gap-6 -mx-2">
-
-            <!-- LINKE SPALTE: Editor-Formular (scrollbar) -->
+            <!-- Editor Form -->
             <form id="editor-form" onsubmit="event.preventDefault(); saveCurrentPage();" class="lg:w-1/2 space-y-4 overflow-y-auto max-h-[calc(100vh-200px)] pr-3 pl-2">
-              
-              <!-- Basic Meta Grid -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200 sticky top-0 z-10">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Seitentitel</label>
@@ -462,129 +216,79 @@
                 </div>
               </div>
 
-              <!-- Straßenverlauf -->
-              <!-- Streckenverlauf Editor & Live-Preview -->
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <label class="text-sm font-bold text-gray-800 flex items-center space-x-2">
-                  <i class="fa-solid fa-route text-blue-600"></i>
-                  <span>Streckenverlauf (Custom Markup Editor)</span>
-                </label>
-                <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** ---</span>
-              </div>
-
-              <!-- Quick Insert Toolbar for Icons -->
-              <div class="bg-gray-100 p-2.5 rounded-lg border border-gray-200">
-                <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Schnellauswahl Strecken-Icons (Klick zum Einfügen)</div>
-                <div id="icon-insert-bar" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto p-1 bg-white rounded border border-gray-200">
-                  <!-- Generated via JS -->
+              <!-- Route Editor -->
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <label class="text-sm font-bold text-gray-800 flex items-center space-x-2">
+                    <i class="fa-solid fa-route text-blue-600"></i>
+                    <span>Streckenverlauf (Custom Markup Editor)</span>
+                  </label>
+                  <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** ---</span>
                 </div>
-              </div>
-
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <!-- Editor Textarea -->
-                <div>
-                  <div class="text-xs font-semibold text-gray-600 mb-1">Markup Eingabe:</div>
-                  <textarea id="edit-route" rows="12" oninput="updateRoutePreview()" 
-                            class="w-full p-3 font-mono text-xs bg-gray-900 text-emerald-400 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 leading-relaxed"></textarea>
+                <div class="bg-gray-100 p-2.5 rounded-lg border border-gray-200">
+                  <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Schnellauswahl Strecken-Icons</div>
+                  <div id="icon-insert-bar" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto p-1 bg-white rounded border border-gray-200"></div>
                 </div>
-
-                <!-- Live Preview Pane -->
-                <div>
-                  <div class="text-xs font-semibold text-gray-600 mb-1">Live-Vorschau Streckenverlauf:</div>
-                  <div class="border border-gray-300 rounded-lg bg-white p-3 h-[255px] overflow-y-auto">
-                    <div id="route-live-preview" class="space-y-1 text-xs">
-                      <!-- Live Preview Rendered Here -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div>
+                    <div class="text-xs font-semibold text-gray-600 mb-1">Markup Eingabe:</div>
+                    <textarea id="edit-route" rows="12" oninput="updateRoutePreview()"
+                              class="w-full p-3 font-mono text-xs bg-gray-900 text-emerald-400 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 leading-relaxed"></textarea>
+                  </div>
+                  <div>
+                    <div class="text-xs font-semibold text-gray-600 mb-1">Live-Vorschau Streckenverlauf:</div>
+                    <div class="border border-gray-300 rounded-lg bg-white p-3 h-[255px] overflow-y-auto">
+                      <div id="route-live-preview" class="space-y-1 text-xs"></div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-              <!-- Artikel-Abschnitte (dynamisch) -->
-              <div id="editor-sections-container" class="space-y-3">
-                <!-- Wird dynamisch gefüllt -->
-              </div>
+              <!-- Dynamic Sections -->
+              <div id="editor-sections-container" class="space-y-3"></div>
 
-              <!-- Button: Neuen Abschnitt hinzufügen -->
               <button type="button" onclick="addEditorSection()" class="w-full py-2 px-3 text-xs font-semibold text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 flex items-center justify-center space-x-1.5">
-                <i class="fa-solid fa-plus"></i>
-                <span>Abschnitt hinzufügen</span>
+                <i class="fa-solid fa-plus"></i><span>Abschnitt hinzufügen</span>
               </button>
 
-              <!-- Speichern/Abbrechen -->
               <div class="sticky bottom-0 bg-white pt-3 border-t border-gray-200 flex justify-end space-x-2">
                 <button type="button" onclick="setMode('reader')" class="px-3 py-2 text-sm text-gray-600 hover:text-gray-900">Abbrechen</button>
-                <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow transition">
-                  Speichern
-                </button>
+                <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow transition">Speichern</button>
               </div>
-
             </form>
 
-            <!-- RECHTE SPALTE: Live-Vorschau (komplett Artikel) -->
+            <!-- Live Preview -->
             <div class="lg:w-1/2 bg-gray-50 rounded-lg border border-gray-200 p-6 overflow-y-auto max-h-[calc(100vh-200px)]">
               <div class="bg-white rounded-lg p-6 space-y-6">
-                
-                <!-- Artikel-Titel -->
                 <div>
-                  <h1 id="preview-title" class="text-3xl font-bold text-gray-900 border-b border-gray-300 pb-2 mb-2">
-                    Autobahn
-                  </h1>
+                  <h1 id="preview-title" class="text-3xl font-bold text-gray-900 border-b border-gray-300 pb-2 mb-2">Autobahn</h1>
                 </div>
-
-                <!-- Infobox -->
-                <div id="preview-infobox" class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans float-right ml-4 w-80 mb-4">
-                  <!-- Wird dynamisch gefüllt -->
-                </div>
-
-                <!-- Artikel-Abschnitte (Live) -->
-                <div id="preview-sections" class="wiki-content space-y-6">
-                  <!-- Wird dynamisch gefüllt -->
-                </div>
-
+                <div id="preview-infobox" class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans float-right ml-4 w-80 mb-4"></div>
+                <div id="preview-sections" class="wiki-content space-y-6"></div>
               </div>
             </div>
-
           </div>
-
         </div>
-
       </div>
 
-      <!-- Footer with License Note -->
       <footer class="mt-12 pt-6 border-t border-gray-200 text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <div>
-          <strong>Lukolisches Straßen- & Autobahn-Wiki</strong> &copy; 2026. Mit Firestore ☁️
-        </div>
+        <div><strong>Lukolisches Straßen- & Autobahn-Wiki</strong> &copy; 2026. Mit Firestore ☁️</div>
         <div class="flex items-center space-x-1 font-medium bg-gray-100 px-2.5 py-1 rounded border border-gray-200 text-gray-600">
-          <i class="fa-creative-commons"></i>
-          <span>Lizenz: CC-BY-NC-ND</span>
+          <i class="fa-brands fa-creative-commons"></i><span>Lizenz: CC-BY-NC-ND</span>
         </div>
       </footer>
-
     </main>
-
   </div>
 
-  <!-- Notification Toast Container -->
+  <!-- Toast -->
   <div id="toast" class="fixed bottom-5 right-5 bg-gray-900 text-white px-4 py-3 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-3 flex items-center space-x-3 z-50 text-sm">
     <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
     <span id="toast-message">Nachricht</span>
   </div>
 
-  <!-- JAVASCRIPT APPLICATION LOGIC -->
   <script type="module">
-    /* ===== FIREBASE INITIALIZATION ===== */
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-    import { 
-      getFirestore, 
-      collection, 
-      getDocs, 
-      setDoc, 
-      deleteDoc, 
-      doc 
-    } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, setDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCmGpyNz4qQwmQaEFf0cprot3AhCC3jnBg",
@@ -597,70 +301,34 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const FIRESTORE_API_KEY = "lukoland_verkehr_2026";
 
     /* ===== ICON MAPPING ===== */
     const ICON_MAPPING = {
-    "AK": "AK.webp",
-    "AD": "AD.webp",
-    "Kreuz": "Kreuz.webp",
-    "Dreieck": "Dreieck.webp",
-    "AS": "AS.webp",
-    "ASEinbahn": "ASEinbahn.webp",
-    "Linksanschluss": "Linksanschluss.webp",
-    "Kreisel": "Kreisel.webp",
-    "Parkplatz": "Parkplatz.webp",
-    "Tankstelle": "Tankstelle.webp",
-    "Raststaette": "Raststaette.webp",
-    "Gewaesser": "Gewaesser.webp",
-    "Gabelung": "Gabelung.webp",
-    "Bahn": "Bahn.webp",
-    "Bahnhof": "Bahnhof.webp",
-    "Bahnstrecke": "Bahnstrecke.webp",
-    "Sperrung": "Sperrung.webp",
-    "Bruecke": "Bruecke.webp",
-    "Gruenbruecke": "Gruenbruecke.webp",
-    "Tunnel": "Tunnel.webp",
-    "TASUp": "TASUp.webp",
-    "TASDn": "TASDn.webp",
-    "RastLi": "RastLi.webp",
-    "RastRe": "RastRe.webp",
-    "Airport": "Airport.webp",
-    "VBABeginn": "VBABeginn.webp",
-    "VBAEnde": "VBAEnde.webp",
-    "VBA": "VBA.webp",
-    "Info": "Info.webp",
-    "Gegenverkehr": "Gegenverkehr.webp",
-    "Kreuzung": "Kreuzung.webp",
-    "Grenze": "Grenze.webp",
-    "Maut": "Maut.webp",
-    "Autohof": "Autohof.webp",
-    "WC": "WC.webp",
-    "AutobahnBlau": "AutobahnBlau.webp",
-    "AutobahnBlauEnde": "AutobahnBlauEnde.webp",
-    "AutobahnGruen": "AutobahnGruen.webp",
-    "AutobahnGruenEnde": "AutobahnGruenEnde.webp",
-    "AB": "AB.webp",
-    "Baustelle": "Baustelle.webp"
-};
+      "AK":"AK.webp","AD":"AD.webp","Kreuz":"Kreuz.webp","Dreieck":"Dreieck.webp",
+      "AS":"AS.webp","ASEinbahn":"ASEinbahn.webp","Linksanschluss":"Linksanschluss.webp",
+      "Kreisel":"Kreisel.webp","Parkplatz":"Parkplatz.webp","Tankstelle":"Tankstelle.webp",
+      "Raststaette":"Raststaette.webp","Gewaesser":"Gewaesser.webp","Gabelung":"Gabelung.webp",
+      "Bahn":"Bahn.webp","Bahnhof":"Bahnhof.webp","Bahnstrecke":"Bahnstrecke.webp",
+      "Sperrung":"Sperrung.webp","Bruecke":"Bruecke.webp","Gruenbruecke":"Gruenbruecke.webp",
+      "Tunnel":"Tunnel.webp","TASUp":"TASUp.webp","TASDn":"TASDn.webp",
+      "RastLi":"RastLi.webp","RastRe":"RastRe.webp","Airport":"Airport.webp",
+      "VBABeginn":"VBABeginn.webp","VBAEnde":"VBAEnde.webp","VBA":"VBA.webp",
+      "Info":"Info.webp","Gegenverkehr":"Gegenverkehr.webp","Kreuzung":"Kreuzung.webp",
+      "Grenze":"Grenze.webp","Maut":"Maut.webp","Autohof":"Autohof.webp",
+      "WC":"WC.webp","AutobahnBlau":"AutobahnBlau.webp","AutobahnBlauEnde":"AutobahnBlauEnde.webp",
+      "AutobahnGruen":"AutobahnGruen.webp","AutobahnGruenEnde":"AutobahnGruenEnde.webp",
+      "AB":"AB.webp","Baustelle":"Baustelle.webp"
+    };
 
-    /* ===== PREDEFINED PAGE LISTS ===== */
-    const AUTOBAHNEN_LIST = [
-      "A1","A2","A3","A5","A6","A8",
-      "A10","A11","A12","A16","A22","A27","A33","A37","A39","A41","A44","A45"
-    ];
+    const AUTOBAHNEN_LIST = ["A1","A2","A3","A5","A6","A8","A10","A11","A12","A16","A22","A27","A33","A37","A39","A41","A44","A45"];
+    const LUKOLANDSTRASSEN_LIST = ["L1","L2","L3","L4","L5","L6","L7","L8","L9"];
+    const SECTION_TITLES = ["1. Allgemeines","2. Geschichte","3. Verlauf","4. Ausbauzustand","5. Besonderheiten","6. Zukunft"];
 
-    const LUKOLANDSTRASSEN_LIST = [
-      "L1","L2","L3","L4","L5","L6","L7","L8","L9"
-    ];
-
-    /* ===== APP STATE ===== */
     let wikiData = {};
     let currentPageId = "Startseite";
     let currentMode = "reader";
-    let isLoadingFromFirestore = false;
 
-    /* ===== INITIALIZATION ===== */
+    /* ===== INIT ===== */
     window.addEventListener('load', initApp);
 
     async function initApp() {
@@ -670,98 +338,69 @@
       navigateTo("Startseite");
     }
 
-    /* ===== FIRESTORE FUNCTIONS ===== */
+    /* ===== FIRESTORE ===== */
     async function loadFromFirestore() {
       try {
-        isLoadingFromFirestore = true;
         updateSyncStatus('syncing', 'Lade von Firestore...');
-
         const querySnapshot = await getDocs(collection(db, "articles"));
         const firestoreData = {};
+        querySnapshot.forEach((d) => { firestoreData[d.id] = d.data(); });
 
-        querySnapshot.forEach((doc) => {
-          firestoreData[doc.id] = doc.data();
-        });
-
-        // Wenn Firestore leer ist, Standard-Datenbank laden
         if (Object.keys(firestoreData).length === 0) {
-          console.log("Firestore leer, lade Standard-Daten...");
           wikiData = createDefaultDatabase();
-          // Auto-Upload zur Firestore
           await saveToFirestore();
         } else {
           wikiData = firestoreData;
           saveToLocalStorage();
         }
-
         updateSyncStatus('synced', 'Daten geladen');
         setTimeout(() => clearSyncStatus(), 3000);
       } catch (error) {
         console.error("Firestore Fehler:", error);
         updateSyncStatus('error', 'Offline - nutze Lokal-Daten');
-        
-        // Fallback auf LocalStorage
         const localData = localStorage.getItem('lukopolis_wiki_db');
-        if (localData) {
-          wikiData = JSON.parse(localData);
-        } else {
-          wikiData = createDefaultDatabase();
-        }
+        wikiData = localData ? JSON.parse(localData) : createDefaultDatabase();
       }
     }
 
     async function saveToFirestore(pageId = null) {
       try {
         updateSyncStatus('syncing', 'Speichere zu Firestore...');
-
         if (pageId) {
-          // Speichere nur eine Seite
           const pageData = wikiData[pageId];
-          if (pageData) {
-            await setDoc(doc(db, "articles", pageId), pageData, { merge: true });
-          }
+          if (pageData) await setDoc(doc(db, "articles", pageId), pageData, { merge: true });
         } else {
-          // Speichere alle Seiten
           for (const [id, data] of Object.entries(wikiData)) {
             await setDoc(doc(db, "articles", id), data, { merge: true });
           }
         }
-
         updateSyncStatus('synced', 'Zu Firestore gespeichert');
         setTimeout(() => clearSyncStatus(), 2000);
       } catch (error) {
-        console.error("Fehler beim Speichern zu Firestore:", error);
+        console.error("Fehler beim Speichern:", error);
         updateSyncStatus('error', 'Fehler beim Cloud-Speichern');
       }
     }
 
     async function deleteFromFirestore(pageId) {
-      try {
-        await deleteDoc(doc(db, "articles", pageId));
-      } catch (error) {
-        console.error("Fehler beim Löschen aus Firestore:", error);
-      }
+      try { await deleteDoc(doc(db, "articles", pageId)); }
+      catch (error) { console.error("Fehler beim Löschen:", error); }
     }
 
-    /* ===== LOCAL STORAGE FUNCTIONS ===== */
     function saveToLocalStorage() {
-      try {
-        localStorage.setItem('lukopolis_wiki_db', JSON.stringify(wikiData));
-      } catch (e) {
-        console.error("LocalStorage voll:", e);
-      }
+      try { localStorage.setItem('lukopolis_wiki_db', JSON.stringify(wikiData)); }
+      catch (e) { console.error("LocalStorage voll:", e); }
     }
 
-    /* ===== SYNC STATUS UI ===== */
+    /* ===== SYNC STATUS ===== */
     function updateSyncStatus(status, message) {
       const indicator = document.getElementById('sync-status');
       indicator.className = 'sync-indicator ' + status;
-      
       if (status === 'syncing') {
         indicator.innerHTML = '<div class="spinner"></div><span>' + message + '</span>';
       } else if (status === 'synced') {
         indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>' + message + '</span>';
-      } else if (status === 'error') {
+      } else {
         indicator.innerHTML = '<i class="fa-solid fa-exclamation text-sm"></i><span>' + message + '</span>';
       }
     }
@@ -769,52 +408,39 @@
     function clearSyncStatus() {
       const indicator = document.getElementById('sync-status');
       indicator.className = 'sync-indicator synced';
-      indicator.innerHTML = '<i class="fa-solid fa-cloud-check-alt text-sm"></i><span>Sync aktiv</span>';
+      indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>Sync aktiv</span>';
     }
 
     /* ===== CUSTOM MARKUP PARSER ===== */
     function parseCustomMarkup(text) {
       if (!text) return "";
-
-      let lines = text.split('\n');
-      let parsedHTML = lines.map(line => {
+      return text.split('\n').map(line => {
         let l = line.trim();
         if (!l) return "";
-
-        if (l === "---") {
-          return `<div class="my-2 border-b border-gray-300"></div>`;
-        }
-
-        // Icons
+        if (l === "---") return `<div class="my-2 border-b border-gray-300"></div>`;
+        // Icons & road shields
         l = l.replace(/\[([A-Za-z0-9_]+)\]/g, (match, iconKey) => {
           if (ICON_MAPPING[iconKey]) {
             return `<img src="${ICON_MAPPING[iconKey]}" alt="${iconKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
           }
           if (/^[ALCK]\d+[A-Za-z]?$/i.test(iconKey)) {
-            let cat = iconKey.charAt(0).toUpperCase();
+            const cat = iconKey.charAt(0).toUpperCase();
             return `<a onclick="navigateTo('${iconKey}')" class="road-shield road-shield-${cat} cursor-pointer">${iconKey}</a>`;
           }
           return `<span class="road-shield road-shield-K">${iconKey}</span>`;
         });
-
-        // Wiki Links
+        // Wiki links
         l = l.replace(/\[\[([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, label) => {
-          let display = label || target;
-          let exists = wikiData.hasOwnProperty(target);
-          if (exists) {
-            return `<a onclick="navigateTo('${target}')" class="wiki-link font-medium">${display}</a>`;
-          } else {
-            return `<a onclick="promptCreatePage('${target}')" class="wiki-link wiki-link-missing">${display}</a>`;
-          }
+          const display = label || target;
+          const exists = wikiData.hasOwnProperty(target);
+          return exists
+            ? `<a onclick="navigateTo('${target}')" class="wiki-link font-medium">${display}</a>`
+            : `<a onclick="promptCreatePage('${target}')" class="wiki-link wiki-link-missing">${display}</a>`;
         });
-
         l = l.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold">$1</strong>');
         l = l.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>');
-
         return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none">${l}</div>`;
       }).join('');
-
-      return parsedHTML;
     }
 
     /* ===== NAVIGATION ===== */
@@ -823,32 +449,28 @@
         if (confirm(`Die Seite "${pageId}" existiert noch nicht. Erstellen?`)) {
           createNewPage(pageId);
           return;
-        } else {
-          return;
         }
+        return;
       }
-
       currentPageId = pageId;
-      document.getElementById('sidebar').classList.add('hidden');
+      // Mobile: Sidebar schließen
+      const sidebar = document.getElementById('sidebar');
+      if (window.innerWidth < 1024) sidebar.classList.add('hidden');
       updateActiveNavHighlight();
-
       if (currentMode === 'reader') {
         renderReaderView();
       } else {
         renderEditorView();
       }
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function setMode(mode) {
       currentMode = mode;
-
       const btnReader = document.getElementById('btn-mode-reader');
       const btnEditor = document.getElementById('btn-mode-editor');
       const readerView = document.getElementById('reader-view');
       const editorView = document.getElementById('editor-view');
-
       if (mode === 'reader') {
         btnReader.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 bg-white shadow-sm text-gray-800 font-semibold";
         btnEditor.className = "px-3 py-1.5 rounded-md transition-all flex items-center space-x-1.5 text-gray-600 hover:text-gray-900";
@@ -864,25 +486,22 @@
       }
     }
 
-    function toggleMobileSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('hidden');
-    }
+    window.toggleMobileSidebar = function() {
+      document.getElementById('sidebar').classList.toggle('hidden');
+    };
 
-    function toggleNavCategory(id) {
+    window.toggleNavCategory = function(id) {
       const list = document.getElementById(`${id}-list`);
       const icon = document.getElementById(`${id}-icon`);
       list.classList.toggle('hidden');
       icon.classList.toggle('rotate-180');
-    }
+    };
 
     /* ===== READER VIEW ===== */
     function renderReaderView() {
       const page = wikiData[currentPageId];
       if (!page) return;
-
       document.getElementById('reader-title').innerText = page.title;
-      
       let catLabel = "Übersicht";
       if (page.category === 'A') catLabel = "Autobahn (Kategorie A)";
       if (page.category === 'L') catLabel = "Lukolandstraße (Kategorie L)";
@@ -890,33 +509,20 @@
       if (page.category === 'K') catLabel = "Kreisstraße (Kategorie K)";
       document.getElementById('reader-category-tag').innerText = catLabel;
 
-      const secTitles = [
-        "1. Allgemeines",
-        "2. Geschichte",
-        "3. Verlauf",
-        "4. Ausbauzustand",
-        "5. Besonderheiten",
-        "6. Zukunft"
-      ];
-
       let secHTML = "";
-      if (page.sections && page.sections.length > 0) {
+      if (page.sections && page.sections.some(s => s && s.trim())) {
         page.sections.forEach((content, idx) => {
-          if (content && content.trim() !== "") {
+          if (content && content.trim()) {
             secHTML += `
               <div class="mb-6">
-                <h2 class="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">
-                  ${secTitles[idx] || `Abschnitt ${idx+1}`}
-                </h2>
+                <h2 class="text-xl font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">${SECTION_TITLES[idx] || `Abschnitt ${idx+1}`}</h2>
                 <p class="leading-relaxed text-gray-800 whitespace-pre-line">${parseMarkdownText(content)}</p>
-              </div>
-            `;
+              </div>`;
           }
         });
       } else {
         secHTML = `<p class="italic text-gray-500">Diese Seite hat noch keine Abschnitte.</p>`;
       }
-
       document.getElementById('reader-sections').innerHTML = secHTML;
       renderInfobox(page);
     }
@@ -926,7 +532,7 @@
       let s = str;
       s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
       s = s.replace(/\[\[([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, label) => {
-        let display = label || target;
+        const display = label || target;
         return `<a onclick="navigateTo('${target}')" class="wiki-link">${display}</a>`;
       });
       return s;
@@ -934,77 +540,45 @@
 
     function renderInfobox(page) {
       const cat = page.category || getCategoryFromTitle(page.title);
-      
-      let shieldBg = "bg-emerald-600 text-white border-emerald-800";
-      if (cat === 'L') shieldBg = "bg-amber-500 text-white border-amber-700";
-      if (cat === 'C') shieldBg = "bg-yellow-400 text-gray-900 border-yellow-600";
-      if (cat === 'K') shieldBg = "bg-white text-gray-900 border-black";
-      if (cat === 'Ueber') shieldBg = "bg-blue-600 text-white border-blue-800";
-
-      let routeParsed = parseCustomMarkup(page.route || "");
-
-      let html = `
+      const routeParsed = parseCustomMarkup(page.route || "");
+      const html = `
         <div class="border border-gray-300 rounded-lg bg-gray-50 overflow-hidden shadow-sm text-xs font-sans">
-          <div class="bg-blue-900 text-white text-center py-1.5 px-2 font-bold text-sm tracking-wide">
-            ${page.title} in Lukoland
-          </div>
+          <div class="bg-blue-900 text-white text-center py-1.5 px-2 font-bold text-sm tracking-wide">${page.title} in Lukoland</div>
           <div class="p-4 bg-white flex justify-center border-b border-gray-200">
             <div class="road-shield road-shield-${cat} text-xl px-5 py-2 font-black shadow-md rounded border-2">
-              ${page.title.replace('Autobahn ', '').replace('Lukolandstraße ', '')}
+              ${page.title.replace('Autobahn ','').replace('Lukolandstraße ','')}
             </div>
           </div>
-          <div class="bg-blue-800 text-white text-center py-1 font-semibold text-xs uppercase tracking-wider">
-            Basisdaten
-          </div>
+          <div class="bg-blue-800 text-white text-center py-1 font-semibold text-xs uppercase tracking-wider">Basisdaten</div>
           <table class="w-full text-left border-collapse bg-white">
             <tbody>
-              <tr class="border-b border-gray-100">
-                <td class="py-1.5 px-3 font-bold text-gray-600 w-1/3 bg-gray-50">Betreiber:</td>
-                <td class="py-1.5 px-3 text-gray-800">Kraksrepublik Lukoland</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenbeginn:</td>
-                <td class="py-1.5 px-3 text-gray-800">${page.start || 'Unbekannt'}</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenende:</td>
-                <td class="py-1.5 px-3 text-gray-800">${page.end || 'Unbekannt'}</td>
-              </tr>
-              <tr class="border-b border-gray-100">
-                <td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Gesamtlänge:</td>
-                <td class="py-1.5 px-3 font-bold text-gray-900">${page.length || '0'} km</td>
-              </tr>
-              <tr class="border-b border-gray-200">
-                <td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Davon in Bau:</td>
-                <td class="py-1.5 px-3 text-amber-700 font-semibold">${page.construction || '0'} km</td>
-              </tr>
+              <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 w-1/3 bg-gray-50">Betreiber:</td><td class="py-1.5 px-3 text-gray-800">Kraksrepublik Lukoland</td></tr>
+              <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenbeginn:</td><td class="py-1.5 px-3 text-gray-800">${page.start || 'Unbekannt'}</td></tr>
+              <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenende:</td><td class="py-1.5 px-3 text-gray-800">${page.end || 'Unbekannt'}</td></tr>
+              <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Gesamtlänge:</td><td class="py-1.5 px-3 font-bold text-gray-900">${page.length || '0'} km</td></tr>
+              <tr class="border-b border-gray-200"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Davon in Bau:</td><td class="py-1.5 px-3 text-amber-700 font-semibold">${page.construction || '0'} km</td></tr>
             </tbody>
           </table>
           <div class="bg-blue-800 text-white px-3 py-1.5 flex items-center justify-between font-semibold text-xs">
             <span>Straßenverlauf</span>
-            <button onclick="toggleInfoboxRoute()" class="text-[10px] text-blue-200 hover:text-white underline">
-              [Einklappen/Ausklappen]
-            </button>
+            <button onclick="toggleInfoboxRoute()" class="text-[10px] text-blue-200 hover:text-white underline">[Einklappen/Ausklappen]</button>
           </div>
           <div id="infobox-route-content" class="p-2 bg-white max-h-96 overflow-y-auto space-y-1">
             ${routeParsed || '<span class="italic text-gray-400">Kein Streckenverlauf angegeben</span>'}
           </div>
-        </div>
-      `;
-
+        </div>`;
       document.getElementById('reader-infobox-container').innerHTML = html;
     }
 
-    function toggleInfoboxRoute() {
+    window.toggleInfoboxRoute = function() {
       const el = document.getElementById('infobox-route-content');
       if (el) el.classList.toggle('hidden');
-    }
+    };
 
     /* ===== EDITOR VIEW ===== */
     function renderEditorView() {
       const page = wikiData[currentPageId];
       if (!page) return;
-
       document.getElementById('edit-title').value = page.title || "";
       document.getElementById('edit-category').value = page.category || "A";
       document.getElementById('edit-start').value = page.start || "";
@@ -1013,61 +587,45 @@
       document.getElementById('edit-construction').value = page.construction || "";
       document.getElementById('edit-route').value = page.route || "";
 
-      // Rendere Sections dynamisch
       const sectionsContainer = document.getElementById('editor-sections-container');
       sectionsContainer.innerHTML = '';
-      
-      const sectionTitles = [
-        "1. Allgemeines",
-        "2. Geschichte",
-        "3. Verlauf",
-        "4. Ausbauzustand",
-        "5. Besonderheiten",
-        "6. Zukunft"
-      ];
-
-      if (page.sections && page.sections.length > 0) {
-        page.sections.forEach((content, idx) => {
-          addEditorSection(sectionTitles[idx] || `Abschnitt ${idx+1}`, content, idx);
-        });
-      } else {
-        sectionTitles.slice(0, 6).forEach((title, idx) => {
-          addEditorSection(title, "", idx);
-        });
-      }
-
+      const sections = page.sections && page.sections.length > 0 ? page.sections : Array(6).fill("");
+      sections.forEach((content, idx) => {
+        addEditorSection(SECTION_TITLES[idx] || `Abschnitt ${idx+1}`, content, idx);
+      });
       updateEditorPreview();
     }
 
+    /* ===== FIX 1: addEditorSection - correct textarea referencing ===== */
     window.addEditorSection = function(title = "Neuer Abschnitt", content = "", index = -1) {
       const container = document.getElementById('editor-sections-container');
-      const sectionId = 'section-' + Date.now() + Math.random();
-      const sectionCount = container.children.length;
-
-      const sectionHTML = `
-        <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 group" data-section-id="${sectionId}">
-          <div class="flex items-center justify-between mb-2">
-            <input type="text" class="section-title text-sm font-bold text-gray-700 px-2 py-1 border border-transparent rounded hover:border-gray-300 focus:border-blue-500 focus:outline-none flex-1" value="${title}" oninput="updateEditorPreview()">
-            <button type="button" onclick="removeEditorSection('${sectionId}')" class="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:bg-red-50 rounded text-xs transition" title="Abschnitt löschen">
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-          </div>
-          <textarea class="section-content w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" oninput="updateEditorPreview()" style="height: 80px;">${content}</textarea>
+      const sectionId = 'section-' + Date.now() + '-' + Math.floor(Math.random()*10000);
+      const sectionDiv = document.createElement('div');
+      sectionDiv.className = "bg-gray-50 p-3 rounded-lg border border-gray-200 group";
+      sectionDiv.dataset.sectionId = sectionId;
+      sectionDiv.innerHTML = `
+        <div class="flex items-center justify-between mb-2">
+          <input type="text" class="section-title text-sm font-bold text-gray-700 px-2 py-1 border border-transparent rounded hover:border-gray-300 focus:border-blue-500 focus:outline-none flex-1" value="${escapeHtml(title)}" oninput="updateEditorPreview()">
+          <button type="button" onclick="removeEditorSection('${sectionId}')" class="opacity-0 group-hover:opacity-100 p-1 text-red-600 hover:bg-red-50 rounded text-xs transition" title="Abschnitt löschen">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
         </div>
+        <textarea class="section-content w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" oninput="updateEditorPreview()" style="height:80px;">${escapeHtml(content)}</textarea>
       `;
-
-      const div = document.createElement('div');
-      div.innerHTML = sectionHTML;
-      container.appendChild(div.firstElementChild);
+      container.appendChild(sectionDiv);
     };
 
     window.removeEditorSection = function(sectionId) {
-      const container = document.getElementById('editor-sections-container');
-      const section = container.querySelector(`[data-section-id="${sectionId}"]`);
-      if (section) {
-        section.remove();
-        updateEditorPreview();
-      }
+      const section = document.querySelector(`[data-section-id="${sectionId}"]`);
+      if (section) { section.remove(); updateEditorPreview(); }
+    };
+
+    /* ===== FIX 2: updateRoutePreview - was missing entirely ===== */
+    window.updateRoutePreview = function() {
+      const route = document.getElementById('edit-route').value;
+      const preview = document.getElementById('route-live-preview');
+      preview.innerHTML = parseCustomMarkup(route) || '<span class="italic text-gray-400">Kein Streckenverlauf eingegeben</span>';
+      updateEditorPreview();
     };
 
     window.updateEditorPreview = function() {
@@ -1079,104 +637,56 @@
       const construction = document.getElementById('edit-construction').value;
       const route = document.getElementById('edit-route').value;
 
-      // Preview-Titel
       document.getElementById('preview-title').innerText = title;
+      const routeParsed = parseCustomMarkup(route || "");
 
-      // Infobox aktualisieren
-      const cat = category || getCategoryFromTitle(title);
-      let shieldBg = "bg-emerald-600 text-white border-emerald-800";
-      if (cat === 'L') shieldBg = "bg-amber-500 text-white border-amber-700";
-      if (cat === 'C') shieldBg = "bg-yellow-400 text-gray-900 border-yellow-600";
-      if (cat === 'K') shieldBg = "bg-white text-gray-900 border-black";
-      if (cat === 'Ueber') shieldBg = "bg-blue-600 text-white border-blue-800";
-
-      let routeParsed = parseCustomMarkup(route || "");
-
-      const infoboxHTML = `
-        <div class="bg-blue-900 text-white text-center py-1.5 px-2 font-bold text-sm tracking-wide">
-          ${title} in Lukoland
-        </div>
+      document.getElementById('preview-infobox').innerHTML = `
+        <div class="bg-blue-900 text-white text-center py-1.5 px-2 font-bold text-sm tracking-wide">${escapeHtml(title)} in Lukoland</div>
         <div class="p-4 bg-white flex justify-center border-b border-gray-200">
-          <div class="road-shield road-shield-${cat} text-xl px-5 py-2 font-black shadow-md rounded border-2">
-            ${title.replace('Autobahn ', '').replace('Lukolandstraße ', '')}
+          <div class="road-shield road-shield-${category} text-xl px-5 py-2 font-black shadow-md rounded border-2">
+            ${escapeHtml(title.replace('Autobahn ','').replace('Lukolandstraße ',''))}
           </div>
         </div>
-        <div class="bg-blue-800 text-white text-center py-1 font-semibold text-xs uppercase tracking-wider">
-          Basisdaten
-        </div>
+        <div class="bg-blue-800 text-white text-center py-1 font-semibold text-xs uppercase tracking-wider">Basisdaten</div>
         <table class="w-full text-left border-collapse bg-white text-xs">
           <tbody>
-            <tr class="border-b border-gray-100">
-              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Betreiber:</td>
-              <td class="py-1 px-2 text-gray-800">Kraksrepublik Lukoland</td>
-            </tr>
-            <tr class="border-b border-gray-100">
-              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Start:</td>
-              <td class="py-1 px-2 text-gray-800">${start || 'Unbekannt'}</td>
-            </tr>
-            <tr class="border-b border-gray-100">
-              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Ende:</td>
-              <td class="py-1 px-2 text-gray-800">${end || 'Unbekannt'}</td>
-            </tr>
-            <tr class="border-b border-gray-100">
-              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Länge:</td>
-              <td class="py-1 px-2 font-bold text-gray-900">${length || '0'} km</td>
-            </tr>
-            <tr class="border-b border-gray-200">
-              <td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td>
-              <td class="py-1 px-2 text-amber-700 font-semibold">${construction || '0'} km</td>
-            </tr>
+            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Betreiber:</td><td class="py-1 px-2 text-gray-800">Kraksrepublik Lukoland</td></tr>
+            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Start:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(start || 'Unbekannt')}</td></tr>
+            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Ende:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(end || 'Unbekannt')}</td></tr>
+            <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Länge:</td><td class="py-1 px-2 font-bold text-gray-900">${escapeHtml(length || '0')} km</td></tr>
+            <tr><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td><td class="py-1 px-2 text-amber-700 font-semibold">${escapeHtml(construction || '0')} km</td></tr>
           </tbody>
         </table>
-        <div class="bg-blue-800 text-white px-2 py-1 font-semibold text-xs uppercase tracking-wider">
-          Verlauf
-        </div>
+        <div class="bg-blue-800 text-white px-2 py-1 font-semibold text-xs uppercase tracking-wider">Verlauf</div>
         <div class="p-2 bg-white text-xs space-y-0.5">
           ${routeParsed || '<span class="italic text-gray-400">Kein Verlauf</span>'}
         </div>
       `;
 
-      document.getElementById('preview-infobox').innerHTML = infoboxHTML;
-
-      // Artikel-Abschnitte aktualisieren
       const sectionsContainer = document.getElementById('editor-sections-container');
-      const previewSectionsDiv = document.getElementById('preview-sections');
-      let sectionsHTML = '';
-
       const sections = sectionsContainer.querySelectorAll('[data-section-id]');
+      let sectionsHTML = '';
       sections.forEach(section => {
-        const titleEl = section.querySelector('.section-title');
-        const contentEl = section.querySelector('.section-content');
-        const sectionTitle = titleEl ? titleEl.value : '';
-        const sectionContent = contentEl ? contentEl.value : '';
-
+        const sectionTitle = section.querySelector('.section-title')?.value || '';
+        const sectionContent = section.querySelector('.section-content')?.value || '';
         if (sectionTitle && sectionContent) {
           sectionsHTML += `
             <div class="mb-6">
-              <h2 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">
-                ${sectionTitle}
-              </h2>
+              <h2 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-1 mb-2">${escapeHtml(sectionTitle)}</h2>
               <p class="leading-relaxed text-gray-800 whitespace-pre-wrap text-sm">${parseMarkdownText(sectionContent)}</p>
-            </div>
-          `;
+            </div>`;
         }
       });
-
-      previewSectionsDiv.innerHTML = sectionsHTML || '<p class="italic text-gray-500">Keine Abschnitte vorhanden</p>';
+      document.getElementById('preview-sections').innerHTML = sectionsHTML || '<p class="italic text-gray-500">Keine Abschnitte vorhanden</p>';
     };
 
     function renderIconInsertBar() {
       const bar = document.getElementById('icon-insert-bar');
-      let html = "";
-      Object.keys(ICON_MAPPING).forEach(key => {
-        html += `
-          <button type="button" onclick="insertIconTag('${key}')" 
-                  class="px-2 py-1 bg-gray-50 hover:bg-amber-100 border border-gray-200 rounded flex items-center space-x-1 text-xs font-mono transition" title="[${key}] einfügen">
-            <span>[${key}]</span>
-          </button>
-        `;
-      });
-      bar.innerHTML = html;
+      bar.innerHTML = Object.keys(ICON_MAPPING).map(key => `
+        <button type="button" onclick="insertIconTag('${key}')"
+                class="px-2 py-1 bg-gray-50 hover:bg-amber-100 border border-gray-200 rounded flex items-center space-x-1 text-xs font-mono transition" title="[${key}] einfügen">
+          <span>[${key}]</span>
+        </button>`).join('');
     }
 
     window.insertIconTag = function(key) {
@@ -1184,19 +694,16 @@
       const tag = `[${key}] `;
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
-      const val = textarea.value;
-      textarea.value = val.substring(0, start) + tag + val.substring(end);
+      textarea.value = textarea.value.substring(0, start) + tag + textarea.value.substring(end);
       textarea.focus();
       textarea.selectionStart = textarea.selectionEnd = start + tag.length;
       updateRoutePreview();
     };
 
+    /* ===== FIX 3: saveCurrentPage - reads sections from DOM correctly ===== */
     async function saveCurrentPage() {
       const title = document.getElementById('edit-title').value.trim();
-      if (!title) {
-        showToast("Bitte einen Seitentitel angeben!", "error");
-        return;
-      }
+      if (!title) { showToast("Bitte einen Seitentitel angeben!", "error"); return; }
 
       const category = document.getElementById('edit-category').value;
       const start = document.getElementById('edit-start').value.trim();
@@ -1205,27 +712,18 @@
       const construction = document.getElementById('edit-construction').value.trim();
       const route = document.getElementById('edit-route').value;
 
+      // Collect sections from dynamic DOM (not by edit-sec-{i} IDs!)
       const sections = [];
-      for (let i = 1; i <= 6; i++) {
-        sections.push(document.getElementById(`edit-sec-${i}`).value);
-      }
+      document.querySelectorAll('#editor-sections-container [data-section-id] .section-content').forEach(ta => {
+        sections.push(ta.value);
+      });
 
-      if (title !== currentPageId) {
+      if (title !== currentPageId && wikiData[currentPageId]) {
         delete wikiData[currentPageId];
         await deleteFromFirestore(currentPageId);
       }
 
-      wikiData[title] = {
-        title: title,
-        category: category,
-        start: start,
-        end: end,
-        length: length,
-        construction: construction,
-        route: route,
-        sections: sections
-      };
-
+      wikiData[title] = { title, category, start, end, length, construction, route, sections };
       currentPageId = title;
 
       saveToLocalStorage();
@@ -1236,11 +734,7 @@
     }
 
     async function deleteCurrentPage() {
-      if (currentPageId === "Startseite") {
-        showToast("Die Startseite kann nicht gelöscht werden!", "error");
-        return;
-      }
-
+      if (currentPageId === "Startseite") { showToast("Die Startseite kann nicht gelöscht werden!", "error"); return; }
       if (confirm(`Seite "${currentPageId}" wirklich löschen?`)) {
         delete wikiData[currentPageId];
         saveToLocalStorage();
@@ -1253,31 +747,17 @@
 
     window.promptCreatePage = function(prefillTitle = "") {
       const name = prompt("Titel der neuen Wiki-Seite:", prefillTitle);
-      if (name && name.trim() !== "") {
-        createNewPage(name.trim());
-      }
+      if (name && name.trim()) createNewPage(name.trim());
     };
 
     function createNewPage(title) {
       const cat = getCategoryFromTitle(title);
       wikiData[title] = {
-        title: title,
-        category: cat,
-        start: "Startpunkt",
-        end: "Endpunkt",
-        length: "10.0",
-        construction: "0",
+        title, category: cat,
+        start: "Startpunkt", end: "Endpunkt", length: "10.0", construction: "0",
         route: "[AS] (1) Anschlussstelle 1\n[Kreuz] (2) Autobahnkreuz [[A1]]",
-        sections: [
-          `Allgemeine Informationen zur ${title}.`,
-          "Geschichte und Bauphase.",
-          "Verlauf und Landschaft.",
-          "Ausbauzustand.",
-          "Besonderheiten.",
-          "Zukunftsaussichten."
-        ]
+        sections: SECTION_TITLES.map((_, i) => i === 0 ? `Allgemeine Informationen zur ${title}.` : "")
       };
-
       saveToLocalStorage();
       renderSidebarNavigation();
       navigateTo(title);
@@ -1285,78 +765,46 @@
       showToast(`Neue Seite "${title}" erstellt`, "success");
     }
 
-    /* ===== SIDEBAR RENDERING ===== */
+    /* ===== SIDEBAR ===== */
     function renderSidebarNavigation() {
-      const abListEl = document.getElementById('cat-autobahnen-list');
-      let abHTML = "";
-      Object.keys(wikiData).forEach(key => {
-        if (wikiData[key].category === 'A' || key.startsWith('A')) {
-          abHTML += `
+      ['cat-autobahnen', 'cat-lukoland'].forEach(cat => {
+        const prefix = cat === 'cat-autobahnen' ? 'A' : 'L';
+        const catVal = prefix;
+        const listEl = document.getElementById(`${cat}-list`);
+        listEl.innerHTML = Object.entries(wikiData)
+          .filter(([key, val]) => val.category === catVal)
+          .map(([key, val]) => `
             <button onclick="navigateTo('${key}')" class="nav-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100 flex items-center justify-between text-gray-700">
-              <span class="font-medium">${key}</span>
-              <span class="text-[10px] text-gray-400">${wikiData[key].length || ''} km</span>
-            </button>
-          `;
-        }
+              <span class="font-medium">${escapeHtml(key)}</span>
+              <span class="text-[10px] text-gray-400">${val.length || ''} km</span>
+            </button>`).join('');
       });
-      abListEl.innerHTML = abHTML;
-
-      const lListEl = document.getElementById('cat-lukoland-list');
-      let lHTML = "";
-      Object.keys(wikiData).forEach(key => {
-        if (wikiData[key].category === 'L' || key.startsWith('L')) {
-          lHTML += `
-            <button onclick="navigateTo('${key}')" class="nav-btn w-full text-left px-2 py-1 rounded hover:bg-gray-100 flex items-center justify-between text-gray-700">
-              <span class="font-medium">${key}</span>
-              <span class="text-[10px] text-gray-400">${wikiData[key].length || ''} km</span>
-            </button>
-          `;
-        }
-      });
-      lListEl.innerHTML = lHTML;
-
-      updateActiveNavHighlight();
     }
 
     function updateActiveNavHighlight() {
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('bg-blue-50', 'text-blue-700', 'font-bold');
-      });
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-blue-50','text-blue-700','font-bold'));
     }
 
     /* ===== SEARCH ===== */
-    function handleSearch() {
+    window.handleSearch = function() {
       const q = document.getElementById('search-input').value.trim().toLowerCase();
       const resultsBox = document.getElementById('search-results-box');
       const resultsList = document.getElementById('search-results-list');
       const clearBtn = document.getElementById('search-clear');
-
-      if (!q) {
-        resultsBox.classList.add('hidden');
-        clearBtn.classList.add('hidden');
-        return;
-      }
-
+      if (!q) { resultsBox.classList.add('hidden'); clearBtn.classList.add('hidden'); return; }
       clearBtn.classList.remove('hidden');
       resultsBox.classList.remove('hidden');
-
-      const matches = Object.keys(wikiData).filter(key => {
-        const item = wikiData[key];
-        return key.toLowerCase().includes(q) || 
-               (item.title && item.title.toLowerCase().includes(q));
-      });
-
-      if (matches.length === 0) {
-        resultsList.innerHTML = `<div class="text-xs text-gray-500 italic p-1">Keine Seiten gefunden.</div>`;
-      } else {
-        resultsList.innerHTML = matches.map(m => `
-          <button onclick="navigateTo('${m}'); clearSearch();" class="w-full text-left px-2 py-1 text-xs hover:bg-blue-50 rounded flex items-center justify-between">
-            <span class="font-bold text-gray-800">${m}</span>
-            <span class="text-[10px] text-gray-400">${wikiData[m].category || ''}</span>
-          </button>
-        `).join('');
-      }
-    }
+      const matches = Object.keys(wikiData).filter(key =>
+        key.toLowerCase().includes(q) || (wikiData[key].title && wikiData[key].title.toLowerCase().includes(q))
+      );
+      resultsList.innerHTML = matches.length === 0
+        ? `<div class="text-xs text-gray-500 italic p-1">Keine Seiten gefunden.</div>`
+        : matches.map(m => `
+            <button onclick="navigateTo('${m}'); clearSearch();" class="w-full text-left px-2 py-1 text-xs hover:bg-blue-50 rounded flex items-center justify-between">
+              <span class="font-bold text-gray-800">${escapeHtml(m)}</span>
+              <span class="text-[10px] text-gray-400">${wikiData[m].category || ''}</span>
+            </button>`).join('');
+    };
 
     window.clearSearch = function() {
       document.getElementById('search-input').value = "";
@@ -1364,51 +812,7 @@
       document.getElementById('search-clear').classList.add('hidden');
     };
 
-    /* ===== EXPORT / IMPORT ===== */
-    function exportJSON() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(wikiData, null, 2));
-      const dlAnchor = document.createElement('a');
-      dlAnchor.setAttribute("href", dataStr);
-      dlAnchor.setAttribute("download", `lukopolis_wiki_backup_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(dlAnchor);
-      dlAnchor.click();
-      dlAnchor.remove();
-      showToast("JSON-Sicherung heruntergeladen", "success");
-    }
 
-    function importJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = async function(e) {
-        try {
-          const imported = JSON.parse(e.target.result);
-          if (typeof imported === 'object') {
-            wikiData = imported;
-            saveToLocalStorage();
-            await saveToFirestore();
-            renderSidebarNavigation();
-            navigateTo("Startseite");
-            showToast("Daten erfolgreich importiert!", "success");
-          }
-        } catch(err) {
-          showToast("Ungültige JSON-Datei!", "error");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    async function resetToDefaultData() {
-      if (confirm("Wirklich alle Seiten zurücksetzen?")) {
-        wikiData = createDefaultDatabase();
-        saveToLocalStorage();
-        await saveToFirestore();
-        renderSidebarNavigation();
-        navigateTo("Startseite");
-        showToast("Datenbank zurückgesetzt", "success");
-      }
-    }
 
     /* ===== UTILITIES ===== */
     function getCategoryFromTitle(title) {
@@ -1419,109 +823,47 @@
       return 'Ueber';
     }
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
     function showToast(msg, type = "info") {
       const toast = document.getElementById('toast');
-      const msgEl = document.getElementById('toast-message');
       const iconEl = document.getElementById('toast-icon');
-
-      msgEl.innerText = msg;
-
-      if (type === "success") {
-        iconEl.className = "fa-solid fa-circle-check text-emerald-400 text-base";
-      } else if (type === "error") {
-        iconEl.className = "fa-solid fa-circle-xmark text-red-400 text-base";
-      } else {
-        iconEl.className = "fa-solid fa-circle-info text-blue-400 text-base";
-      }
-
-      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
-
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
-      }, 3000);
+      document.getElementById('toast-message').innerText = msg;
+      if (type === "success") iconEl.className = "fa-solid fa-circle-check text-emerald-400 text-base";
+      else if (type === "error") iconEl.className = "fa-solid fa-circle-xmark text-red-400 text-base";
+      else iconEl.className = "fa-solid fa-circle-info text-blue-400 text-base";
+      toast.classList.remove('opacity-0','pointer-events-none','translate-y-3');
+      setTimeout(() => toast.classList.add('opacity-0','pointer-events-none','translate-y-3'), 3000);
     }
 
+    /* ===== FIX 4: createDefaultDatabase - missing categories added ===== */
     function createDefaultDatabase() {
-      const db = {};
-
-      db["Startseite"] = {
-        title: "Startseite",
-        category: "Ueber",
-        start: "",
-        end: "",
-        length: "",
-        construction: "",
-        route: "",
-        sections: ["", "", "", "", "", ""]
-      };
-
-      db["Kategorie_Autobahnen"] = {
-        title: "Kategorie: Autobahnen (A)",
-        category: "Ueber",
-        start: "",
-        end: "",
-        length: "",
-        construction: "",
-        route: "",
-        sections: ["", "", "", "", "", ""]
-      };
-
-      db["Kategorie_Lukolandstrassen"] = {
-        title: "Kategorie: Lukolandstraßen (L)",
-        category: "Ueber",
-        start: "",
-        end: "",
-        length: "",
-        construction: "",
-        route: "",
-        sections: ["", "", "", "", "", ""]
-      };
+      const data = {};
+      data["Startseite"] = { title:"Startseite", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
+      data["Kategorie_Autobahnen"] = { title:"Kategorie: Autobahnen (A)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
+      data["Kategorie_Lukolandstrassen"] = { title:"Kategorie: Lukolandstraßen (L)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
+      // FIX: fehlende Kategorien hinzugefügt
+      data["Kategorie_Centralrouten"] = { title:"Kategorie: Centralrouten (C)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
+      data["Kategorie_Kreisstrassen"] = { title:"Kategorie: Kreisstraßen (K)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill("") };
 
       AUTOBAHNEN_LIST.forEach((id, index) => {
-        db[id] = {
-          title: id,
-          category: "A",
-          start: "",
-          end: "",
-          length: (45 + index * 3.5).toFixed(1),
-          construction: (index % 4 === 0 ? (index * 0.8).toFixed(1) : "0"),
-          route: "",
-          sections: ["", "", "", "", "", ""]
-        };
+        data[id] = { title:id, category:"A", start:"", end:"", length:(45+index*3.5).toFixed(1), construction:(index%4===0?(index*0.8).toFixed(1):"0"), route:"", sections:Array(6).fill("") };
       });
-
       LUKOLANDSTRASSEN_LIST.forEach((id, index) => {
-        db[id] = {
-          title: id,
-          category: "L",
-          start: "",
-          end: "",
-          length: (12 + index * 2.1).toFixed(1),
-          construction: "0",
-          route: "",
-          sections: ["", "", "", "", "", ""]
-        };
+        data[id] = { title:id, category:"L", start:"", end:"", length:(12+index*2.1).toFixed(1), construction:"0", route:"", sections:Array(6).fill("") };
       });
-
-      return db;
+      return data;
     }
 
-    // Global Functions für onclick
+    // Global exports
     window.navigateTo = navigateTo;
     window.setMode = setMode;
-    window.toggleMobileSidebar = toggleMobileSidebar;
-    window.toggleNavCategory = toggleNavCategory;
-    window.handleSearch = handleSearch;
-    window.exportJSON = exportJSON;
-    window.importJSON = importJSON;
-    window.resetToDefaultData = resetToDefaultData;
     window.saveCurrentPage = saveCurrentPage;
     window.deleteCurrentPage = deleteCurrentPage;
-    window.updateRoutePreview = updateRoutePreview;
-    window.toggleInfoboxRoute = toggleInfoboxRoute;
     window.showToast = showToast;
-
   </script>
-
 </body>
 </html>
