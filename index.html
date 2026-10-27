@@ -7,8 +7,8 @@
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Barlow&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -17,15 +17,15 @@
           wiki: { blue:'#0645ad', darkblue:'#0b0080', bg:'#f8f9fa', border:'#a2a9b1', header:'#eaecf0', card:'#f0f4f8' },
           road: { autobahn:'#00875A', lukoland:'#FF8B00', central:'#FFC400', kreis:'#6B778C' }
         },
-        fontFamily: { sans:['Inter','sans-serif'], wiki:['Source Sans Pro','sans-serif'] }
+        fontFamily: { sans:['Inter','sans-serif'], wiki:['Source Sans 3','sans-serif'] }
       }}
     }
   </script>
   <style>
-    body { font-family:'Source Sans Pro',sans-serif; background-color:#f6f8fa; }
+    body { font-family:'Source Sans 3',sans-serif; background-color:#f6f8fa; }
     .wiki-content h1 { font-size:1.875rem; font-weight:700; border-bottom:1px solid #a2a9b1; padding-bottom:.375rem; margin-bottom:1rem; color:#000; }
     .wiki-content h2 { font-size:1.35rem; font-weight:600; border-bottom:1px solid #eaecf0; padding-bottom:.25rem; margin-top:1.5rem; margin-bottom:.75rem; color:#202122; }
-    .road-shield { display:inline-flex; align-items:center; justify-content:center; font-weight:bold; border-radius:4px; padding:1px 6px; font-size:.85rem; text-decoration:none !important; box-shadow:0 1px 2px rgba(0,0,0,.2); margin:0 2px; vertical-align:middle; font-family:'Barlow',sans-serif; font-weight: 700; letter-spacing:.5px; }
+    .road-shield { display:inline-flex; align-items:center; justify-content:center; font-weight:bold; border-radius:4px; padding:1px 6px; font-size:.85rem; text-decoration:none !important; box-shadow:0 1px 2px rgba(0,0,0,.2); margin:0 2px; vertical-align:middle; font-family:'Barlow', sans-serif; letter-spacing:.5px; font-weight: 600; }
     .road-shield-A { background-color:#00875a; color:#fff; border:1.5px solid #005c3e; }
     .road-shield-L { background-color:#ff8b00; color:#fff; border:1.5px solid #c26a00; }
     .road-shield-C { background-color:#ffc400; color:#172b4d; border:1.5px solid #d9a500; }
@@ -43,6 +43,13 @@
     .sync-indicator.error { background-color:#fee2e2; color:#991b1b; }
     .spinner { display:inline-block; width:12px; height:12px; border:2px solid rgba(0,0,0,.1); border-top-color:currentColor; border-radius:50%; animation:spin .6s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
+    .route-land-row { background:#f0f4ff; border-left:3px solid #3b6fd4; font-weight:600; color:#1e3a8a; font-size:.8rem; padding:3px 6px; display:flex; align-items:center; gap:6px; }
+    .route-land-pin { color:#e53e3e; font-size:1rem; line-height:1; }
+    .route-lanes { display:inline-flex; align-items:center; gap:2px; font-size:.85rem; font-family:'Inter',monospace; letter-spacing:1px; }
+    .redirect-banner { background:#fef9c3; border:1px solid #fde047; border-radius:6px; padding:6px 12px; font-size:.82rem; color:#713f12; display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+    .infoseite-badge { display:inline-flex; align-items:center; gap:4px; background:#f0f4ff; border:1px solid #93c5fd; color:#1d4ed8; border-radius:4px; font-size:.72rem; font-weight:600; padding:1px 7px; margin-left:8px; vertical-align:middle; }
+    .route-km { color:#9ca3af; font-size:.72rem; margin-left:auto; padding-left:6px; white-space:nowrap; font-family:'Inter',monospace; }
+    .surprise-firework { position:fixed; inset:0; pointer-events:none; z-index:9999; overflow:hidden; }
 
     /* ===== PRINT STYLES ===== */
     @media print {
@@ -115,6 +122,12 @@
         </button>
         <button onclick="navigateTo('_Aenderungsprotokoll')" class="w-full py-2 px-3 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 transition flex items-center justify-center space-x-1.5">
           <i class="fa-solid fa-clock-rotate-left text-gray-500"></i><span>Änderungsprotokoll</span>
+        </button>
+        <button onclick="navigateTo('_Infoseiten')" class="w-full py-2 px-3 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 transition flex items-center justify-center space-x-1.5">
+          <i class="fa-solid fa-circle-info text-blue-400"></i><span>Infoseiten</span>
+        </button>
+        <button onclick="randomPage()" class="w-full py-2 px-3 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 transition flex items-center justify-center space-x-1.5">
+          <i class="fa-solid fa-shuffle text-purple-500"></i><span>Zufällige Seite</span>
         </button>
       </div>
       <div id="search-results-box" class="hidden mb-4 max-h-60 overflow-y-auto border-b border-gray-200 pb-2">
@@ -193,6 +206,7 @@
                 <span class="font-semibold text-gray-600">Verlinkt von:</span>
                 <span id="backlinks-list"></span>
               </div>
+              <div id="redirect-banner" class="hidden redirect-banner"><i class="fa-solid fa-right-long text-yellow-600"></i><span id="redirect-banner-text"></span></div>
               <div id="reader-sections" class="space-y-6 text-gray-800 leading-relaxed text-base"></div>
             </div>
             <div id="reader-infobox-container" class="w-full lg:w-80 flex-shrink-0"></div>
@@ -224,10 +238,17 @@
             </div>
           </div>
 
-          <div class="flex flex-col lg:flex-row gap-6 -mx-2">
+          <div class="flex flex-col lg:flex-row gap-6 -mx-2" style="height:calc(100vh - 220px); min-height:400px;">
             <!-- Editor Form -->
-            <form id="editor-form" onsubmit="event.preventDefault(); saveCurrentPage();" class="lg:w-1/2 space-y-4 overflow-y-auto max-h-[calc(100vh-200px)] pr-3 pl-2">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200 sticky top-0 z-10">
+            <form id="editor-form" onsubmit="event.preventDefault(); saveCurrentPage();" class="lg:w-1/2 space-y-4 overflow-y-auto pr-3 pl-2" style="height:100%;">
+              <!-- Einklappbarer Metadaten-Block -->
+              <div class="sticky top-0 z-10 bg-white pb-1">
+                <button type="button" onclick="toggleMetaPanel()" class="w-full flex items-center justify-between px-3 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-lg text-xs font-bold text-gray-700 transition mb-1">
+                  <span class="flex items-center gap-2"><i class="fa-solid fa-sliders text-gray-500"></i> Seitenmetadaten</span>
+                  <i id="meta-panel-icon" class="fa-solid fa-chevron-up text-gray-400 transition-transform duration-200"></i>
+                </button>
+              </div>
+              <div id="meta-panel" class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
                 <div>
                   <label class="block text-xs font-bold text-gray-700 mb-1">Seitentitel</label>
                   <input type="text" id="edit-title" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. A1">
@@ -258,6 +279,44 @@
                   <label class="block text-xs font-bold text-gray-700 mb-1">Davon in Bau (km)</label>
                   <input type="text" id="edit-construction" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 5.0">
                 </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Fahrstreifen</label>
+                  <select id="edit-lanes" onchange="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">— keine Angabe —</option>
+                    <option value="2+2">2+2</option>
+                    <option value="2+3">2+3</option>
+                    <option value="2+4">2+4</option>
+                    <option value="3+3">3+3</option>
+                    <option value="4+4">4+4</option>
+                    <option value="4+5">4+5</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Eröffnung</label>
+                  <input type="text" id="edit-opened" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 2019">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Geplante Eröffnung</label>
+                  <input type="text" id="edit-planned" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 2027">
+                </div>
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Seitentyp</label>
+                  <div class="flex gap-3 items-center mt-1">
+                    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input type="radio" name="page-type" id="type-normal" value="normal" onchange="updateEditorPreview()" checked class="accent-blue-600"> Normal
+                    </label>
+                    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input type="radio" name="page-type" id="type-info" value="info" onchange="updateEditorPreview()" class="accent-blue-600"> Infoseite (ohne Infobox)
+                    </label>
+                    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input type="radio" name="page-type" id="type-redirect" value="redirect" onchange="toggleRedirectMode()" class="accent-blue-600"> Weiterleitung
+                    </label>
+                  </div>
+                </div>
+                <div id="redirect-target-row" class="md:col-span-2 hidden">
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Weiterleitung zu (Seitenname)</label>
+                  <input type="text" id="edit-redirect" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. A1">
+                </div>
               </div>
 
               <!-- Bild-Upload -->
@@ -286,24 +345,15 @@
                   <label class="text-sm font-bold text-gray-800 flex items-center space-x-2">
                     <i class="fa-solid fa-route text-blue-600"></i><span>Streckenverlauf</span>
                   </label>
-                  <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** {farbe=bau} ---</span>
+                  <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** {farbe=bau} [2+3] [Land] Gebiet ---</span>
                 </div>
                 <div class="bg-gray-100 p-2.5 rounded-lg border border-gray-200">
                   <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Schnellauswahl Strecken-Icons</div>
                   <div id="icon-insert-bar" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto p-1 bg-white rounded border border-gray-200"></div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div>
-                    <div class="text-xs font-semibold text-gray-600 mb-1">Markup Eingabe:</div>
-                    <textarea id="edit-route" rows="12" oninput="updateRoutePreview()"
-                              class="w-full p-3 font-mono text-xs bg-gray-900 text-emerald-400 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 leading-relaxed"></textarea>
-                  </div>
-                  <div>
-                    <div class="text-xs font-semibold text-gray-600 mb-1">Live-Vorschau:</div>
-                    <div class="border border-gray-300 rounded-lg bg-white p-3 min-h-[80px]">
-                      <div id="route-live-preview" class="space-y-0 text-xs"></div>
-                    </div>
-                  </div>
+                <div>
+                  <textarea id="edit-route" rows="14" oninput="updateEditorPreview()"
+                            class="w-full p-3 font-mono text-xs bg-gray-900 text-emerald-400 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 leading-relaxed"></textarea>
                 </div>
               </div>
 
@@ -321,7 +371,7 @@
             </form>
 
             <!-- Live Preview -->
-            <div class="lg:w-1/2 bg-gray-50 rounded-lg border border-gray-200 p-6 overflow-y-auto max-h-[calc(100vh-200px)]">
+            <div class="lg:w-1/2 bg-gray-50 rounded-lg border border-gray-200 p-6 overflow-y-auto" style="height:100%;">
               <div class="bg-white rounded-lg p-6 space-y-6">
                 <div>
                   <h1 id="preview-title" class="text-3xl font-bold text-gray-900 border-b border-gray-300 pb-2 mb-2">Autobahn</h1>
@@ -416,7 +466,13 @@
       await loadFromFirestore();
       renderSidebarNavigation();
       renderIconInsertBar();
-      navigateTo("Startseite");
+      // URL-Query beim Start lesen
+      const queryPage = getURLQuery();
+      if (queryPage && wikiData[queryPage]) {
+        navigateTo(queryPage);
+      } else {
+        navigateTo("Startseite");
+      }
     }
 
     /* ===== FIRESTORE ===== */
@@ -504,20 +560,51 @@
       indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>Sync aktiv</span>';
     }
 
+    /* ===== FAHRSTREIFEN HELPER ===== */
+    function buildLanesHTML(spec) {
+      // spec z.B. "2+3" → ↓↓ | ↑↑↑
+      const parts = spec.split('+');
+      if (parts.length !== 2) return `<span class="route-lanes">${escapeHtml(spec)}</span>`;
+      const down = parseInt(parts[0]) || 0;
+      const up   = parseInt(parts[1]) || 0;
+      const downArrows = '↓'.repeat(down);
+      const upArrows   = '↑'.repeat(up);
+      return `<span class="route-lanes" title="${spec} Fahrstreifen"><span style="color:#e53e3e;">${downArrows}</span><span style="color:#aaa;margin:0 2px;">|</span><span style="color:#16a34a;">${upArrows}</span></span>`;
+    }
+
     /* ===== MARKUP PARSER ===== */
     function parseCustomMarkup(text) {
       if (!text) return "";
       return text.split('\n').map(line => {
         let l = line.trim();
         if (!l) return "";
+        // // Kommentar-Zeilen → überspringen
+        if (l.startsWith('//')) return "";
         if (l === "---") return `<div class="my-2 border-b border-gray-300"></div>`;
+
+        // [Land] Ortsname → spezielle Land-Trennzeile
+        const landMatch = l.match(/^\[Land\]\s*(.*)$/i);
+        if (landMatch) {
+          const landName = landMatch[1].trim();
+          return `<div class="route-land-row"><span class="route-land-pin">📍</span><span>${escapeHtml(landName)}</span></div>`;
+        }
+
+        // (km X.X) → km-Label rechts extrahieren
+        let kmLabel = "";
+        l = l.replace(/\(km\s*([\d.,]+)\)/i, (m, val) => { kmLabel = val.replace(',','.'); return ""; });
+
         let rowBg = "";
         l = l.replace(/\{farbe\s*=\s*([a-z]+)\}/i, (match, key) => {
           const k = key.toLowerCase();
           if (FARBE_MAPPING[k]) rowBg = FARBE_MAPPING[k].bg;
           return "";
         });
-        l = l.replace(/\[([A-Za-z0-9_]+)\]/g, (match, iconKey) => {
+
+        l = l.replace(/\[([A-Za-z0-9_+]+)\]/g, (match, iconKey) => {
+          // Fahrstreifen-Angabe z.B. [2+3], [4+4]
+          if (/^\d+\+\d+$/.test(iconKey)) {
+            return buildLanesHTML(iconKey);
+          }
           if (ICON_MAPPING[iconKey]) return `<img src="${ICON_MAPPING[iconKey]}" alt="${iconKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
           if (/^[ALCK]\d+[A-Za-z]?$/i.test(iconKey)) {
             const cat = iconKey.charAt(0).toUpperCase();
@@ -535,8 +622,20 @@
         l = l.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-bold">$1</strong>');
         l = l.replace(/\*([^*]+)\*/g, '<em class="italic">$1</em>');
         const bgStyle = rowBg ? ` style="background-color:${rowBg};"` : "";
-        return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none"${bgStyle}>${l}</div>`;
+        const kmHTML = kmLabel ? `<span class="route-km">${kmLabel} km</span>` : "";
+        return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none"${bgStyle}>${l}${kmHTML}</div>`;
       }).join('');
+    }
+
+    /* ===== LAND-LISTE AUS ROUTE EXTRAHIEREN ===== */
+    function extractLandsFromRoute(route) {
+      if (!route) return [];
+      const lands = [];
+      route.split('\n').forEach(line => {
+        const m = line.trim().match(/^\[Land\]\s*(.+)$/i);
+        if (m && m[1].trim()) lands.push(m[1].trim());
+      });
+      return [...new Set(lands)];
     }
 
     function parseMarkdownText(str) {
@@ -574,11 +673,28 @@
       return links;
     }
 
+    /* ===== URL QUERY SYNC ===== */
+    function updateURLQuery(pageId) {
+      try {
+        const url = new URL(window.location.href);
+        url.hash = '#' + encodeURIComponent(pageId);
+        history.replaceState(null, '', url.toString());
+      } catch(e) {}
+    }
+
+    function getURLQuery() {
+      try {
+        const hash = window.location.hash.slice(1);
+        return hash ? decodeURIComponent(hash) : null;
+      } catch(e) { return null; }
+    }
+
     /* ===== NAVIGATION ===== */
-    function navigateTo(pageId) {
+    function navigateTo(pageId, fromRedirect = false) {
       // Sonderseiten
       if (pageId === '_Uebersichtstabelle') { showSpecialView('table'); return; }
       if (pageId === '_Aenderungsprotokoll') { showSpecialView('changelog'); return; }
+      if (pageId === '_Infoseiten') { showSpecialView('infoseiten'); return; }
 
       if (!wikiData[pageId]) {
         if (confirm(`Die Seite "${pageId}" existiert noch nicht. Erstellen?`)) {
@@ -586,18 +702,60 @@
         }
         return;
       }
+
+      // Weiterleitung folgen
+      const page = wikiData[pageId];
+      if (page.pageType === 'redirect' && page.redirectTo && !fromRedirect) {
+        const target = page.redirectTo.trim();
+        if (wikiData[target]) {
+          // Banner zeigen, dann weiterleiten
+          currentPageId = target;
+          updateURLQuery(target);
+          const sidebar = document.getElementById('sidebar');
+          if (window.innerWidth < 1024) sidebar.classList.add('hidden');
+          updateActiveNavHighlight();
+          document.getElementById('special-view').classList.add('hidden');
+          document.getElementById('reader-view').classList.remove('hidden');
+          renderReaderView();
+          // Redirect-Banner
+          const banner = document.getElementById('redirect-banner');
+          const bannerText = document.getElementById('redirect-banner-text');
+          if (banner) {
+            bannerText.innerHTML = `Weitergeleitet von <strong>${escapeHtml(pageId)}</strong> → <a onclick="navigateTo('${escapeHtml(pageId)}', true)" class="wiki-link font-semibold">${escapeHtml(pageId)}</a> (Weiterleitung)`;
+            banner.classList.remove('hidden');
+          }
+          window.scrollTo({ top:0, behavior:'smooth' });
+          updateURLQuery(target);
+          return;
+        }
+      }
+
       currentPageId = pageId;
+      updateURLQuery(pageId);
       const sidebar = document.getElementById('sidebar');
       if (window.innerWidth < 1024) sidebar.classList.add('hidden');
       updateActiveNavHighlight();
 
       document.getElementById('special-view').classList.add('hidden');
       document.getElementById('reader-view').classList.remove('hidden');
+      // Redirect-Banner verstecken
+      const banner = document.getElementById('redirect-banner');
+      if (banner) banner.classList.add('hidden');
 
       if (currentMode === 'reader') renderReaderView();
       else renderEditorView();
       window.scrollTo({ top:0, behavior:'smooth' });
     }
+
+    /* ===== RANDOM PAGE ===== */
+    window.randomPage = function() {
+      const keys = Object.keys(wikiData).filter(k =>
+        !['Startseite','Kategorie_Autobahnen','Kategorie_Lukolandstrassen','Kategorie_Centralrouten','Kategorie_Kreisstrassen'].includes(k) &&
+        wikiData[k].pageType !== 'redirect'
+      );
+      if (keys.length === 0) { showToast("Keine Seiten vorhanden", "info"); return; }
+      navigateTo(keys[Math.floor(Math.random() * keys.length)]);
+    };
 
     function showSpecialView(type) {
       document.getElementById('reader-view').classList.add('hidden');
@@ -606,6 +764,34 @@
       const content = document.getElementById('special-content');
       if (type === 'table') content.innerHTML = buildNetworkTable();
       else if (type === 'changelog') content.innerHTML = buildChangelogView();
+      else if (type === 'infoseiten') content.innerHTML = buildInfoseitenView();
+    }
+
+    function buildInfoseitenView() {
+      const pages = Object.values(wikiData).filter(p => p.pageType === 'info');
+      const rowsHTML = pages.length === 0
+        ? '<tr><td colspan="2" class="px-4 py-6 text-center text-gray-400 italic">Keine Infoseiten vorhanden.</td></tr>'
+        : pages.map(p => `<tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="navigateTo('${escapeHtml(p.title)}')">
+            <td class="px-3 py-2 font-semibold text-blue-700 wiki-link">${escapeHtml(p.title)}</td>
+            <td class="px-3 py-2 text-xs text-gray-500">${escapeHtml((p.sections && p.sections[0] || '').slice(0,80))}${p.sections && p.sections[0] && p.sections[0].length > 80 ? '…' : ''}</td>
+          </tr>`).join('');
+      return `
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-circle-info text-blue-400"></i> Infoseiten</h1>
+            <button onclick="navigateTo('Startseite')" class="text-sm text-blue-600 hover:underline flex items-center gap-1"><i class="fa-solid fa-arrow-left text-xs"></i> Zurück</button>
+          </div>
+          <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-blue-900 text-white text-xs uppercase tracking-wider">
+                <th class="px-3 py-2 text-left">Seitenname</th>
+                <th class="px-3 py-2 text-left">Vorschau</th>
+              </tr></thead>
+              <tbody>${rowsHTML}</tbody>
+            </table>
+          </div>
+          <p class="text-xs text-gray-400 mt-2">${pages.length} Infoseite(n). Klick öffnet die Seite.</p>
+        </div>`;
     }
 
     function buildNetworkTable() {
@@ -676,6 +862,9 @@
         </tr>`;
       }).join('');
 
+      const bodyHTML = changeLog.length === 0
+        ? '<p class="italic text-gray-500 text-sm">Noch keine Einträge.</p>'
+        : '<div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm"><table class="w-full text-sm border-collapse"><thead><tr class="bg-blue-900 text-white text-xs uppercase tracking-wider"><th class="px-3 py-2 text-left">Zeitpunkt</th><th class="px-3 py-2 text-left">Seite</th><th class="px-3 py-2 text-left">Aktion</th></tr></thead><tbody>' + rows + '</tbody></table></div><p class="text-xs text-gray-400 mt-2">Letzte ' + Math.min(changeLog.length,100) + ' von ' + changeLog.length + ' Einträgen.</p>';
       return `
         <div class="mb-6">
           <div class="flex items-center justify-between mb-4">
@@ -685,18 +874,7 @@
               <button onclick="navigateTo('Startseite')" class="text-sm text-blue-600 hover:underline flex items-center gap-1 ml-3"><i class="fa-solid fa-arrow-left text-xs"></i> Zurück</button>
             </div>
           </div>
-          ${changeLog.length === 0 ? '<p class="italic text-gray-500 text-sm">Noch keine Einträge.</p>' : `
-          <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-            <table class="w-full text-sm border-collapse">
-              <thead><tr class="bg-blue-900 text-white text-xs uppercase tracking-wider">
-                <th class="px-3 py-2 text-left">Zeitpunkt</th>
-                <th class="px-3 py-2 text-left">Seite</th>
-                <th class="px-3 py-2 text-left">Aktion</th>
-              </tr></thead>
-              <tbody>${rows}</tbody>
-            </table>
-          </div>
-          <p class="text-xs text-gray-400 mt-2">Letzte ${Math.min(changeLog.length,100)} von ${changeLog.length} Einträgen.</p>`}
+          ${bodyHTML}
         </div>`;
     }
 
@@ -740,7 +918,16 @@
     function renderReaderView() {
       const page = wikiData[currentPageId];
       if (!page) return;
-      document.getElementById('reader-title').innerText = page.title;
+
+      const isInfo = page.pageType === 'info';
+      const isRedirect = page.pageType === 'redirect';
+
+      // Titel + Badge
+      const titleEl = document.getElementById('reader-title');
+      titleEl.innerHTML = escapeHtml(page.title) +
+        (isInfo ? '<span class="infoseite-badge"><i class="fa-solid fa-circle-info text-xs"></i> Infoseite</span>' : '') +
+        (isRedirect ? '<span class="infoseite-badge" style="background:#fef3c7;border-color:#fde047;color:#713f12;"><i class="fa-solid fa-right-long text-xs"></i> Weiterleitung</span>' : '');
+
       const cat = page.category || 'Ueber';
       const cfg = CAT_CONFIG[cat] || CAT_CONFIG['Ueber'];
       document.getElementById('reader-category-tag').innerText = cfg.label;
@@ -754,6 +941,19 @@
         blBar.classList.remove('hidden');
       } else {
         blBar.classList.add('hidden');
+      }
+
+      // Weiterleitung anzeigen
+      if (isRedirect) {
+        const target = page.redirectTo || '';
+        document.getElementById('reader-sections').innerHTML = `
+          <div class="redirect-banner text-base">
+            <i class="fa-solid fa-right-long text-yellow-600 text-lg"></i>
+            <span>Diese Seite leitet weiter zu: <a onclick="navigateTo('${escapeHtml(target)}')" class="wiki-link font-bold text-lg">${escapeHtml(target)}</a></span>
+          </div>
+          <p class="text-xs text-gray-400 mt-2">Im Editor kann das Weiterleitungsziel geändert werden.</p>`;
+        document.getElementById('reader-infobox-container').innerHTML = '';
+        return;
       }
 
       let secHTML = "";
@@ -770,7 +970,17 @@
         secHTML = `<p class="italic text-gray-500">Diese Seite hat noch keine Abschnitte.</p>`;
       }
       document.getElementById('reader-sections').innerHTML = secHTML;
-      renderInfobox(page);
+
+      // Infoseite: keine Infobox, volle Breite
+      const infoboxContainer = document.getElementById('reader-infobox-container');
+      const articleDiv = infoboxContainer.parentElement.querySelector('.flex-1');
+      if (isInfo) {
+        infoboxContainer.innerHTML = '';
+        infoboxContainer.classList.add('hidden');
+      } else {
+        infoboxContainer.classList.remove('hidden');
+        renderInfobox(page);
+      }
     }
 
     function renderInfobox(page) {
@@ -793,7 +1003,11 @@
               <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenbeginn:</td><td class="py-1.5 px-3 text-gray-800">${page.start || 'Unbekannt'}</td></tr>
               <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenende:</td><td class="py-1.5 px-3 text-gray-800">${page.end || 'Unbekannt'}</td></tr>
               <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Gesamtlänge:</td><td class="py-1.5 px-3 font-bold text-gray-900">${page.length || '0'} km</td></tr>
-              <tr class="border-b border-gray-200"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Davon in Bau:</td><td class="py-1.5 px-3 text-amber-700 font-semibold">${page.construction || '0'} km</td></tr>
+              <tr class="border-b ${page.lanes ? 'border-gray-100' : 'border-gray-200'}"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Davon in Bau:</td><td class="py-1.5 px-3 text-amber-700 font-semibold">${page.construction || '0'} km</td></tr>
+              ${page.lanes ? `<tr class="border-b border-gray-200"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Fahrstreifen:</td><td class="py-1.5 px-3">${buildLanesHTML(page.lanes)} <span class="text-gray-600 ml-1">${page.lanes}</span></td></tr>` : ''}
+              ${page.opened ? `<tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Eröffnung:</td><td class="py-1.5 px-3 text-gray-800">${escapeHtml(page.opened)}</td></tr>` : ''}
+              ${page.planned ? `<tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Geplant:</td><td class="py-1.5 px-3 text-amber-700 font-semibold">⏳ ${escapeHtml(page.planned)}</td></tr>` : ''}
+              ${(() => { const lands = extractLandsFromRoute(page.route); return lands.length > 0 ? `<tr class="border-b border-gray-200"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Gebiete:</td><td class="py-1.5 px-3 text-gray-800">${lands.map(l => `<span class="inline-flex items-center gap-1 mr-1">📍${escapeHtml(l)}</span>`).join('')}</td></tr>` : ''; })()}
             </tbody>
           </table>
           <div class="bg-blue-800 text-white px-3 py-1.5 flex items-center justify-between font-semibold text-xs">
@@ -824,6 +1038,14 @@
       document.getElementById('edit-length').value = page.length || "";
       document.getElementById('edit-construction').value = page.construction || "";
       document.getElementById('edit-route').value = page.route || "";
+      document.getElementById('edit-lanes').value = page.lanes || "";
+      document.getElementById('edit-opened').value = page.opened || "";
+      document.getElementById('edit-planned').value = page.planned || "";
+      // Seitentyp
+      const pt = page.pageType || 'normal';
+      document.querySelectorAll('input[name="page-type"]').forEach(r => { r.checked = r.value === pt; });
+      document.getElementById('redirect-target-row').classList.toggle('hidden', pt !== 'redirect');
+      document.getElementById('edit-redirect').value = page.redirectTo || "";
 
       // Bild-Vorschau
       if (page.image) {
@@ -897,9 +1119,6 @@
     };
 
     window.updateRoutePreview = function() {
-      const route = document.getElementById('edit-route').value;
-      document.getElementById('route-live-preview').innerHTML =
-        parseCustomMarkup(route) || '<span class="italic text-gray-400">Kein Streckenverlauf eingegeben</span>';
       updateEditorPreview();
     };
 
@@ -910,9 +1129,15 @@
       const end = document.getElementById('edit-end').value;
       const length = document.getElementById('edit-length').value;
       const construction = document.getElementById('edit-construction').value;
+      const lanes = document.getElementById('edit-lanes').value;
+      const opened = document.getElementById('edit-opened').value.trim();
+      const planned = document.getElementById('edit-planned').value.trim();
+      const pageType = document.querySelector('input[name="page-type"]:checked')?.value || 'normal';
+      const redirectTo = document.getElementById('edit-redirect').value.trim();
       const route = document.getElementById('edit-route').value;
       const tempImg = wikiData[currentPageId]?._tempImage || (wikiData[currentPageId]?.image || null);
       const imgHTML = tempImg ? `<div class="p-2 bg-white border-b border-gray-200"><img src="${tempImg}" alt="Bild" class="w-full rounded object-contain max-h-40"></div>` : '';
+      const lands = extractLandsFromRoute(route);
 
       document.getElementById('preview-title').innerText = title;
       const routeParsed = parseCustomMarkup(route || "");
@@ -932,7 +1157,11 @@
             <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Start:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(start||'Unbekannt')}</td></tr>
             <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Ende:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(end||'Unbekannt')}</td></tr>
             <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Länge:</td><td class="py-1 px-2 font-bold text-gray-900">${escapeHtml(length||'0')} km</td></tr>
-            <tr><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td><td class="py-1 px-2 text-amber-700 font-semibold">${escapeHtml(construction||'0')} km</td></tr>
+            <tr class="border-b ${lanes ? 'border-gray-100' : 'border-gray-200'}"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td><td class="py-1 px-2 text-amber-700 font-semibold">${escapeHtml(construction||'0')} km</td></tr>
+            ${lanes ? `<tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Fahrstreifen:</td><td class="py-1 px-2">${buildLanesHTML(lanes)} <span class="text-gray-600 ml-1">${escapeHtml(lanes)}</span></td></tr>` : ''}
+            ${opened ? `<tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Eröffnung:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(opened)}</td></tr>` : ''}
+            ${planned ? `<tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Geplant:</td><td class="py-1 px-2 text-amber-700 font-semibold">⏳ ${escapeHtml(planned)}</td></tr>` : ''}
+            ${lands.length ? `<tr class="border-b border-gray-200"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Gebiete:</td><td class="py-1 px-2 text-gray-800">${lands.map(l => `<span class="inline-flex items-center gap-1 mr-1">📍${escapeHtml(l)}</span>`).join('')}</td></tr>` : ''}
           </tbody>
         </table>
         <div class="bg-blue-800 text-white px-2 py-1 font-semibold text-xs uppercase tracking-wider">Verlauf</div>
@@ -956,13 +1185,57 @@
       document.getElementById('preview-sections').innerHTML = sectionsHTML || '<p class="italic text-gray-500">Keine Abschnitte vorhanden</p>';
     };
 
+    // Sonder-Shortcuts: raw = exakter einzufügender Text, label = Anzeige im Button
+    const SPECIAL_SHORTCUTS = [
+      { label: '---', raw: '\n---\n', title: 'Trennlinie einfügen', cls: 'bg-gray-100 hover:bg-gray-200 border-gray-400 text-gray-700' },
+      { label: '// Kommentar', raw: '\n// ', title: 'Kommentar (unsichtbar)', cls: 'bg-gray-100 hover:bg-gray-200 border-gray-300 text-gray-500 italic' },
+      { label: '{farbe=section}', raw: ' {farbe=section}', title: 'Hintergrund: Section Control', cls: 'hover:bg-blue-100 border-blue-300 text-blue-800', bg: '#ccdfff' },
+      { label: '{farbe=bau}',     raw: ' {farbe=bau}',     title: 'Hintergrund: in Bau',          cls: 'hover:bg-orange-100 border-orange-300 text-orange-800', bg: '#ffdcb8' },
+      { label: '{farbe=planung}', raw: ' {farbe=planung}', title: 'Hintergrund: in Planung',      cls: 'hover:bg-pink-100 border-pink-300 text-pink-800', bg: '#f2c5dd' },
+      { label: '{farbe=vba}',     raw: ' {farbe=vba}',     title: 'Hintergrund: VBA',             cls: 'hover:bg-green-100 border-green-300 text-green-800', bg: '#ccffec' },
+      { label: '[2+2]', raw: '[2+2] ', title: '2+2 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[2+3]', raw: '[2+3] ', title: '2+3 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[2+4]', raw: '[2+4] ', title: '2+4 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[3+3]', raw: '[3+3] ', title: '3+3 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[4+4]', raw: '[4+4] ', title: '4+4 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[4+5]', raw: '[4+5] ', title: '4+5 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[Land]', raw: '[Land] ', title: 'Gebiets-Trennzeile', cls: 'bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700' },
+    ];
+
     function renderIconInsertBar() {
-      document.getElementById('icon-insert-bar').innerHTML = Object.keys(ICON_MAPPING).map(key => `
+      // Shortcuts per Index aufrufen - kein JSON.stringify im onclick nötig
+      window._SHORTCUTS = SPECIAL_SHORTCUTS;
+      const specialHTML = SPECIAL_SHORTCUTS.map((s, idx) => {
+        const bgStyle = s.bg ? ` style="background-color:${s.bg};"` : '';
+        return `<button type="button" onclick="insertShortcut(${idx})"
+                  class="px-2 py-1 border rounded text-xs font-mono transition ${s.cls}" title="${s.title}"${bgStyle}>
+                  ${s.label}
+                </button>`;
+      }).join('');
+
+      const iconHTML = Object.keys(ICON_MAPPING).map(key => `
         <button type="button" onclick="insertIconTag('${key}')"
                 class="px-2 py-1 bg-gray-50 hover:bg-amber-100 border border-gray-200 rounded text-xs font-mono transition" title="[${key}] einfügen">
           [${key}]
         </button>`).join('');
+
+      document.getElementById('icon-insert-bar').innerHTML =
+        `<div class="w-full mb-1.5 pb-1.5 border-b border-gray-200 flex flex-wrap gap-1">${specialHTML}</div>${iconHTML}`;
     }
+
+    window.insertRawTag = function(raw) {
+      const textarea = document.getElementById('edit-route');
+      const pos = textarea.selectionStart;
+      textarea.value = textarea.value.substring(0, pos) + raw + textarea.value.substring(pos);
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd = pos + raw.length;
+      updateRoutePreview();
+    };
+
+    window.insertShortcut = function(idx) {
+      const s = window._SHORTCUTS[idx];
+      if (s) insertRawTag(s.raw);
+    };
 
     window.insertIconTag = function(key) {
       const textarea = document.getElementById('edit-route');
@@ -983,6 +1256,11 @@
       const end = document.getElementById('edit-end').value.trim();
       const length = document.getElementById('edit-length').value.trim();
       const construction = document.getElementById('edit-construction').value.trim();
+      const lanes = document.getElementById('edit-lanes').value;
+      const opened = document.getElementById('edit-opened').value.trim();
+      const planned = document.getElementById('edit-planned').value.trim();
+      const pageType = document.querySelector('input[name="page-type"]:checked')?.value || 'normal';
+      const redirectTo = document.getElementById('edit-redirect').value.trim();
       const route = document.getElementById('edit-route').value;
 
       const sections = [];
@@ -998,7 +1276,7 @@
       }
 
       const isNew = !wikiData[title];
-      wikiData[title] = { title, category, start, end, length, construction, route, sections, image };
+      wikiData[title] = { title, category, start, end, length, construction, lanes, opened, planned, pageType, redirectTo, route, sections, image };
       currentPageId = title;
 
       saveToLocalStorage();
@@ -1034,11 +1312,50 @@
       if (name && name.trim()) createNewPage(name.trim());
     };
 
+    function launchConfetti() {
+      const canvas = document.createElement('canvas');
+      canvas.className = 'surprise-firework';
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.appendChild(canvas);
+      const ctx = canvas.getContext('2d');
+      const colors = ['#00875a','#ff8b00','#ffc400','#0645ad','#e53e3e','#9333ea'];
+      const particles = Array.from({length: 90}, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 7 + 3,
+        d: Math.random() * 80 + 10,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.random() * 10 - 5,
+        tiltAngle: 0,
+        tiltSpeed: Math.random() * 0.07 + 0.05,
+        vy: Math.random() * 3 + 2
+      }));
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.fillStyle = p.color;
+          ctx.ellipse(p.x + p.tilt, p.y, p.r, p.r * 0.4, p.tiltAngle, 0, Math.PI * 2);
+          ctx.fill();
+          p.y += p.vy;
+          p.tiltAngle += p.tiltSpeed;
+          p.tilt = Math.sin(p.tiltAngle) * 12;
+        });
+        frame++;
+        if (frame < 90) requestAnimationFrame(draw);
+        else canvas.remove();
+      }
+      draw();
+    }
+
     function createNewPage(title) {
       const cat = getCategoryFromTitle(title);
       wikiData[title] = {
         title, category: cat,
         start: "Startpunkt", end: "Endpunkt", length: "10.0", construction: "0",
+        pageType: 'normal', redirectTo: '', opened: '', planned: '',
         route: "[AS] (1) Anschlussstelle 1\n[Kreuz] (2) Autobahnkreuz [[A1]]",
         sections: SECTION_TITLES.map((_, i) => i === 0 ? `Allgemeine Informationen zur ${title}.` : ""),
         image: null
@@ -1048,7 +1365,8 @@
       renderSidebarNavigation();
       navigateTo(title);
       setMode('editor');
-      showToast(`Neue Seite "${title}" erstellt`, "success");
+      launchConfetti();
+      showToast(`🎉 Neue Seite "${title}" erstellt`, "success");
     }
 
     /* ===== SIDEBAR ===== */
@@ -1139,6 +1457,19 @@
       });
       return data;
     }
+
+    window.toggleMetaPanel = function() {
+      const panel = document.getElementById('meta-panel');
+      const icon  = document.getElementById('meta-panel-icon');
+      panel.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    };
+
+    window.toggleRedirectMode = function() {
+      const isRedirect = document.querySelector('input[name="page-type"]:checked')?.value === 'redirect';
+      document.getElementById('redirect-target-row').classList.toggle('hidden', !isRedirect);
+      updateEditorPreview();
+    };
 
     // Global exports
     window.navigateTo = navigateTo;
