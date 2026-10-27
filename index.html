@@ -43,6 +43,9 @@
     .sync-indicator.error { background-color:#fee2e2; color:#991b1b; }
     .spinner { display:inline-block; width:12px; height:12px; border:2px solid rgba(0,0,0,.1); border-top-color:currentColor; border-radius:50%; animation:spin .6s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
+    .route-land-row { background:#f0f4ff; border-left:3px solid #3b6fd4; font-weight:600; color:#1e3a8a; font-size:.8rem; padding:3px 6px; display:flex; align-items:center; gap:6px; }
+    .route-land-pin { color:#e53e3e; font-size:1rem; line-height:1; }
+    .route-lanes { display:inline-flex; align-items:center; gap:2px; font-size:.85rem; font-family:'Inter',monospace; letter-spacing:1px; }
 
     /* ===== PRINT STYLES ===== */
     @media print {
@@ -258,6 +261,18 @@
                   <label class="block text-xs font-bold text-gray-700 mb-1">Davon in Bau (km)</label>
                   <input type="text" id="edit-construction" oninput="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="z.B. 5.0">
                 </div>
+                <div>
+                  <label class="block text-xs font-bold text-gray-700 mb-1">Fahrstreifen</label>
+                  <select id="edit-lanes" onchange="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">— keine Angabe —</option>
+                    <option value="2+2">2+2</option>
+                    <option value="2+3">2+3</option>
+                    <option value="2+4">2+4</option>
+                    <option value="3+3">3+3</option>
+                    <option value="4+4">4+4</option>
+                    <option value="4+5">4+5</option>
+                  </select>
+                </div>
               </div>
 
               <!-- Bild-Upload -->
@@ -286,7 +301,7 @@
                   <label class="text-sm font-bold text-gray-800 flex items-center space-x-2">
                     <i class="fa-solid fa-route text-blue-600"></i><span>Streckenverlauf</span>
                   </label>
-                  <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** {farbe=bau} ---</span>
+                  <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** {farbe=bau} [2+3] [Land] Gebiet ---</span>
                 </div>
                 <div class="bg-gray-100 p-2.5 rounded-lg border border-gray-200">
                   <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Schnellauswahl Strecken-Icons</div>
@@ -504,6 +519,18 @@
       indicator.innerHTML = '<i class="fa-solid fa-check text-sm"></i><span>Sync aktiv</span>';
     }
 
+    /* ===== FAHRSTREIFEN HELPER ===== */
+    function buildLanesHTML(spec) {
+      // spec z.B. "2+3" → ↓↓ | ↑↑↑
+      const parts = spec.split('+');
+      if (parts.length !== 2) return `<span class="route-lanes">${escapeHtml(spec)}</span>`;
+      const down = parseInt(parts[0]) || 0;
+      const up   = parseInt(parts[1]) || 0;
+      const downArrows = '↓'.repeat(down);
+      const upArrows   = '↑'.repeat(up);
+      return `<span class="route-lanes" title="${spec} Fahrstreifen"><span style="color:#e53e3e;">${downArrows}</span><span style="color:#aaa;margin:0 2px;">|</span><span style="color:#16a34a;">${upArrows}</span></span>`;
+    }
+
     /* ===== MARKUP PARSER ===== */
     function parseCustomMarkup(text) {
       if (!text) return "";
@@ -511,13 +538,26 @@
         let l = line.trim();
         if (!l) return "";
         if (l === "---") return `<div class="my-2 border-b border-gray-300"></div>`;
+
+        // [Land] Ortsname → spezielle Land-Trennzeile
+        const landMatch = l.match(/^\[Land\]\s*(.*)$/i);
+        if (landMatch) {
+          const landName = landMatch[1].trim();
+          return `<div class="route-land-row"><span class="route-land-pin">📍</span><span>${escapeHtml(landName)}</span></div>`;
+        }
+
         let rowBg = "";
         l = l.replace(/\{farbe\s*=\s*([a-z]+)\}/i, (match, key) => {
           const k = key.toLowerCase();
           if (FARBE_MAPPING[k]) rowBg = FARBE_MAPPING[k].bg;
           return "";
         });
-        l = l.replace(/\[([A-Za-z0-9_]+)\]/g, (match, iconKey) => {
+
+        l = l.replace(/\[([A-Za-z0-9_+]+)\]/g, (match, iconKey) => {
+          // Fahrstreifen-Angabe z.B. [2+3], [4+4]
+          if (/^\d+\+\d+$/.test(iconKey)) {
+            return buildLanesHTML(iconKey);
+          }
           if (ICON_MAPPING[iconKey]) return `<img src="${ICON_MAPPING[iconKey]}" alt="${iconKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
           if (/^[ALCK]\d+[A-Za-z]?$/i.test(iconKey)) {
             const cat = iconKey.charAt(0).toUpperCase();
@@ -537,6 +577,17 @@
         const bgStyle = rowBg ? ` style="background-color:${rowBg};"` : "";
         return `<div class="flex items-center flex-wrap gap-1 py-0.5 border-b border-gray-100 last:border-none"${bgStyle}>${l}</div>`;
       }).join('');
+    }
+
+    /* ===== LAND-LISTE AUS ROUTE EXTRAHIEREN ===== */
+    function extractLandsFromRoute(route) {
+      if (!route) return [];
+      const lands = [];
+      route.split('\n').forEach(line => {
+        const m = line.trim().match(/^\[Land\]\s*(.+)$/i);
+        if (m && m[1].trim()) lands.push(m[1].trim());
+      });
+      return [...new Set(lands)];
     }
 
     function parseMarkdownText(str) {
@@ -793,7 +844,9 @@
               <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenbeginn:</td><td class="py-1.5 px-3 text-gray-800">${page.start || 'Unbekannt'}</td></tr>
               <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Straßenende:</td><td class="py-1.5 px-3 text-gray-800">${page.end || 'Unbekannt'}</td></tr>
               <tr class="border-b border-gray-100"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Gesamtlänge:</td><td class="py-1.5 px-3 font-bold text-gray-900">${page.length || '0'} km</td></tr>
-              <tr class="border-b border-gray-200"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Davon in Bau:</td><td class="py-1.5 px-3 text-amber-700 font-semibold">${page.construction || '0'} km</td></tr>
+              <tr class="border-b ${page.lanes ? 'border-gray-100' : 'border-gray-200'}"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Davon in Bau:</td><td class="py-1.5 px-3 text-amber-700 font-semibold">${page.construction || '0'} km</td></tr>
+              ${page.lanes ? `<tr class="border-b border-gray-200"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Fahrstreifen:</td><td class="py-1.5 px-3">${buildLanesHTML(page.lanes)} <span class="text-gray-600 ml-1">${page.lanes}</span></td></tr>` : ''}
+              ${(() => { const lands = extractLandsFromRoute(page.route); return lands.length > 0 ? `<tr class="border-b border-gray-200"><td class="py-1.5 px-3 font-bold text-gray-600 bg-gray-50">Gebiete:</td><td class="py-1.5 px-3 text-gray-800">${lands.map(l => `<span class="inline-flex items-center gap-1 mr-1">📍${escapeHtml(l)}</span>`).join('')}</td></tr>` : ''; })()}
             </tbody>
           </table>
           <div class="bg-blue-800 text-white px-3 py-1.5 flex items-center justify-between font-semibold text-xs">
@@ -824,6 +877,7 @@
       document.getElementById('edit-length').value = page.length || "";
       document.getElementById('edit-construction').value = page.construction || "";
       document.getElementById('edit-route').value = page.route || "";
+      document.getElementById('edit-lanes').value = page.lanes || "";
 
       // Bild-Vorschau
       if (page.image) {
@@ -910,9 +964,11 @@
       const end = document.getElementById('edit-end').value;
       const length = document.getElementById('edit-length').value;
       const construction = document.getElementById('edit-construction').value;
+      const lanes = document.getElementById('edit-lanes').value;
       const route = document.getElementById('edit-route').value;
       const tempImg = wikiData[currentPageId]?._tempImage || (wikiData[currentPageId]?.image || null);
       const imgHTML = tempImg ? `<div class="p-2 bg-white border-b border-gray-200"><img src="${tempImg}" alt="Bild" class="w-full rounded object-contain max-h-40"></div>` : '';
+      const lands = extractLandsFromRoute(route);
 
       document.getElementById('preview-title').innerText = title;
       const routeParsed = parseCustomMarkup(route || "");
@@ -932,7 +988,9 @@
             <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Start:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(start||'Unbekannt')}</td></tr>
             <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Ende:</td><td class="py-1 px-2 text-gray-800">${escapeHtml(end||'Unbekannt')}</td></tr>
             <tr class="border-b border-gray-100"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Länge:</td><td class="py-1 px-2 font-bold text-gray-900">${escapeHtml(length||'0')} km</td></tr>
-            <tr><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td><td class="py-1 px-2 text-amber-700 font-semibold">${escapeHtml(construction||'0')} km</td></tr>
+            <tr class="border-b ${lanes ? 'border-gray-100' : 'border-gray-200'}"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">In Bau:</td><td class="py-1 px-2 text-amber-700 font-semibold">${escapeHtml(construction||'0')} km</td></tr>
+            ${lanes ? `<tr class="border-b ${lands.length ? 'border-gray-100' : 'border-gray-200'}"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Fahrstreifen:</td><td class="py-1 px-2">${buildLanesHTML(lanes)} <span class="text-gray-600 ml-1">${escapeHtml(lanes)}</span></td></tr>` : ''}
+            ${lands.length ? `<tr class="border-b border-gray-200"><td class="py-1 px-2 font-bold text-gray-600 bg-gray-50">Gebiete:</td><td class="py-1 px-2 text-gray-800">${lands.map(l => `<span class="inline-flex items-center gap-1 mr-1">📍${escapeHtml(l)}</span>`).join('')}</td></tr>` : ''}
           </tbody>
         </table>
         <div class="bg-blue-800 text-white px-2 py-1 font-semibold text-xs uppercase tracking-wider">Verlauf</div>
@@ -956,13 +1014,49 @@
       document.getElementById('preview-sections').innerHTML = sectionsHTML || '<p class="italic text-gray-500">Keine Abschnitte vorhanden</p>';
     };
 
+    // Sonder-Shortcuts: raw = exakter einzufügender Text, label = Anzeige im Button
+    const SPECIAL_SHORTCUTS = [
+      { label: '---', raw: '\n---\n', title: 'Trennlinie einfügen', cls: 'bg-gray-100 hover:bg-gray-200 border-gray-400 text-gray-700' },
+      { label: '{farbe=section}', raw: ' {farbe=section}', title: 'Hintergrund: Section Control', cls: 'hover:bg-blue-100 border-blue-300 text-blue-800', bg: '#ccdfff' },
+      { label: '{farbe=bau}',     raw: ' {farbe=bau}',     title: 'Hintergrund: in Bau',          cls: 'hover:bg-orange-100 border-orange-300 text-orange-800', bg: '#ffdcb8' },
+      { label: '{farbe=planung}', raw: ' {farbe=planung}', title: 'Hintergrund: in Planung',      cls: 'hover:bg-pink-100 border-pink-300 text-pink-800', bg: '#f2c5dd' },
+      { label: '{farbe=vba}',     raw: ' {farbe=vba}',     title: 'Hintergrund: VBA',             cls: 'hover:bg-green-100 border-green-300 text-green-800', bg: '#ccffec' },
+      { label: '[2+2]', raw: '[2+2] ', title: '2+2 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[2+3]', raw: '[2+3] ', title: '2+3 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[2+4]', raw: '[2+4] ', title: '2+4 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[3+3]', raw: '[3+3] ', title: '3+3 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[4+4]', raw: '[4+4] ', title: '4+4 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[4+5]', raw: '[4+5] ', title: '4+5 Fahrstreifen', cls: 'bg-gray-50 hover:bg-amber-100 border-gray-200 text-gray-700' },
+      { label: '[Land]', raw: '[Land] ', title: 'Gebiets-Trennzeile', cls: 'bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700' },
+    ];
+
     function renderIconInsertBar() {
-      document.getElementById('icon-insert-bar').innerHTML = Object.keys(ICON_MAPPING).map(key => `
+      const specialHTML = SPECIAL_SHORTCUTS.map(s => {
+        const bgStyle = s.bg ? ` style="background-color:${s.bg};"` : '';
+        return `<button type="button" onclick="insertRawTag(${JSON.stringify(s.raw)})"
+                  class="px-2 py-1 border rounded text-xs font-mono transition ${s.cls}" title="${s.title}"${bgStyle}>
+                  ${s.label}
+                </button>`;
+      }).join('');
+
+      const iconHTML = Object.keys(ICON_MAPPING).map(key => `
         <button type="button" onclick="insertIconTag('${key}')"
                 class="px-2 py-1 bg-gray-50 hover:bg-amber-100 border border-gray-200 rounded text-xs font-mono transition" title="[${key}] einfügen">
           [${key}]
         </button>`).join('');
+
+      document.getElementById('icon-insert-bar').innerHTML =
+        `<div class="w-full mb-1.5 pb-1.5 border-b border-gray-200 flex flex-wrap gap-1">${specialHTML}</div>${iconHTML}`;
     }
+
+    window.insertRawTag = function(raw) {
+      const textarea = document.getElementById('edit-route');
+      const pos = textarea.selectionStart;
+      textarea.value = textarea.value.substring(0, pos) + raw + textarea.value.substring(pos);
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd = pos + raw.length;
+      updateRoutePreview();
+    };
 
     window.insertIconTag = function(key) {
       const textarea = document.getElementById('edit-route');
@@ -983,6 +1077,7 @@
       const end = document.getElementById('edit-end').value.trim();
       const length = document.getElementById('edit-length').value.trim();
       const construction = document.getElementById('edit-construction').value.trim();
+      const lanes = document.getElementById('edit-lanes').value;
       const route = document.getElementById('edit-route').value;
 
       const sections = [];
@@ -998,7 +1093,7 @@
       }
 
       const isNew = !wikiData[title];
-      wikiData[title] = { title, category, start, end, length, construction, route, sections, image };
+      wikiData[title] = { title, category, start, end, length, construction, lanes, route, sections, image };
       currentPageId = title;
 
       saveToLocalStorage();
