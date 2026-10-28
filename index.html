@@ -7,8 +7,8 @@
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -17,19 +17,20 @@
           wiki: { blue:'#0645ad', darkblue:'#0b0080', bg:'#f8f9fa', border:'#a2a9b1', header:'#eaecf0', card:'#f0f4f8' },
           road: { autobahn:'#00875A', lukoland:'#FF8B00', central:'#FFC400', kreis:'#6B778C' }
         },
-        fontFamily: { sans:['Inter','sans-serif'], wiki:['Source Sans 3','sans-serif'] }
+        fontFamily: { sans:['Inter','sans-serif'], wiki:['Source Sans Pro','sans-serif'] }
       }}
     }
   </script>
   <style>
-    body { font-family:'Source Sans 3',sans-serif; background-color:#f6f8fa; }
+    body { font-family:'Source Sans Pro',sans-serif; background-color:#f6f8fa; }
     .wiki-content h1 { font-size:1.875rem; font-weight:700; border-bottom:1px solid #a2a9b1; padding-bottom:.375rem; margin-bottom:1rem; color:#000; }
     .wiki-content h2 { font-size:1.35rem; font-weight:600; border-bottom:1px solid #eaecf0; padding-bottom:.25rem; margin-top:1.5rem; margin-bottom:.75rem; color:#202122; }
-    .road-shield { display:inline-flex; align-items:center; justify-content:center; font-weight:bold; border-radius:4px; padding:1px 6px; font-size:.85rem; text-decoration:none !important; box-shadow:0 1px 2px rgba(0,0,0,.2); margin:0 2px; vertical-align:middle; font-family:'Barlow', sans-serif; letter-spacing:.5px; font-weight: 600; }
+    .road-shield { display:inline-flex; align-items:center; justify-content:center; font-weight:bold; border-radius:4px; padding:1px 6px; font-size:.85rem; text-decoration:none !important; box-shadow:0 1px 2px rgba(0,0,0,.2); margin:0 2px; vertical-align:middle; font-family:'Inter',sans-serif; letter-spacing:.5px; }
     .road-shield-A { background-color:#00875a; color:#fff; border:1.5px solid #005c3e; }
     .road-shield-L { background-color:#ff8b00; color:#fff; border:1.5px solid #c26a00; }
     .road-shield-C { background-color:#ffc400; color:#172b4d; border:1.5px solid #d9a500; }
     .road-shield-K { background-color:#fff; color:#172b4d; border:1.5px solid #000; }
+    .road-shield-S { background-color:#1a56db; color:#fff; border:1.5px solid #1e40af; }
     .road-shield-Ueber { background-color:#0645ad; color:#fff; border:1.5px solid #0b0080; }
     .wiki-link { color:#0645ad; text-decoration:none; cursor:pointer; }
     .wiki-link:hover { text-decoration:underline; }
@@ -143,6 +144,7 @@
             <li><button onclick="navigateTo('Kategorie_Lukolandstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-L text-[10px] px-1.5 py-0">L</span><span>Alle Lukolandstraßen</span></button></li>
             <li><button onclick="navigateTo('Kategorie_Centralrouten')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-C text-[10px] px-1.5 py-0">C</span><span>Centralrouten</span></button></li>
             <li><button onclick="navigateTo('Kategorie_Kreisstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-K text-[10px] px-1.5 py-0">K</span><span>Kreisstraßen</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Schnellstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-S text-[10px] px-1.5 py-0">S</span><span>Schnellstraßen</span></button></li>
           </ul>
         </div>
         <div class="border-t border-gray-100 pt-2">
@@ -172,6 +174,13 @@
             <i id="cat-kreis-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-kreis-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
+        </div>
+        <div class="border-t border-gray-100 pt-2">
+          <button onclick="toggleNavCategory('cat-schnell')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
+            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-S text-[10px] px-1.5 py-0">S</span><span>Schnellstraßen</span></span>
+            <i id="cat-schnell-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+          <div id="cat-schnell-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
         </div>
       </div>
     </aside>
@@ -260,6 +269,7 @@
                     <option value="L">Lukolandstraße (L)</option>
                     <option value="C">Centralroute (C)</option>
                     <option value="K">Kreisstraße (K)</option>
+                    <option value="S">Schnellstraße (S)</option>
                     <option value="Ueber">Übersicht</option>
                   </select>
                 </div>
@@ -445,6 +455,7 @@
       'L': { label:'Lukolandstraße', color:'bg-amber-500', shield:'road-shield-L' },
       'C': { label:'Centralroute', color:'bg-yellow-400', shield:'road-shield-C' },
       'K': { label:'Kreisstraße', color:'bg-gray-300', shield:'road-shield-K' },
+      'S': { label:'Schnellstraße', color:'bg-blue-600', shield:'road-shield-S' },
       'Ueber': { label:'Übersicht', color:'bg-blue-600', shield:'road-shield-Ueber' }
     };
 
@@ -606,7 +617,7 @@
             return buildLanesHTML(iconKey);
           }
           if (ICON_MAPPING[iconKey]) return `<img src="${ICON_MAPPING[iconKey]}" alt="${iconKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
-          if (/^[ALCK]\d+[A-Za-z]?$/i.test(iconKey)) {
+          if (/^[ALCKS]\d+[A-Za-z]?$/i.test(iconKey)) {
             const cat = iconKey.charAt(0).toUpperCase();
             return `<a onclick="navigateTo('${iconKey}')" class="road-shield road-shield-${cat} cursor-pointer">${iconKey}</a>`;
           }
@@ -1371,7 +1382,7 @@
 
     /* ===== SIDEBAR ===== */
     function renderSidebarNavigation() {
-      const cats = { 'cat-autobahnen':'A', 'cat-lukoland':'L', 'cat-central':'C', 'cat-kreis':'K' };
+      const cats = { 'cat-autobahnen':'A', 'cat-lukoland':'L', 'cat-central':'C', 'cat-kreis':'K', 'cat-schnell':'S' };
       Object.entries(cats).forEach(([domId, catVal]) => {
         const listEl = document.getElementById(`${domId}-list`);
         if (!listEl) return;
@@ -1423,6 +1434,7 @@
       if (/^L\d+/i.test(title)) return 'L';
       if (/^C\d+/i.test(title)) return 'C';
       if (/^K\d+/i.test(title)) return 'K';
+      if (/^S\d+/i.test(title)) return 'S';
       return 'Ueber';
     }
 
@@ -1449,6 +1461,7 @@
       data["Kategorie_Lukolandstrassen"] = { title:"Kategorie: Lukolandstraßen (L)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
       data["Kategorie_Centralrouten"] = { title:"Kategorie: Centralrouten (C)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
       data["Kategorie_Kreisstrassen"] = { title:"Kategorie: Kreisstraßen (K)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
+      data["Kategorie_Schnellstrassen"] = { title:"Kategorie: Schnellstraßen (S)", category:"Ueber", start:"", end:"", length:"", construction:"", route:"", sections:Array(6).fill(""), image:null };
       AUTOBAHNEN_LIST.forEach((id, index) => {
         data[id] = { title:id, category:"A", start:"", end:"", length:(45+index*3.5).toFixed(1), construction:(index%4===0?(index*0.8).toFixed(1):"0"), route:"", sections:Array(6).fill(""), image:null };
       });
