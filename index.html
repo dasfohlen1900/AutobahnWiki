@@ -611,17 +611,45 @@
           return "";
         });
 
-        l = l.replace(/\[([A-Za-z0-9_+]+)\]/g, (match, iconKey) => {
+        l = l.replace(/\[([A-Za-z0-9_+=]+)\]/g, (match, iconKey) => {
+          // Farb-Override: [S1=gruen] → Shield mit angepassten Farben
+          const COLOR_OVERRIDES = {
+            'rot':     { bg:'#c0392b', color:'#fff', border:'#922b21' },
+            'gelb':    { bg:'#f1c40f', color:'#1a1a1a', border:'#d4ac0d' },
+            'gruen':   { bg:'#00875a', color:'#fff', border:'#005c3e' },
+            'blau':    { bg:'#1a56db', color:'#fff', border:'#1e40af' },
+            'orange':  { bg:'#ff8b00', color:'#fff', border:'#c26a00' },
+            'weiss':   { bg:'#ffffff', color:'#1a1a1a', border:'#000000' },
+            'schwarz': { bg:'#1a1a1a', color:'#fff', border:'#000000' },
+            'violett': { bg:'#7c3aed', color:'#fff', border:'#5b21b6' },
+            'himmel':  { bg:'#0ea5e9', color:'#fff', border:'#0369a1' },
+            'weinrot': { bg:'#881337', color:'#fff', border:'#4c0519' },
+          };
+
           // Fahrstreifen-Angabe z.B. [2+3], [4+4]
           if (/^\d+\+\d+$/.test(iconKey)) {
             return buildLanesHTML(iconKey);
           }
-          if (ICON_MAPPING[iconKey]) return `<img src="${ICON_MAPPING[iconKey]}" alt="${iconKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
-          if (/^[ALCKS]\d+[A-Za-z]?$/i.test(iconKey)) {
-            const cat = iconKey.charAt(0).toUpperCase();
-            return `<a onclick="navigateTo('${iconKey}')" class="road-shield road-shield-${cat} cursor-pointer">${iconKey}</a>`;
+
+          // Farb-Override parsen: [S1=gruen]
+          const eqIdx = iconKey.indexOf('=');
+          let baseKey = iconKey, colorName = null;
+          if (eqIdx !== -1) {
+            baseKey = iconKey.slice(0, eqIdx);
+            colorName = iconKey.slice(eqIdx + 1).toLowerCase();
           }
-          return `<span class="road-shield road-shield-K">${iconKey}</span>`;
+
+          if (ICON_MAPPING[baseKey]) return `<img src="${ICON_MAPPING[baseKey]}" alt="${baseKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
+
+          if (/^[ALCKS]\d+[A-Za-z]?$/i.test(baseKey)) {
+            const cat = baseKey.charAt(0).toUpperCase();
+            if (colorName && COLOR_OVERRIDES[colorName]) {
+              const c = COLOR_OVERRIDES[colorName];
+              return `<a onclick="navigateTo('${baseKey}')" class="road-shield cursor-pointer" style="background-color:${c.bg};color:${c.color};border:1.5px solid ${c.border};">${baseKey}</a>`;
+            }
+            return `<a onclick="navigateTo('${baseKey}')" class="road-shield road-shield-${cat} cursor-pointer">${baseKey}</a>`;
+          }
+          return `<span class="road-shield road-shield-K">${baseKey}</span>`;
         });
         l = l.replace(/\[\[([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, label) => {
           const display = label || target;
