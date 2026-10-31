@@ -469,6 +469,7 @@
       'C': { label:'Centralroute', color:'bg-yellow-400', :'road--C' },
       'K': { label:'Kreisstraße', color:'bg-gray-300', :'road--K' },
       'S': { label:'Schnellstraße', color:'bg-blue-600', :'road--S' },
+      'O': { label:'Ring', color:'bg-yellow-400', :'road--C' },
       'Ueber': { label:'Übersicht', color:'bg-blue-600', :'road--Ueber' }
     };
 
@@ -660,7 +661,7 @@
           if (/^[ALCKS]\d+[A-Za-z]?$/i.test(baseKey)) {
             const cat = baseKey.charAt(0).toUpperCase();
             // Kategorie ableiten: nur bekannte Typen bekommen eigenes -CSS, Rest → K-Stil
-            const knownCats = ['A','L','C','K','S'];
+            const knownCats = ['A','L','C','K','S','O'];
             if (colorName && COLOR_OVERRIDES[colorName]) {
               const c = COLOR_OVERRIDES[colorName];
               return `<a onclick="navigateTo('${baseKey}')" class="road-shield cursor-pointer" style="background-color:${c.bg};color:${c.color};border:1.5px solid ${c.border};">${baseKey}</a>`;
@@ -765,7 +766,7 @@
         if (ICON_MAPPING[baseKey]) return '<img src="' + ICON_MAPPING[baseKey] + '" alt="' + baseKey + '" class="inline-block h-5 w-auto align-middle mr-1">';
         if (/^[A-Za-z]+\d+[A-Za-z]?$/.test(baseKey)) {
           const cat = baseKey.charAt(0).toUpperCase();
-          const knownCats = ['A','L','C','K','S','O',];
+          const knownCats = ['A','L','C','K','S','O'];
           const shieldClass = knownCats.includes(cat) ? 'road-shield-' + cat : 'road-shield-K';
           if (colorName && COLOR_OVERRIDES[colorName]) {
             const c = COLOR_OVERRIDES[colorName];
