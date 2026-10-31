@@ -50,6 +50,12 @@
     .redirect-banner { background:#fef9c3; border:1px solid #fde047; border-radius:6px; padding:6px 12px; font-size:.82rem; color:#713f12; display:flex; align-items:center; gap:8px; margin-bottom:12px; }
     .infoseite-badge { display:inline-flex; align-items:center; gap:4px; background:#f0f4ff; border:1px solid #93c5fd; color:#1d4ed8; border-radius:4px; font-size:.72rem; font-weight:600; padding:1px 7px; margin-left:8px; vertical-align:middle; }
     .route-km { color:#9ca3af; font-size:.72rem; margin-left:auto; padding-left:6px; white-space:nowrap; font-family:'Inter',monospace; }
+    .wiki-blockquote { border-left:3px solid #93c5fd; background:#eff6ff; padding:6px 12px; margin:6px 0; color:#1e40af; font-style:italic; border-radius:0 4px 4px 0; }
+    .wiki-ul { list-style:disc; padding-left:1.4em; margin:4px 0; }
+    .wiki-ol { list-style:decimal; padding-left:1.4em; margin:4px 0; }
+    .search-highlight { background:#fef08a; border-radius:2px; padding:0 1px; }
+    .fulltext-match { font-size:.7rem; color:#6b7280; margin-top:2px; line-height:1.4; }
+    .fulltext-match mark { background:#fef08a; border-radius:2px; }
     .surprise-firework { position:fixed; inset:0; pointer-events:none; z-index:9999; overflow:hidden; }
 
     /* ===== PRINT STYLES ===== */
@@ -238,7 +244,7 @@
             </div>
             <div class="flex items-center space-x-2">
               <button onclick="saveCurrentPage()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-sm transition flex items-center space-x-1.5">
-                <i class="fa-solid fa-floppy-disk"></i><span>Speichern</span>
+                <i class="fa-solid fa-floppy-disk"></i><span>Speichern</span><span class="opacity-50 text-xs ml-1 hidden sm:inline">Strg+S</span>
               </button>
               <button onclick="deleteCurrentPage()" class="px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-lg border border-red-200 transition" title="Seite Löschen">
                 <i class="fa-solid fa-trash-can"></i>
@@ -358,7 +364,13 @@
                   <span class="text-xs text-gray-500">Syntax: [AS] (1) Name [A3] [[Zielseite]] **Fett** {farbe=bau} [2+3] [Land] Gebiet ---</span>
                 </div>
                 <div class="bg-gray-100 p-2.5 rounded-lg border border-gray-200">
-                  <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Schnellauswahl Strecken-Icons</div>
+                  <div class="flex items-center justify-between mb-2">
+                  <div class="text-xs font-bold text-gray-500 uppercase tracking-wider">Schnellauswahl Strecken-Icons</div>
+                  <div class="flex gap-1">
+                    <button type="button" onclick="routeUndo()" title="Rückgängig (Strg+Z)" class="px-2 py-1 bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded text-xs text-gray-600"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button type="button" onclick="routeRedo()" title="Wiederholen (Strg+Y)" class="px-2 py-1 bg-gray-50 hover:bg-gray-200 border border-gray-300 rounded text-xs text-gray-600"><i class="fa-solid fa-rotate-right"></i></button>
+                  </div>
+                </div>
                   <div id="icon-insert-bar" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto p-1 bg-white rounded border border-gray-200"></div>
                 </div>
                 <div>
@@ -447,7 +459,8 @@
       'section': { bg:'#ccdfff', label:'Section Control' },
       'bau':     { bg:'#ffdcb8', label:'in Bau' },
       'planung': { bg:'#f2c5dd', label:'in Planung' },
-      'vba':     { bg:'#ccffec', label:'Verkehrsbeeinflussungsanlage' }
+      'vba':     { bg:'#ccffec', label:'Verkehrsbeeinflussungsanlage' },
+      'ehemalige': { bg:'#e9d5ff', label:'Ehemalige Strecke' }
     };
 
     const CAT_CONFIG = {
@@ -631,23 +644,29 @@
             return buildLanesHTML(iconKey);
           }
 
-          // Farb-Override parsen: [S1=gruen]
+          // Farb-Override parsen: [S1=gruen] oder [S1=nolink]
+          // Regel: NUR [S1] ohne Suffix bekommt Link; jede =xxx Angabe → kein Link
           const eqIdx = iconKey.indexOf('=');
-          let baseKey = iconKey, colorName = null;
+          let baseKey = iconKey, colorName = null, noLink = false;
           if (eqIdx !== -1) {
             baseKey = iconKey.slice(0, eqIdx);
-            colorName = iconKey.slice(eqIdx + 1).toLowerCase();
+            const suffix = iconKey.slice(eqIdx + 1).toLowerCase();
+            noLink = true; // immer kein Link wenn Suffix vorhanden
+            if (suffix !== 'nolink') { colorName = suffix; }
           }
 
           if (ICON_MAPPING[baseKey]) return `<img src="${ICON_MAPPING[baseKey]}" alt="${baseKey}" class="inline-block h-5 w-auto align-middle mr-1">`;
 
           if (/^[ALCKS]\d+[A-Za-z]?$/i.test(baseKey)) {
             const cat = baseKey.charAt(0).toUpperCase();
+            // Kategorie ableiten: nur bekannte Typen bekommen eigenes Shield-CSS, Rest → K-Stil
+            const knownCats = ['A','L','C','K','S'];
             if (colorName && COLOR_OVERRIDES[colorName]) {
               const c = COLOR_OVERRIDES[colorName];
               return `<a onclick="navigateTo('${baseKey}')" class="road-shield cursor-pointer" style="background-color:${c.bg};color:${c.color};border:1.5px solid ${c.border};">${baseKey}</a>`;
             }
-            return `<a onclick="navigateTo('${baseKey}')" class="road-shield road-shield-${cat} cursor-pointer">${baseKey}</a>`;
+            const shieldClass = knownCats.includes(cat) ? 'road-shield-' + cat : 'road-shield-K';
+            return `<a onclick="navigateTo('${baseKey}')" class="road-shield ${shieldClass} cursor-pointer">${baseKey}</a>`;
           }
           return `<span class="road-shield road-shield-K">${baseKey}</span>`;
         });
@@ -679,12 +698,97 @@
 
     function parseMarkdownText(str) {
       if (!str) return "";
-      let s = str;
-      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      // Zeilenbasiertes Rendering für Block-Elemente
+      const lines = str.split('\n');
+      const out = [];
+      let i = 0;
+      while (i < lines.length) {
+        let l = lines[i];
+        // Blockquote: > Text
+        if (/^>\s?/.test(l)) {
+          out.push('<div class="wiki-blockquote">' + inlineMD(l.replace(/^>\s?/, '')) + '</div>');
+          i++; continue;
+        }
+        // Ungeordnete Liste: * oder -
+        if (/^[*-]\s/.test(l)) {
+          const items = [];
+          while (i < lines.length && /^[*-]\s/.test(lines[i])) {
+            items.push('<li>' + inlineMD(lines[i].replace(/^[*-]\s/, '')) + '</li>');
+            i++;
+          }
+          out.push('<ul class="wiki-ul">' + items.join('') + '</ul>');
+          continue;
+        }
+        // Geordnete Liste: 1. 2. ...
+        if (/^\d+\.\s/.test(l)) {
+          const items = [];
+          while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
+            items.push('<li>' + inlineMD(lines[i].replace(/^\d+\.\s/, '')) + '</li>');
+            i++;
+          }
+          out.push('<ol class="wiki-ol">' + items.join('') + '</ol>');
+          continue;
+        }
+        // Normale Zeile
+        const rendered = inlineMD(l);
+        out.push(rendered ? '<span>' + rendered + '</span><br>' : '<br>');
+        i++;
+      }
+      return out.join('');
+    }
+
+    function inlineMD(s) {
+      if (!s) return '';
+      // Inline-Schilder und Icons aus parseCustomMarkup-Logik
+      s = s.replace(/\[([A-Za-z0-9_+=]+)\]/g, (match, iconKey) => {
+        const COLOR_OVERRIDES = {
+          'rot':{'bg':'#c0392b','color':'#fff','border':'#922b21'},
+          'gelb':{'bg':'#f1c40f','color':'#1a1a1a','border':'#d4ac0d'},
+          'gruen':{'bg':'#00875a','color':'#fff','border':'#005c3e'},
+          'blau':{'bg':'#1a56db','color':'#fff','border':'#1e40af'},
+          'orange':{'bg':'#ff8b00','color':'#fff','border':'#c26a00'},
+          'weiss':{'bg':'#ffffff','color':'#1a1a1a','border':'#000000'},
+          'schwarz':{'bg':'#1a1a1a','color':'#fff','border':'#000000'},
+          'violett':{'bg':'#7c3aed','color':'#fff','border':'#5b21b6'},
+          'himmel':{'bg':'#0ea5e9','color':'#fff','border':'#0369a1'},
+          'weinrot':{'bg':'#881337','color':'#fff','border':'#4c0519'},
+        };
+        if (/^\d+\+\d+$/.test(iconKey)) return buildLanesHTML(iconKey);
+        const eqIdx = iconKey.indexOf('=');
+        let baseKey = iconKey, colorName = null, noLink = false;
+        if (eqIdx !== -1) {
+          baseKey = iconKey.slice(0, eqIdx);
+          const suffix = iconKey.slice(eqIdx + 1).toLowerCase();
+          noLink = true; // jede =xxx Angabe → kein Link
+          if (suffix !== 'nolink') { colorName = suffix; }
+        }
+        if (ICON_MAPPING[baseKey]) return '<img src="' + ICON_MAPPING[baseKey] + '" alt="' + baseKey + '" class="inline-block h-5 w-auto align-middle mr-1">';
+        if (/^[A-Za-z]+\d+[A-Za-z]?$/.test(baseKey)) {
+          const cat = baseKey.charAt(0).toUpperCase();
+          const knownCats = ['A','L','C','K','S'];
+          const shieldClass = knownCats.includes(cat) ? 'road-shield-' + cat : 'road-shield-K';
+          if (colorName && COLOR_OVERRIDES[colorName]) {
+            const c = COLOR_OVERRIDES[colorName];
+            const style = 'background-color:' + c.bg + ';color:' + c.color + ';border:1.5px solid ' + c.border + ';';
+            if (noLink) return '<span class="road-shield cursor-default" style="' + style + '">' + baseKey + '</span>';
+            return '<a onclick="navigateTo(' + "'" + baseKey + "'" + ')" class="road-shield cursor-pointer" style="' + style + '">' + baseKey + '</a>';
+          }
+          if (noLink) return '<span class="road-shield ' + shieldClass + '">' + baseKey + '</span>';
+          return '<a onclick="navigateTo(' + "'" + baseKey + "'" + ')" class="road-shield ' + shieldClass + ' cursor-pointer">' + baseKey + '</a>';
+        }
+        return '<span class="road-shield road-shield-K">' + baseKey + '</span>';
+      });
+      // Wiki-Links
       s = s.replace(/\[\[([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, label) => {
         const display = label || target;
-        return `<a onclick="navigateTo('${target}')" class="wiki-link">${display}</a>`;
+        const exists = wikiData.hasOwnProperty(target);
+        return exists
+          ? '<a onclick="navigateTo(' + "'" + target + "'" + ')" class="wiki-link">' + display + '</a>'
+          : '<a onclick="promptCreatePage(' + "'" + target + "'" + ')" class="wiki-link wiki-link-missing">' + display + '</a>';
       });
+      // Bold, italic
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
       return s;
     }
 
@@ -1162,6 +1266,7 @@
     };
 
     window.updateEditorPreview = function() {
+      routeSnapshot();
       const title = document.getElementById('edit-title').value || "Seite";
       const category = document.getElementById('edit-category').value;
       const start = document.getElementById('edit-start').value;
@@ -1431,23 +1536,53 @@
 
     /* ===== SEARCH ===== */
     window.handleSearch = function() {
-      const q = document.getElementById('search-input').value.trim().toLowerCase();
+      const raw = document.getElementById('search-input').value.trim();
+      const q = raw.toLowerCase();
       const resultsBox = document.getElementById('search-results-box');
       const resultsList = document.getElementById('search-results-list');
       const clearBtn = document.getElementById('search-clear');
       if (!q) { resultsBox.classList.add('hidden'); clearBtn.classList.add('hidden'); return; }
       clearBtn.classList.remove('hidden');
       resultsBox.classList.remove('hidden');
-      const matches = Object.keys(wikiData).filter(key =>
-        key.toLowerCase().includes(q) || (wikiData[key].title && wikiData[key].title.toLowerCase().includes(q))
-      );
-      resultsList.innerHTML = matches.length === 0
-        ? `<div class="text-xs text-gray-500 italic p-1">Keine Seiten gefunden.</div>`
-        : matches.map(m => `
-            <button onclick="navigateTo('${m}'); clearSearch();" class="w-full text-left px-2 py-1 text-xs hover:bg-blue-50 rounded flex items-center justify-between">
-              <span class="font-bold text-gray-800">${escapeHtml(m)}</span>
-              <span class="text-[10px] text-gray-400">${wikiData[m].category || ''}</span>
-            </button>`).join('');
+
+      function highlight(text, q) {
+        const idx = text.toLowerCase().indexOf(q);
+        if (idx === -1) return escapeHtml(text);
+        return escapeHtml(text.slice(0, idx)) + '<mark>' + escapeHtml(text.slice(idx, idx + q.length)) + '</mark>' + escapeHtml(text.slice(idx + q.length));
+      }
+
+      function excerpt(text, q) {
+        const idx = text.toLowerCase().indexOf(q);
+        if (idx === -1) return null;
+        const start = Math.max(0, idx - 30);
+        const end = Math.min(text.length, idx + q.length + 60);
+        const snip = (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+        return highlight(snip, q);
+      }
+
+      const results = [];
+      Object.entries(wikiData).forEach(([key, page]) => {
+        const titleMatch = key.toLowerCase().includes(q) || (page.title && page.title.toLowerCase().includes(q));
+        // Volltext: route + sections + start + end
+        const fullText = [page.route || '', page.start || '', page.end || '', ...(page.sections || [])].join(' ');
+        const textMatch = fullText.toLowerCase().includes(q);
+        if (titleMatch || textMatch) {
+          const snip = !titleMatch && textMatch ? excerpt(fullText, q) : null;
+          results.push({ key, page, titleMatch, snip });
+        }
+      });
+      // Titel-Treffer zuerst
+      results.sort((a, b) => (b.titleMatch ? 1 : 0) - (a.titleMatch ? 1 : 0));
+
+      resultsList.innerHTML = results.length === 0
+        ? '<div class="text-xs text-gray-500 italic p-1">Keine Seiten gefunden.</div>'
+        : results.map(r => '<button onclick="navigateTo(' + "'" + r.key + "'" + '); clearSearch();" class="w-full text-left px-2 py-1.5 text-xs hover:bg-blue-50 rounded">'
+            + '<div class="flex items-center justify-between">'
+            + '<span class="font-bold text-gray-800">' + highlight(r.key, q) + '</span>'
+            + '<span class="text-[10px] text-gray-400 ml-1">' + escapeHtml(r.page.category || '') + '</span>'
+            + '</div>'
+            + (r.snip ? '<div class="fulltext-match">' + r.snip + '</div>' : '')
+            + '</button>').join('');
     };
 
     window.clearSearch = function() {
@@ -1498,6 +1633,55 @@
       });
       return data;
     }
+
+    /* ===== UNDO/REDO für Streckenverlauf ===== */
+    const undoStack = [];
+    const redoStack = [];
+    let undoLock = false;
+
+    function routeSnapshot() {
+      const ta = document.getElementById('edit-route');
+      if (!ta) return;
+      const val = ta.value;
+      if (undoStack.length && undoStack[undoStack.length - 1] === val) return;
+      undoStack.push(val);
+      if (undoStack.length > 100) undoStack.shift();
+      redoStack.length = 0;
+    }
+
+    window.routeUndo = function() {
+      const ta = document.getElementById('edit-route');
+      if (!ta || undoStack.length < 2) return;
+      redoStack.push(undoStack.pop());
+      ta.value = undoStack[undoStack.length - 1] || '';
+      updateEditorPreview();
+    };
+
+    window.routeRedo = function() {
+      const ta = document.getElementById('edit-route');
+      if (!ta || redoStack.length === 0) return;
+      const val = redoStack.pop();
+      undoStack.push(val);
+      ta.value = val;
+      updateEditorPreview();
+    };
+
+    // Tastatur-Handler auf document-Ebene
+    document.addEventListener('keydown', function(e) {
+      // Strg+S = Speichern
+      if ((e.ctrlKey || e.metaKey) && e.key === 's' && currentMode === 'editor') {
+        e.preventDefault();
+        saveCurrentPage();
+        return;
+      }
+      // Undo/Redo nur wenn Fokus im edit-route
+      if (document.activeElement?.id !== 'edit-route') return;
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') {
+        e.preventDefault(); routeUndo();
+      } else if ((e.ctrlKey || e.metaKey) && (e.shiftKey && e.key === 'z' || e.key === 'y')) {
+        e.preventDefault(); routeRedo();
+      }
+    });
 
     window.toggleMetaPanel = function() {
       const panel = document.getElementById('meta-panel');
