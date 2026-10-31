@@ -28,10 +28,10 @@
     .road-shield { display:inline-flex; align-items:center; justify-content:center; font-weight:600; border-radius:4px; padding:1px 6px; font-size:.85rem; text-decoration:none !important; box-shadow:0 1px 2px rgba(0,0,0,.2); margin:0 2px; vertical-align:middle; font-family:'Barlow',sans-serif; letter-spacing:.5px; }
     .road-shield-A { background-color:#00875a; color:#fff; border:1.5px solid #005c3e; }
     .road-shield-L { background-color:#ff8b00; color:#fff; border:1.5px solid #c26a00; }
-    .road-shield-C { background-color:#ffc400; color:#172b4d; border:1.5px solid #d9a500; }
-    .road-shield-K { background-color:#fff; color:#172b4d; border:1.5px solid #000; }
-    .road-shield-S { background-color:#1a56db; color:#fff; border:1.5px solid #1e40af; }
-    .road-shield-Ueber { background-color:#0645ad; color:#fff; border:1.5px solid #0b0080; }
+    .road--C { background-color:#ffc400; color:#172b4d; border:1.5px solid #d9a500; }
+    .road--K { background-color:#fff; color:#172b4d; border:1.5px solid #000; }
+    .road--S { background-color:#1a56db; color:#fff; border:1.5px solid #1e40af; }
+    .road--Ueber { background-color:#0645ad; color:#fff; border:1.5px solid #0b0080; }
     .wiki-link { color:#0645ad; text-decoration:none; cursor:pointer; }
     .wiki-link:hover { text-decoration:underline; }
     .wiki-link-missing { color:#ba0000; }
@@ -66,7 +66,7 @@
       #reader-view { display:block !important; }
       #editor-view { display:none !important; }
       .print-infobox { float:right; width:220px; margin-left:16px; font-size:10px; }
-      .road-shield { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .road- { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
       .route-row-bg { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
       @page { size:A4; margin:18mm 15mm; }
     }
@@ -146,44 +146,44 @@
           <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5 px-2">Übersichten</div>
           <ul class="space-y-0.5 text-sm">
             <li><button onclick="navigateTo('Startseite')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><i class="fa-solid fa-house text-gray-400 w-4"></i><span>Startseite</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Autobahnen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-A text-[10px] px-1.5 py-0">A</span><span>Alle Autobahnen</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Lukolandstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-L text-[10px] px-1.5 py-0">L</span><span>Alle Lukolandstraßen</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Centralrouten')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-C text-[10px] px-1.5 py-0">C</span><span>Centralrouten</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Kreisstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-K text-[10px] px-1.5 py-0">K</span><span>Kreisstraßen</span></button></li>
-            <li><button onclick="navigateTo('Kategorie_Schnellstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road-shield road-shield-S text-[10px] px-1.5 py-0">S</span><span>Schnellstraßen</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Autobahnen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road- road--A text-[10px] px-1.5 py-0">A</span><span>Alle Autobahnen</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Lukolandstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road- road--L text-[10px] px-1.5 py-0">L</span><span>Alle Lukolandstraßen</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Centralrouten')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road- road--C text-[10px] px-1.5 py-0">C</span><span>Centralrouten</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Kreisstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road- road--K text-[10px] px-1.5 py-0">K</span><span>Kreisstraßen</span></button></li>
+            <li><button onclick="navigateTo('Kategorie_Schnellstrassen')" class="nav-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-gray-100 flex items-center space-x-2 text-gray-700"><span class="road- road--S text-[10px] px-1.5 py-0">S</span><span>Schnellstraßen</span></button></li>
           </ul>
         </div>
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-autobahnen')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-A text-[10px] px-1.5 py-0">A</span><span>Autobahnen</span></span>
+            <span class="flex items-center space-x-1.5"><span class="road- road--A text-[10px] px-1.5 py-0">A</span><span>Autobahnen</span></span>
             <i id="cat-autobahnen-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-autobahnen-list" class="mt-1 space-y-0.5 text-xs pl-2"></div>
         </div>
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-lukoland')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-L text-[10px] px-1.5 py-0">L</span><span>Lukolandstraßen</span></span>
+            <span class="flex items-center space-x-1.5"><span class="road- road--L text-[10px] px-1.5 py-0">L</span><span>Lukolandstraßen</span></span>
             <i id="cat-lukoland-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-lukoland-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
         </div>
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-central')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-C text-[10px] px-1.5 py-0">C</span><span>Centralrouten</span></span>
+            <span class="flex items-center space-x-1.5"><span class="road- road--C text-[10px] px-1.5 py-0">C</span><span>Centralrouten</span></span>
             <i id="cat-central-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-central-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
         </div>
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-kreis')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-K text-[10px] px-1.5 py-0">K</span><span>Kreisstraßen</span></span>
+            <span class="flex items-center space-x-1.5"><span class="road- road--K text-[10px] px-1.5 py-0">K</span><span>Kreisstraßen</span></span>
             <i id="cat-kreis-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-kreis-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
         </div>
         <div class="border-t border-gray-100 pt-2">
           <button onclick="toggleNavCategory('cat-schnell')" class="w-full flex items-center justify-between px-2 py-1 text-xs font-bold text-gray-500 hover:text-gray-800 uppercase tracking-wider">
-            <span class="flex items-center space-x-1.5"><span class="road-shield road-shield-S text-[10px] px-1.5 py-0">S</span><span>Schnellstraßen</span></span>
+            <span class="flex items-center space-x-1.5"><span class="road- road--S text-[10px] px-1.5 py-0">S</span><span>Schnellstraßen</span></span>
             <i id="cat-schnell-icon" class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
           </button>
           <div id="cat-schnell-list" class="mt-1 space-y-0.5 text-xs pl-2 hidden"></div>
@@ -464,12 +464,12 @@
     };
 
     const CAT_CONFIG = {
-      'A': { label:'Autobahn', color:'bg-emerald-600', shield:'road-shield-A' },
-      'L': { label:'Lukolandstraße', color:'bg-amber-500', shield:'road-shield-L' },
-      'C': { label:'Centralroute', color:'bg-yellow-400', shield:'road-shield-C' },
-      'K': { label:'Kreisstraße', color:'bg-gray-300', shield:'road-shield-K' },
-      'S': { label:'Schnellstraße', color:'bg-blue-600', shield:'road-shield-S' },
-      'Ueber': { label:'Übersicht', color:'bg-blue-600', shield:'road-shield-Ueber' }
+      'A': { label:'Autobahn', color:'bg-emerald-600', :'road--A' },
+      'L': { label:'Lukolandstraße', color:'bg-amber-500', :'road--L' },
+      'C': { label:'Centralroute', color:'bg-yellow-400', :'road--C' },
+      'K': { label:'Kreisstraße', color:'bg-gray-300', :'road--K' },
+      'S': { label:'Schnellstraße', color:'bg-blue-600', :'road--S' },
+      'Ueber': { label:'Übersicht', color:'bg-blue-600', :'road--Ueber' }
     };
 
     const AUTOBAHNEN_LIST = ["A1","A2","A3","A5","A6","A8","A10","A11","A12","A16","A22","A27","A33","A37","A39","A41","A44","A45"];
@@ -625,7 +625,7 @@
         });
 
         l = l.replace(/\[([A-Za-z0-9_+=]+)\]/g, (match, iconKey) => {
-          // Farb-Override: [S1=gruen] → Shield mit angepassten Farben
+          // Farb-Override: [S1=gruen] →  mit angepassten Farben
           const COLOR_OVERRIDES = {
             'rot':     { bg:'#c0392b', color:'#fff', border:'#922b21' },
             'gelb':    { bg:'#f1c40f', color:'#1a1a1a', border:'#d4ac0d' },
@@ -659,7 +659,7 @@
 
           if (/^[ALCKS]\d+[A-Za-z]?$/i.test(baseKey)) {
             const cat = baseKey.charAt(0).toUpperCase();
-            // Kategorie ableiten: nur bekannte Typen bekommen eigenes Shield-CSS, Rest → K-Stil
+            // Kategorie ableiten: nur bekannte Typen bekommen eigenes -CSS, Rest → K-Stil
             const knownCats = ['A','L','C','K','S'];
             if (colorName && COLOR_OVERRIDES[colorName]) {
               const c = COLOR_OVERRIDES[colorName];
@@ -765,7 +765,7 @@
         if (ICON_MAPPING[baseKey]) return '<img src="' + ICON_MAPPING[baseKey] + '" alt="' + baseKey + '" class="inline-block h-5 w-auto align-middle mr-1">';
         if (/^[A-Za-z]+\d+[A-Za-z]?$/.test(baseKey)) {
           const cat = baseKey.charAt(0).toUpperCase();
-          const knownCats = ['A','L','C','K','S'];
+          const knownCats = ['A','L','C','K','S','O',''];
           const shieldClass = knownCats.includes(cat) ? 'road-shield-' + cat : 'road-shield-K';
           if (colorName && COLOR_OVERRIDES[colorName]) {
             const c = COLOR_OVERRIDES[colorName];
