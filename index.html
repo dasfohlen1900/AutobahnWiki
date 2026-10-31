@@ -765,7 +765,7 @@
         if (ICON_MAPPING[baseKey]) return '<img src="' + ICON_MAPPING[baseKey] + '" alt="' + baseKey + '" class="inline-block h-5 w-auto align-middle mr-1">';
         if (/^[A-Za-z]+\d+[A-Za-z]?$/.test(baseKey)) {
           const cat = baseKey.charAt(0).toUpperCase();
-          const knownCats = ['A','L','C','K','S','O',''];
+          const knownCats = ['A','L','C','K','S','O',];
           const shieldClass = knownCats.includes(cat) ? 'road-shield-' + cat : 'road-shield-K';
           if (colorName && COLOR_OVERRIDES[colorName]) {
             const c = COLOR_OVERRIDES[colorName];
