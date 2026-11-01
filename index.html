@@ -402,7 +402,7 @@
               </div>
 
               <!-- Route Editor -->
-              <div class="space-y-3">
+              <div id="route-editor-block" class="space-y-3">
                 <div class="flex items-center justify-between">
                   <label class="text-sm font-bold text-gray-800 flex items-center space-x-2">
                     <i class="fa-solid fa-route text-blue-600"></i><span>Streckenverlauf</span>
@@ -1323,6 +1323,8 @@
       document.getElementById('kreuz-fields-row').classList.toggle('hidden', pt !== 'kreuz');
       const rfLoad = document.getElementById('road-fields');
       if (rfLoad) rfLoad.style.display = (pt === 'kreuz') ? 'none' : 'contents';
+      const rbLoad = document.getElementById('route-editor-block');
+      if (rbLoad) { rbLoad.style.opacity = (pt === 'kreuz') ? '0.35' : '1'; rbLoad.style.pointerEvents = (pt === 'kreuz') ? 'none' : ''; }
       document.getElementById('edit-redirect').value = page.redirectTo || "";
       document.getElementById('edit-kreuz-roads').value = page.kreuzRoads || "";
       document.getElementById('edit-kreuz-type').value = page.kreuzType || "";
@@ -1847,8 +1849,12 @@
       document.getElementById('kreuz-fields-row').classList.toggle('hidden', pt !== 'kreuz');
       const rfLoad = document.getElementById('road-fields');
       if (rfLoad) rfLoad.style.display = (pt === 'kreuz') ? 'none' : 'contents';
+      const rbLoad = document.getElementById('route-editor-block');
+      if (rbLoad) { rbLoad.style.opacity = (pt === 'kreuz') ? '0.35' : '1'; rbLoad.style.pointerEvents = (pt === 'kreuz') ? 'none' : ''; }
       const rf = document.getElementById('road-fields');
       if (rf) rf.style.display = (pt === 'kreuz') ? 'none' : 'contents';
+      const rb = document.getElementById('route-editor-block');
+      if (rb) { rb.style.opacity = (pt === 'kreuz') ? '0.35' : '1'; rb.style.pointerEvents = (pt === 'kreuz') ? 'none' : ''; }
       updateEditorPreview();
     };
 
