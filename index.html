@@ -370,23 +370,58 @@
                     </div>
                     <div>
                       <label class="block text-xs font-bold text-gray-700 mb-1">Typ</label>
-                      <select id="edit-kreuz-type" onchange="updateEditorPreview()" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">— wählen —</option>
-                        <optgroup label="Kreuzformen (→ Autobahnkreuz)">
-                          <option value="Kleeblatt">Kleeblatt</option>
-                          <option value="Turbine">Turbine</option>
-                          <option value="Malteserkreuz">Malteserkreuz</option>
-                          <option value="Windmühle">Windmühle</option>
-                          <option value="halbes Kleeblatt">Halbes Kleeblatt</option>
-                          <option value="Kreuz (sonstig)">Kreuz (sonstig)</option>
-                        </optgroup>
-                        <optgroup label="Dreiecksformen (→ Autobahndreieck)">
-                          <option value="Trompete">Trompete</option>
-                          <option value="Dreieck">Dreieck</option>
-                          <option value="Gabel">Gabel</option>
-                          <option value="Dreieck (sonstig)">Dreieck (sonstig)</option>
-                        </optgroup>
-                      </select>
+                      <select id="edit-kreuz-type" onchange="updateEditorPreview()"
+        class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+  <option value="">— wählen —</option>
+
+  <optgroup label="Kreuzformen (→ Autobahnkreuz)">
+    <option value="Kleeblatt">Kleeblatt</option>
+    <option value="Kleeblatt mit Sammlern">Kleeblatt mit Sammlern</option>
+    <option value="Kleeblatt-Turbine">Kleeblatt-Turbine</option>
+    <option value="Halbes Kleeblatt">Halbes Kleeblatt</option>
+
+    <option value="Turbine">Turbine</option>
+    <option value="Doppelturbine">Doppelturbine</option>
+
+    <option value="Malteserkreuz">Malteserkreuz</option>
+    <option value="Stack">Stack</option>
+    <option value="Vier-Ebenen-Kreuz">Vier-Ebenen-Kreuz</option>
+    <option value="Gladbacher Lösung (Mischung aus Windmühle und Kleeblatt">Gladbacher Lösung</option>
+    <option value="Windmühle">Windmühle</option>
+
+    <option value="Spaghetti-Knoten">Spaghetti-Knoten</option>
+    <option value="Parallelentflechtung">Parallelentflechtung</option>
+    <option value="Kreisverkehr-Kreuz">Kreisverkehr-Kreuz</option>
+
+    <option value="Kreuz (sonstig)">Kreuz (sonstig)</option>
+  </optgroup>
+
+  <optgroup label="Dreiecksformen (→ Autobahndreieck)">
+    <option value="Trompete">Trompete</option>
+    <option value="Doppeltrompete">Doppeltrompete</option>
+
+    <option value="Y-Dreieck">Y-Dreieck</option>
+    <option value="Direktes Y-Dreieck">Direktes Y-Dreieck</option>
+
+    <option value="T-Dreieck">T-Dreieck</option>
+    <option value="Gabel">Gabel</option>
+
+    <option value="Halbe Turbine">Halbe Turbine</option>
+    <option value="Halbes Kleeblatt">Halbes Kleeblatt</option>
+
+    <option value="Dreieck">Dreieck</option>
+    <option value="Dreieck (sonstig)">Dreieck (sonstig)</option>
+  </optgroup>
+
+  <optgroup label="Sonstige Knotenformen">
+    <option value="Kreisverkehr">Kreisverkehr</option>
+    <option value="Richtungsverkehrsknoten">Richtungsverkehrsknoten</option>
+    <option value="Hybrid">Hybrid</option>
+    <option value="Sonderbauform">Sonderbauform</option>
+  </optgroup>
+
+</select>
                     </div>
                     <div>
                       <label class="block text-xs font-bold text-gray-700 mb-1">Lage / Gemeinde</label>
