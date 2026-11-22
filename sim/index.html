@@ -17,7 +17,9 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
-body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);font-size:14.5px;display:flex;flex-direction:column;min-height:100vh;}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);font-size:14.5px;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#editorMode{flex-direction:column;flex:1;min-height:0;}
+#simulatorMode{min-height:0;}
 .mono{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.02em;}
 
 /* ══ TOPBAR ══ */
@@ -37,7 +39,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);font
 
 /* ══ LAYOUT ══ */
 .editor-layout{flex:1;display:grid;grid-template-columns:230px 260px 1fr;min-height:0;}
-.col{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;}
+.col{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;min-height:0;}
 .col-header{padding:.7rem .8rem;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;position:sticky;top:0;background:var(--bg2);z-index:5;}
 
 .route-item{padding:.6rem .8rem;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.4rem;}
@@ -59,7 +61,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);font
 .step-item .sarrows button:hover{color:var(--accent);}
 
 /* -- editor form -- */
-.form-panel{overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem;}
+.form-panel{overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem;min-height:0;}
 .field{display:flex;flex-direction:column;gap:.25rem;}
 .field label{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;}
 .field input, .field textarea, .field select{
@@ -85,7 +87,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);font
 .section-label{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);padding-bottom:.4rem;margin-bottom:.2rem;}
 
 /* -- preview -- */
-.preview-col{display:flex;flex-direction:column;overflow-y:auto;background:var(--bg3);}
+.preview-col{display:flex;flex-direction:column;overflow-y:auto;background:var(--bg3);min-height:0;}
 .preview-head{padding:.7rem 1rem;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;}
 .preview-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:1.2rem;gap:1rem;}
 
@@ -172,7 +174,7 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);font
     <div id="stepList"></div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;min-width:0;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;min-width:0;min-height:0;overflow:hidden;">
     <div class="form-panel" id="formPanel"></div>
     <div class="preview-col">
       <div class="preview-head">Live-Vorschau</div>
@@ -925,6 +927,7 @@ const STOP_TYPES = {
   vba:        { label: 'Verkehrsbeeinflussungsanlage (VBA)', prefix: '' },
   kreuzung:   { label: 'Kreuzung (Ampel/Stop/Vorfahrt)', prefix: '' },
   kreisverkehr: { label: 'Kreisverkehr', prefix: '' },
+  abfahrt_direkt: { label: 'Abfahrt ohne Vorwegweiser', prefix: 'AS' },
   raststaette:{ label: 'Raststätte / Parkplatz',      prefix: '' },
   tunnel:     { label: 'Tunnel',                      prefix: '' },
   bruecke:    { label: 'Brücke',                      prefix: '' },
@@ -1085,8 +1088,11 @@ function selectStep(i){ activeStepIdx=i; renderFormAndPreview(); renderStepList(
 function addStep(){
   if(!activeRouteKey){ alert('Bitte zuerst eine Autobahn anlegen/auswählen.'); return; }
   const route = PROJECT.routes[activeRouteKey];
-  curSteps(route).push({ type:'stop', stopType:'ausfahrt', num:'', name:'Neuer Punkt', km:'', lanes:'', adj:[], routeOverride:'', signKey:'', customText:'', extraDests:['','',''] });
-  activeStepIdx = curSteps(route).length-1;
+  const steps = curSteps(route);
+  const newStep = { type:'stop', stopType:'ausfahrt', num:'', name:'Neuer Punkt', km:'', lanes:'', adj:[], routeOverride:'', signKey:'', customText:'', extraDests:['','',''] };
+  const insertAt = steps.length ? activeStepIdx + 1 : 0;
+  steps.splice(insertAt, 0, newStep);
+  activeStepIdx = insertAt;
   renderAll();
 }
 
@@ -1157,11 +1163,16 @@ function renderForm(){
     ${field('Name', `<input value="${s.name}" oninput="updateStep('name', this.value)">`)}
     ${field('Fahrstreifen (z.B. 2+2, 3+3)', `<input value="${s.lanes}" oninput="updateStep('lanes', this.value)">`)}
     ${field('Routen-Override (z.B. A↔S Wechsel)', `<input value="${s.routeOverride}" placeholder="z.B. S8" oninput="updateStep('routeOverride', this.value)">`)}
+    ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? field('Vorwegweiser-Schema', `<select onchange="updateStep('vorwegweiserScheme', this.value)">
+        <option value="1000-500" ${(!s.vorwegweiserScheme||s.vorwegweiserScheme==='1000-500')?'selected':''}>1000 m / 500 m (Standard)</option>
+        <option value="800-400" ${s.vorwegweiserScheme==='800-400'?'selected':''}>800 m / 400 m</option>
+        <option value="1500-1000-500" ${s.vorwegweiserScheme==='1500-1000-500'?'selected':''}>1500 m / 1000 m / 500 m (500m-Stil zweimal)</option>
+      </select>`) : ''}
     ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? `<div class="checkline">
       <input type="checkbox" id="show1000Chk" ${s.show1000===false?'':'checked'} onchange="updateStep('show1000', this.checked)">
-      <label for="show1000Chk" style="font-size:.8rem">1000-m-Vorankündigung anzeigen</label>
+      <label for="show1000Chk" style="font-size:.8rem">Erste (weiteste) Vorankündigung anzeigen</label>
     </div>` : ''}
-    ${s.stopType==='weiterauf' ? field('Zielroute (z.B. A5)', `<input value="${s.targetRoute||''}" placeholder="z.B. A5" oninput="updateStep('targetRoute', this.value)">`) : ''}
+    ${s.stopType==='weiterauf' ? field('Zielcode (z.B. A5-A-1)', `<input value="${s.targetRoute||''}" placeholder="z.B. A5-A-1" oninput="updateStep('targetRoute', this.value)">`) : ''}
 
     ${s.stopType==='schild' ? renderZusatzzeichenField(s) : ''}
 
@@ -1377,8 +1388,8 @@ function removeZusatzzeichen(i){
 // VBA (Verkehrsbeeinflussungsanlage): je Fahrstreifen ein "A"-Schild (Tempo),
 // dazwischen je ein "B"-Schild (Stau/Alles-Ende/Überholverbot/...)
 // ═══════════════════════════════════════════════════════
-const VBA_A_OPTIONS = ['', '60', '80', '100', '120'];
-const VBA_A_LABELS  = { '': 'nichts', '60':'60', '80':'80', '100':'100', '120':'120' };
+const VBA_A_OPTIONS = ['', '60', '80', '100', '120', 'merge', 'x'];
+const VBA_A_LABELS  = { '': 'nichts', '60':'60', '80':'80', '100':'100', '120':'120', 'merge':'Pfeil (Spur endet/Merge)', 'x':'X (Spur gesperrt)' };
 const VBA_B_OPTIONS = ['', 'Stau', 'AllesEnde', 'Ueberholverbot', 'Baustelle', 'Gegenverkehr'];
 const VBA_B_LABELS  = { '':'nichts', 'Stau':'Stau', 'AllesEnde':'Alles-Ende', 'Ueberholverbot':'Überholverbot', 'Baustelle':'Baustelle', 'Gegenverkehr':'Gegenverkehr' };
 
@@ -1715,7 +1726,7 @@ function setMode(mode){
     editorUnlocked = true;
     safeSessionSet('lsEditorUnlocked', '1');
   }
-  document.getElementById('editorMode').style.display = mode==='editor' ? 'block' : 'none';
+  document.getElementById('editorMode').style.display = mode==='editor' ? 'flex' : 'none';
   document.getElementById('editorToolbar').style.display = mode==='editor' ? 'flex' : 'none';
   document.getElementById('simulatorMode').style.display = mode==='simulator' ? 'flex' : 'none';
   document.getElementById('tabEditor').classList.toggle('active', mode==='editor');
@@ -1728,14 +1739,16 @@ function setMode(mode){
 // ═══════════════════════════════════════════════════════
 let simState = { key:null, route:null, dir:'A', steps:[], idx:0, realIdxList:[], switchNotice:null, phase:0 };
 
+function isJRoute(key){ return /^J[-\d]/i.test(key); }
+
 function simRefreshRouteList(){
   const sel = document.getElementById('simRouteSelect');
   const prevVal = sel.value;
-  sel.innerHTML = '<option value="">— Route wählen —</option>' + Object.keys(PROJECT.routes).map(k=>{
+  sel.innerHTML = '<option value="">— Route wählen —</option>' + Object.keys(PROJECT.routes).filter(k=>!isJRoute(k)).map(k=>{
     const r = PROJECT.routes[k];
     return `<option value="${k}">${r.name} · ${r.von||'?'} → ${r.nach||'?'}</option>`;
   }).join('');
-  if(PROJECT.routes[prevVal]) sel.value = prevVal;
+  if(PROJECT.routes[prevVal] && !isJRoute(prevVal)) sel.value = prevVal;
 }
 
 function simOnRouteChange(){
@@ -1793,6 +1806,35 @@ function simNarrativeFor(pos){
   return sentences.join(' ');
 }
 
+// Parst einen vollen Zielcode wie "A5-A-1" (Route-Richtung-Schritt) oder "A5-T1-B-12".
+// Gibt {routeKey, dir, stepNum} zurück, oder null wenn ungültig/Route nicht vorhanden.
+function simParseCode(code){
+  if(!code) return null;
+  const m = code.trim().match(/^(.+)-([ABJ])-(\d+)$/);
+  if(!m) return null;
+  const [, routeKey, dir, stepNumStr] = m;
+  if(!PROJECT.routes[routeKey]) return null;
+  if(dir==='J' && !isJRoute(routeKey)) return null;
+  return { routeKey, dir, stepNum: parseInt(stepNumStr,10)||1 };
+}
+
+// Wechselt exakt zu Route+Richtung+Schrittnummer aus einem Zielcode (für "Weiterfahrt auf andere Route").
+function simSwitchToCode(code, fromRouteName){
+  const parsed = simParseCode(code);
+  if(!parsed) return;
+  simLoadRoute(parsed.routeKey, parsed.dir);
+  simState.dir = parsed.dir;
+  document.getElementById('simDirA') && document.getElementById('simDirA').classList.toggle('active', parsed.dir==='A');
+  document.getElementById('simDirB') && document.getElementById('simDirB').classList.toggle('active', parsed.dir==='B');
+  simState.idx = Math.max(0, Math.min(parsed.stepNum-1, simState.realIdxList.length-1));
+  simState.phase = 0;
+  simState.switchNotice = `Du bist von der ${fromRouteName} auf die ${PROJECT.routes[parsed.routeKey].name} gewechselt.`;
+  const sel = document.getElementById('simRouteSelect');
+  if(sel) sel.value = parsed.routeKey;
+  simRenderStep();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 function simSwitchRoute(newKey, fromCode){
   if(!PROJECT.routes[newKey]) return;
   const fromName = simState.route.name;
@@ -1810,8 +1852,24 @@ function simSwitchRoute(newKey, fromCode){
 }
 
 function simIsPhased(s){ return s.stopType==='ausfahrt' || s.stopType==='kreuz'; }
-function simPhaseCount(s){ if(!simIsPhased(s)) return 1; return s.show1000===false ? 2 : 3; }
-function simEffectivePhase(s, storedPhase){ return (simIsPhased(s) && s.show1000===false) ? storedPhase+1 : storedPhase; }
+
+// Vorwegweiser-Schemata: jede Phase ist 'far' (1000m-Stil: Nummer im Kreis, Name, Distanz)
+// oder 'near' (500m-Stil: Geradeaus-Ziele über dem Pfeil, Ziele rechts, Distanz unten)
+const VORWEGWEISER_SCHEMES = {
+  '1000-500':      [{dist:'1000 m', style:'far'}, {dist:'500 m', style:'near'}],
+  '800-400':       [{dist:'800 m',  style:'far'}, {dist:'400 m', style:'near'}],
+  '1500-1000-500': [{dist:'1500 m', style:'far'}, {dist:'1000 m', style:'near'}, {dist:'500 m', style:'near'}]
+};
+function simVorwegweiserList(s){
+  const scheme = VORWEGWEISER_SCHEMES[s.vorwegweiserScheme] || VORWEGWEISER_SCHEMES['1000-500'];
+  return (s.show1000===false) ? scheme.slice(1) : scheme;
+}
+function simPhaseCount(s){ if(!simIsPhased(s)) return 1; return simVorwegweiserList(s).length + 1; }
+function simPhaseInfo(s, storedPhase){
+  const list = simVorwegweiserList(s);
+  if(storedPhase < list.length) return { isAnnouncement:true, dist:list[storedPhase].dist, style:list[storedPhase].style };
+  return { isAnnouncement:false };
+}
 
 function simNextStopName(pos){
   for(let p=pos+1;p<simState.realIdxList.length;p++){
@@ -1853,27 +1911,27 @@ function simRenderStep(){
   const cls = badgeClassLocal(displayRoute);
   const signColorKey = cls==='s' ? 'Blau' : 'Grün';
   const phased = simIsPhased(s);
-  const phase = phased ? simEffectivePhase(s, simState.phase) : 0;
-  const showNum = s.stopType==='ausfahrt' && s.num;
+  const pInfo = phased ? simPhaseInfo(s, simState.phase) : { isAnnouncement:false };
+  const showNum = (s.stopType==='ausfahrt' || s.stopType==='abfahrt_direkt') && s.num;
 
   let clusterHtml = '';
   let phaseLabel = '';
 
-  if(phased && phase===0){
-    // ── 1000m Vorankündigung: echtes AS/Kreuz-Schild aus deinen SVGs, keine Pfeile ──
-    phaseLabel = 'Vorankündigung · 1000 m';
+  if(phased && pInfo.isAnnouncement && pInfo.style==='far'){
+    // ── Weite Vorankündigung (z.B. 1000m/800m/1500m): echtes AS/Kreuz-Schild aus deinen SVGs, keine Pfeile ──
+    phaseLabel = 'Vorankündigung · ' + pInfo.dist;
     const icon1000 = s.stopType==='kreuz' ? SIGNS['Icon1000Kreuz'] : SIGNS['Icon1000AS'];
     const board = `<div class="sign-board-single${(cls!=='a'?' '+cls:'')}" style="min-width:170px">
         <div class="custom-svg" style="width:64px;height:64px;margin:0 auto .3rem">${icon1000}</div>
         ${s.num?`<div style="display:flex;justify-content:center;margin-bottom:.3rem"><span style="background:#fff;color:${cls==='s'?'var(--s-blue)':'var(--a-green)'};border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Barlow Condensed',sans-serif">${s.num}</span></div>`:''}
         <div class="dest-block" style="text-align:center">${simDestLines(s).join('<br>')}</div>
-        <div style="text-align:center;margin-top:.3rem;font-size:.78rem;opacity:.9">1000 m</div>
+        <div style="text-align:center;margin-top:.3rem;font-size:.78rem;opacity:.9">${pInfo.dist}</div>
       </div>`;
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(board)}</div>`;
 
-  } else if(phased && phase===1){
-    // ── 500m: über dem Pfeil die Geradeaus-Ziele (wie beim Geradeaus-Pfeil der Ausfahrt), rechts die Ziele dieser Ausfahrt (bis zu 3 weitere) ──
-    phaseLabel = 'Vorankündigung · 500 m';
+  } else if(phased && pInfo.isAnnouncement && pInfo.style==='near'){
+    // ── Nahe Vorankündigung (z.B. 500m/400m/1000m-als-500m-Stil): über dem Pfeil die Geradeaus-Ziele, rechts die Ziele dieser Ausfahrt ──
+    phaseLabel = 'Vorankündigung · ' + pInfo.dist;
     const icon = SIGNS['PfeilGeradeausRechts'];
     const destLines = simDestLines(s).join('<br>');
     const geradeausLines = simGeradeausDests(pos).join('<br>');
@@ -1886,11 +1944,11 @@ function simRenderStep(){
           </div>
           <div class="dest-block" style="text-align:left">${destLines}</div>
         </div>
-        <div style="text-align:right;margin-top:.4rem;font-size:.78rem;opacity:.9">500 m</div>
+        <div style="text-align:right;margin-top:.4rem;font-size:.78rem;opacity:.9">${pInfo.dist}</div>
       </div>`;
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(board)}</div>`;
 
-  } else if(phased && phase===2 && s.stopType==='ausfahrt'){
+  } else if(s.stopType==='ausfahrt' ? (phased && !pInfo.isAnnouncement) : s.stopType==='abfahrt_direkt'){
     // ── Ausfahrt selbst: Ziele (Pfeil rechts, bis zu 3 weitere Ziele) + Geradeaus-Ziele (Pfeil geradeaus) auf einer Schilderbrücke ──
     phaseLabel = 'Ausfahrt';
     const exitIcon = SIGNS['PfeilRechts'];
@@ -1911,14 +1969,14 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster gantry-mode">${simPostsWrap(boardStraight)}${simPostsWrap(boardExit)}</div>`;
 
   } else if(s.stopType==='weiterauf'){
-    // ── Eigener Step: Weiterfahrt auf eine andere Route — NUR durch Klick auf das Schild selbst (manuell) ──
+    // ── Eigener Step: Weiterfahrt auf einen exakten Zielcode (Route-Richtung-Schritt, z.B. A5-A-1) — NUR durch Klick auf das Schild (manuell) ──
     phaseLabel = 'Weiterfahrt auf andere Route';
-    const resolveKeyW = (code)=> PROJECT.routes[code] ? code : (PROJECT.routes[code+'-T1'] ? code+'-T1' : null);
-    const targetKeyW = resolveKeyW(s.targetRoute||'');
-    const switchableW = !!targetKeyW;
-    const swAttrW = switchableW ? ` onclick="simSwitchRoute('${targetKeyW}','${route.name}')"` : '';
-    const boardW = `<div class="sign-board-single${(badgeClassLocal(s.targetRoute)!=='a'?' '+badgeClassLocal(s.targetRoute):'')}${switchableW?' switchable':''}"${swAttrW} style="min-width:170px">
-        <div class="route-no">${s.targetRoute||'?'}</div>
+    const parsedW = simParseCode(s.targetRoute||'');
+    const switchableW = !!parsedW;
+    const swAttrW = switchableW ? ` onclick="simSwitchToCode('${(s.targetRoute||'').replace(/'/g,"\\'")}','${route.name}')"` : '';
+    const displayCodeW = parsedW ? parsedW.routeKey : (s.targetRoute||'?');
+    const boardW = `<div class="sign-board-single${(badgeClassLocal(displayCodeW)!=='a'?' '+badgeClassLocal(displayCodeW):'')}${switchableW?' switchable':''}"${swAttrW} style="min-width:170px">
+        <div class="route-no">${displayCodeW}</div>
         <div class="dest-block" style="text-align:center">${s.name || 'weiter'}${switchableW?'<br><span style="font-size:.72rem;opacity:.85">wechseln →</span>':''}</div>
       </div>`;
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(boardW)}</div>`;
@@ -1938,6 +1996,12 @@ function simRenderStep(){
     const n = Math.max(2, laneCountFromString(s.lanes) || 2);
     function vbaPick(opts){ return opts[Math.floor(Math.random()*opts.length)]; }
     function vbaABoard(val){
+      if(val==='x'){
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.8rem;color:#e02020;line-height:1">✕</div>`;
+      }
+      if(val==='merge'){
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#2fcf6a;line-height:1;transform:rotate(0deg)">↘</div>`;
+      }
       const label = val ? val : '';
       return `<div style="background:#fff;border:4px solid #c0392b;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;color:#1b2430">${label}</div>`;
     }
@@ -1960,26 +2024,30 @@ function simRenderStep(){
       </div>`;
 
   } else if(s.stopType==='kreuzung'){
-    // ── Normale Kreuzung: Regelungs-Icon + kreuzende Straßen ──
+    // ── Normale Kreuzung: Wegweiser mit Zielbeschriftung, Regelung nur als kleines Eck-Badge ──
     phaseLabel = 'Kreuzung';
     const kreuzIcons = { ampel:'Ampel', stop:'Stoppschild', vorfahrtachten:'VorfahrtAchten', vorfahrtstrasse:'Vorfahrtstraße' };
     const iconKey = kreuzIcons[s.kreuzungTyp] || 'Ampel';
     const iconK = SIGNS[iconKey];
-    const crossNames = adj.map(a=>a.code).join(' · ') || s.name;
-    const boardK = `<div class="sign-board-single" style="min-width:170px;background:#fff;color:#1b2430;border-color:#1b2430">
-        ${iconK?`<div class="custom-svg" style="width:56px;height:56px;margin:0 auto .3rem">${iconK}</div>`:''}
-        <div class="dest-block" style="text-align:center;color:#1b2430">${crossNames}</div>
+    const straightIconK2 = SIGNS['PfeilGeradeaus'];
+    const crossDests = adj.length ? adj.map(a=>[a.code].concat((a.extraDests||[]).filter(Boolean)).join(', ')) : [s.name];
+    const boardK = `<div class="sign-board-single" style="min-width:180px;position:relative">
+        <div class="custom-svg" style="width:40px;height:34px;margin:0 auto .3rem">${straightIconK2}</div>
+        <div class="dest-block" style="text-align:center">${crossDests.join('<br>')}</div>
+        ${iconK?`<div style="position:absolute;bottom:-10px;left:-10px;width:26px;height:26px;background:#fff;border:2px solid #1b2430;border-radius:4px;padding:2px;box-sizing:border-box">${iconK}</div>`:''}
       </div>`;
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(boardK)}</div>`;
 
   } else if(s.stopType==='kreisverkehr'){
-    // ── Kreisverkehr: Kreisel-Icon + jede Ausfahrt als eigenes Schild ──
+    // ── Kreisverkehr: Wegweiser mit Zielbeschriftung, Kreisel-Icon nur als kleines Eck-Badge ──
     phaseLabel = 'Kreisverkehr';
     const resolveKeyR = (code)=> PROJECT.routes[code] ? code : (PROJECT.routes[code+'-T1'] ? code+'-T1' : null);
     const kreiselIcon = SIGNS['Kreisel'];
-    const mainBoardR = `<div class="sign-board-single" style="min-width:140px;background:#fff;color:#1b2430;border-color:#1b2430">
-        ${kreiselIcon?`<div class="custom-svg" style="width:56px;height:56px;margin:0 auto .3rem">${kreiselIcon}</div>`:''}
-        <div class="dest-block" style="text-align:center;color:#1b2430">${s.name||'Kreisverkehr'}</div>
+    const straightIconR = SIGNS['PfeilGeradeaus'];
+    const mainBoardR = `<div class="sign-board-single" style="min-width:150px;position:relative">
+        <div class="custom-svg" style="width:40px;height:34px;margin:0 auto .3rem">${straightIconR}</div>
+        <div class="dest-block" style="text-align:center">${s.name||'Kreisverkehr'}</div>
+        ${kreiselIcon?`<div style="position:absolute;bottom:-10px;left:-10px;width:26px;height:26px;background:#fff;border:2px solid #1b2430;border-radius:4px;padding:2px;box-sizing:border-box">${kreiselIcon}</div>`:''}
       </div>`;
     clusterHtml += `<div class="sign-cluster gantry-mode">`;
     clusterHtml += simPostsWrap(mainBoardR);
@@ -2030,8 +2098,8 @@ function simRenderStep(){
     }
   }
 
-  const isLastPhaseOfLastStop = pos>=total-1 && (phase>=simPhaseCount(s)-1);
-  const isFirstPhaseOfFirstStop = pos<=0 && phase<=0;
+  const isLastPhaseOfLastStop = pos>=total-1 && (simState.phase>=simPhaseCount(s)-1);
+  const isFirstPhaseOfFirstStop = pos<=0 && simState.phase<=0;
 
   let endControls = '';
   if(isLastPhaseOfLastStop){
@@ -2096,10 +2164,11 @@ function simTryLoadFromUrl(){
   try{
     const raw = (location.search||'').replace(/^\?/, '');
     if(!raw) return false;
-    const m = raw.match(/^(.+)-([AB])-(\d+)$/);
+    const m = raw.match(/^(.+)-([ABJ])-(\d+)$/);
     if(!m) return false;
     const [, routeKey, dir, stepNumStr] = m;
     if(!PROJECT.routes[routeKey]) return false;
+    if(dir==='J' && !isJRoute(routeKey)) return false; // J-Richtung nur für J-Routen gültig
     const sel = document.getElementById('simRouteSelect');
     sel.value = routeKey;
     simOnRouteChange();
