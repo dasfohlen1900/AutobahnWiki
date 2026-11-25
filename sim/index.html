@@ -1416,8 +1416,8 @@ function removeZusatzzeichen(i){
 // VBA (Verkehrsbeeinflussungsanlage): je Fahrstreifen ein "A"-Schild (Tempo),
 // dazwischen je ein "B"-Schild (Stau/Alles-Ende/Überholverbot/...)
 // ═══════════════════════════════════════════════════════
-const VBA_A_OPTIONS = ['', '60', '80', '100', '120', 'merge', 'x'];
-const VBA_A_LABELS  = { '': 'nichts', '60':'60', '80':'80', '100':'100', '120':'120', 'merge':'Pfeil (Spur endet/Merge)', 'x':'X (Spur gesperrt)' };
+const VBA_A_OPTIONS = ['', '60', '80', '100', '120', 'mergeLeft', 'mergeRight', 'x'];
+const VBA_A_LABELS  = { '': 'nichts', '60':'60', '80':'80', '100':'100', '120':'120', 'mergeLeft':'Pfeil (Spur endet/Merge), Wechsel nach links', 'mergeRight':'Pfeil (Spur endet/Merge), Wechsel nach rechts','x':'X (Spur gesperrt)' };
 const VBA_B_OPTIONS = ['', 'Stau', 'AllesEnde', 'Ueberholverbot', 'Baustelle', 'Gegenverkehr'];
 const VBA_B_LABELS  = { '':'nichts', 'Stau':'Stau', 'AllesEnde':'Alles-Ende', 'Ueberholverbot':'Überholverbot', 'Baustelle':'Baustelle', 'Gegenverkehr':'Gegenverkehr' };
 
@@ -2065,7 +2065,10 @@ function simRenderStep(){
       if(val==='x'){
         return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.8rem;color:#e02020;line-height:1">✕</div>`;
       }
-      if(val==='merge'){
+      if(val==='mergeLeft'){
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1;transform:rotate(0deg)">↙</div>`;
+      }
+      if(val==='mergeRight'){
         return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1;transform:rotate(0deg)">↘</div>`;
       }
       const label = val ? val : '';
