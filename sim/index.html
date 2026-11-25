@@ -928,6 +928,7 @@ const STOP_TYPES = {
   kreuzung:   { label: 'Kreuzung (Ampel/Stop/Vorfahrt)', prefix: '' },
   kreisverkehr: { label: 'Kreisverkehr', prefix: '' },
   abfahrt_direkt: { label: 'Abfahrt ohne Vorwegweiser', prefix: 'AS' },
+  uebergang: { label: 'Übergang in … (Straße läuft unter neuer Bezeichnung weiter)', prefix: '' },
   raststaette:{ label: 'Raststätte / Parkplatz',      prefix: '' },
   tunnel:     { label: 'Tunnel',                      prefix: '' },
   bruecke:    { label: 'Brücke',                      prefix: '' },
@@ -1163,16 +1164,43 @@ function renderForm(){
     ${field('Name', `<input value="${s.name}" oninput="updateStep('name', this.value)">`)}
     ${field('Fahrstreifen (z.B. 2+2, 3+3)', `<input value="${s.lanes}" oninput="updateStep('lanes', this.value)">`)}
     ${field('Routen-Override (z.B. A↔S Wechsel)', `<input value="${s.routeOverride}" placeholder="z.B. S8" oninput="updateStep('routeOverride', this.value)">`)}
-    ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? field('Vorwegweiser-Schema', `<select onchange="updateStep('vorwegweiserScheme', this.value)">
-        <option value="1000-500" ${(!s.vorwegweiserScheme||s.vorwegweiserScheme==='1000-500')?'selected':''}>1000 m / 500 m (Standard)</option>
-        <option value="800-400" ${s.vorwegweiserScheme==='800-400'?'selected':''}>800 m / 400 m</option>
-        <option value="1500-1000-500" ${s.vorwegweiserScheme==='1500-1000-500'?'selected':''}>1500 m / 1000 m / 500 m (500m-Stil zweimal)</option>
-      </select>`) : ''}
+   ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? field('Vorwegweiser-Schema', `<select onchange="updateStep('vorwegweiserScheme', this.value)">
+  <option value="1000-500" ${(!s.vorwegweiserScheme||s.vorwegweiserScheme==='1000-500')?'selected':''}>1000 m / 500 m (Standard)</option>
+
+  <option value="800-400" ${s.vorwegweiserScheme==='800-400'?'selected':''}>
+    800 m / 400 m
+  </option>
+
+  <option value="1200-600" ${s.vorwegweiserScheme==='1200-600'?'selected':''}>
+    1200 m / 600 m
+  </option>
+
+  <option value="1200-800-400" ${s.vorwegweiserScheme==='1200-800-400'?'selected':''}>
+    1200 m / 800 m / 400 m
+  </option>
+
+  <option value="1400-800-400" ${s.vorwegweiserScheme==='1400-800-400'?'selected':''}>
+    1400 m / 800 m / 400 m
+  </option>
+
+  <option value="1500-1000-500" ${s.vorwegweiserScheme==='1500-1000-500'?'selected':''}>
+    1500 m / 1000 m / 500 m
+  </option>
+
+  <option value="1800-1000-500" ${s.vorwegweiserScheme==='1800-1000-500'?'selected':''}>
+    1800 m / 1000 m / 500 m
+  </option>
+
+  <option value="2000-1000-500" ${s.vorwegweiserScheme==='2000-1000-500'?'selected':''}>
+    2000 m / 1000 m / 500 m
+  </option>
+
+</select>`) : ''}
     ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? `<div class="checkline">
       <input type="checkbox" id="show1000Chk" ${s.show1000===false?'':'checked'} onchange="updateStep('show1000', this.checked)">
       <label for="show1000Chk" style="font-size:.8rem">Erste (weiteste) Vorankündigung anzeigen</label>
     </div>` : ''}
-    ${s.stopType==='weiterauf' ? field('Zielcode (z.B. A5-A-1)', `<input value="${s.targetRoute||''}" placeholder="z.B. A5-A-1" oninput="updateStep('targetRoute', this.value)">`) : ''}
+    ${(s.stopType==='weiterauf'||s.stopType==='uebergang') ? field('Zielcode (z.B. A5-A-1)', `<input value="${s.targetRoute||''}" placeholder="z.B. A5-A-1" oninput="updateStep('targetRoute', this.value)">`) : ''}
 
     ${s.stopType==='schild' ? renderZusatzzeichenField(s) : ''}
 
@@ -1751,11 +1779,31 @@ function simRefreshRouteList(){
   if(PROJECT.routes[prevVal] && !isJRoute(prevVal)) sel.value = prevVal;
 }
 
+function simUpdateDirButtons(route, key, activeDirLetter){
+  const btnA = document.getElementById('simDirA'), btnB = document.getElementById('simDirB');
+  if(!btnA || !btnB) return;
+  if(key && isJRoute(key)){
+    btnA.textContent = 'Nur Richtung J';
+    btnA.style.display = '';
+    btnB.style.display = 'none';
+    btnA.classList.add('active');
+    btnB.classList.remove('active');
+  } else {
+    btnA.style.display = '';
+    btnB.style.display = '';
+    btnA.textContent = route ? (route.dirA || (route.nach?'Richtung '+route.nach:'Hinrichtung')) : 'Richtung A';
+    btnB.textContent = route ? (route.dirB || (route.von?'Richtung '+route.von:'Rückrichtung')) : 'Richtung B';
+    if(activeDirLetter){
+      btnA.classList.toggle('active', activeDirLetter==='A');
+      btnB.classList.toggle('active', activeDirLetter==='B');
+    }
+  }
+}
+
 function simOnRouteChange(){
   const key = document.getElementById('simRouteSelect').value;
   const route = PROJECT.routes[key];
-  document.getElementById('simDirA').textContent = route ? (route.dirA || (route.nach?'Richtung '+route.nach:'Hinrichtung')) : 'Richtung A';
-  document.getElementById('simDirB').textContent = route ? (route.dirB || (route.von?'Richtung '+route.von:'Rückrichtung')) : 'Richtung B';
+  simUpdateDirButtons(route, key, simState.dir);
 }
 
 function simSetDir(d){
@@ -1824,8 +1872,7 @@ function simSwitchToCode(code, fromRouteName){
   if(!parsed) return;
   simLoadRoute(parsed.routeKey, parsed.dir);
   simState.dir = parsed.dir;
-  document.getElementById('simDirA') && document.getElementById('simDirA').classList.toggle('active', parsed.dir==='A');
-  document.getElementById('simDirB') && document.getElementById('simDirB').classList.toggle('active', parsed.dir==='B');
+  simUpdateDirButtons(PROJECT.routes[parsed.routeKey], parsed.routeKey, parsed.dir);
   simState.idx = Math.max(0, Math.min(parsed.stepNum-1, simState.realIdxList.length-1));
   simState.phase = 0;
   simState.switchNotice = `Du bist von der ${fromRouteName} auf die ${PROJECT.routes[parsed.routeKey].name} gewechselt.`;
@@ -1858,7 +1905,12 @@ function simIsPhased(s){ return s.stopType==='ausfahrt' || s.stopType==='kreuz';
 const VORWEGWEISER_SCHEMES = {
   '1000-500':      [{dist:'1000 m', style:'far'}, {dist:'500 m', style:'near'}],
   '800-400':       [{dist:'800 m',  style:'far'}, {dist:'400 m', style:'near'}],
-  '1500-1000-500': [{dist:'1500 m', style:'far'}, {dist:'1000 m', style:'near'}, {dist:'500 m', style:'near'}]
+  '1500-1000-500': [{dist:'1500 m', style:'far'}, {dist:'1000 m', style:'near'}, {dist:'500 m', style:'near'}],
+  '1400-800-400': [{dist:'1400 m', style:'far'}, {dist:'800 m', style:'near'}, {dist:'400 m', style:'near'}],
+  '1200-800-400': [{dist:'1200 m', style:'far'}, {dist:'800 m', style:'near'}, {dist:'400 m', style:'near'}],
+  '1200-600': [{dist:'1200 m', style:'far'}, {dist:'600 m', style:'near'}],
+  '2000-1000-500': [{dist:'2000 m', style:'far'}, {dist:'1000 m', style:'near'}, {dist:'500 m', style:'near'}],
+  '1800-1000-500': [{dist:'1800 m', style:'far'}, {dist:'1000 m', style:'near'},{dist:'500 m', style:'near'}]
 };
 function simVorwegweiserList(s){
   const scheme = VORWEGWEISER_SCHEMES[s.vorwegweiserScheme] || VORWEGWEISER_SCHEMES['1000-500'];
@@ -1968,6 +2020,20 @@ function simRenderStep(){
 
     clusterHtml = `<div class="sign-cluster gantry-mode">${simPostsWrap(boardStraight)}${simPostsWrap(boardExit)}</div>`;
 
+  } else if(s.stopType==='uebergang'){
+    // ── Übergang: Straße läuft unter neuer Bezeichnung weiter (Ende-Schild + "Übergang in X") ──
+    phaseLabel = 'Übergang';
+    const parsedU = simParseCode(s.targetRoute||'');
+    const targetNameU = parsedU ? parsedU.routeKey : (s.targetRoute||'?');
+    const clsU = badgeClassLocal(targetNameU);
+    const endIconU = cls==='a' ? SIGNS['ABGrünEnde'] : (cls==='s' ? SIGNS['ABBlauEnde'] : null);
+    const swAttrU = parsedU ? ` onclick="simSwitchToCode('${(s.targetRoute||'').replace(/'/g,"\\'")}','${route.name}')"` : '';
+    const boardU = `<div class="sign-board-single${(clsU!=='a'?' '+clsU:'')}${parsedU?' switchable':''}"${swAttrU} style="min-width:180px">
+        ${endIconU?`<div class="custom-svg" style="width:56px;height:56px;margin:0 auto .3rem">${endIconU}</div>`:''}
+        <div class="dest-block" style="text-align:center">Übergang in<br><b style="font-size:1.1rem">${targetNameU}</b>${s.name?'<br>'+s.name:''}${parsedU?'<br><span style="font-size:.72rem;opacity:.85">weiter →</span>':''}</div>
+      </div>`;
+    clusterHtml = `<div class="sign-cluster">${simPostsWrap(boardU)}</div>`;
+
   } else if(s.stopType==='weiterauf'){
     // ── Eigener Step: Weiterfahrt auf einen exakten Zielcode (Route-Richtung-Schritt, z.B. A5-A-1) — NUR durch Klick auf das Schild (manuell) ──
     phaseLabel = 'Weiterfahrt auf andere Route';
@@ -2000,7 +2066,7 @@ function simRenderStep(){
         return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.8rem;color:#e02020;line-height:1">✕</div>`;
       }
       if(val==='merge'){
-        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#2fcf6a;line-height:1;transform:rotate(0deg)">↘</div>`;
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1;transform:rotate(0deg)">↘</div>`;
       }
       const label = val ? val : '';
       return `<div style="background:#fff;border:4px solid #c0392b;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;color:#1b2430">${label}</div>`;
@@ -2102,18 +2168,18 @@ function simRenderStep(){
   const isFirstPhaseOfFirstStop = pos<=0 && simState.phase<=0;
 
   let endControls = '';
-  if(isLastPhaseOfLastStop){
+  if(isLastPhaseOfLastStop && !(s.stopType==='uebergang' && simParseCode(s.targetRoute||''))){
     // ── Streckenende: Richtungswechsel anbieten. Bei "weiterauf" erfolgt der Routenwechsel ausschließlich durch Klick auf das Schild oben (manuell). ──
     const otherDir = simState.dir==='A' ? 'B' : 'A';
     const otherDirLabel = otherDir==='A' ? (route.dirA||'Richtung A') : (route.dirB||'Richtung B');
     endControls = `<div class="controls" style="gap:.6rem">
       <div style="font-size:.85rem;color:var(--muted);text-align:center">${s.stopType==='weiterauf' ? 'Klicke auf das Schild oben, um die Route zu wechseln.' : 'Streckenende erreicht.'}</div>
-      <button class="btn" onclick="simReverseDirection()">⇄ In ${otherDirLabel} zurückfahren</button>
+      ${isJRoute(simState.key) ? '' : `<button class="btn" onclick="simReverseDirection()">⇄ In ${otherDirLabel} zurückfahren</button>`}
       <button class="stepback-btn" onclick="simPrev()" ${isFirstPhaseOfFirstStop?'disabled':''}>← Schritt zurück</button>
     </div>`;
   } else {
     endControls = `<div class="controls">
-      <button class="continue-btn" onclick="simNext()">Weiter</button>
+      <button class="continue-btn" onclick="simNext()">${(s.stopType==='uebergang' && simParseCode(s.targetRoute||'')) ? 'Weiter in '+simParseCode(s.targetRoute).routeKey+' →' : 'Weiter'}</button>
       <button class="stepback-btn" onclick="simPrev()" ${isFirstPhaseOfFirstStop?'disabled':''}>← Schritt zurück</button>
     </div>`;
   }
@@ -2174,8 +2240,7 @@ function simTryLoadFromUrl(){
     simOnRouteChange();
     simLoadRoute(routeKey, dir);
     simState.dir = dir;
-    document.getElementById('simDirA').classList.toggle('active', dir==='A');
-    document.getElementById('simDirB').classList.toggle('active', dir==='B');
+    simUpdateDirButtons(PROJECT.routes[routeKey], routeKey, dir);
     const stepNum = parseInt(stepNumStr, 10) || 1;
     simState.idx = Math.max(0, Math.min(stepNum-1, simState.realIdxList.length-1));
     simState.phase = 0;
@@ -2185,10 +2250,10 @@ function simTryLoadFromUrl(){
 }
 
 function simReverseDirection(){
+  if(isJRoute(simState.key)) return; // J-Routen haben nur eine Fahrtrichtung
   const newDir = simState.dir==='A' ? 'B' : 'A';
   simState.dir = newDir;
-  document.getElementById('simDirA') && document.getElementById('simDirA').classList.toggle('active', newDir==='A');
-  document.getElementById('simDirB') && document.getElementById('simDirB').classList.toggle('active', newDir==='B');
+  simUpdateDirButtons(simState.route, simState.key, newDir);
   simLoadRoute(simState.key, newDir);
   simState.switchNotice = `Du fährst jetzt in Gegenrichtung (${newDir==='A' ? (simState.route.dirA||'Richtung A') : (simState.route.dirB||'Richtung B')}).`;
   simRenderStep();
@@ -2196,6 +2261,10 @@ function simReverseDirection(){
 
 function simNext(){
   const s = simFindStopAt(simState.idx);
+  if(s.stopType==='uebergang' && simParseCode(s.targetRoute||'')){
+    simSwitchToCode(s.targetRoute, simState.route.name);
+    return;
+  }
   const maxPhase = simPhaseCount(s)-1;
   if(simState.phase < maxPhase){ simState.phase++; }
   else if(simState.idx < simState.realIdxList.length-1){ simState.idx++; simState.phase=0; }
