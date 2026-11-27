@@ -937,20 +937,6 @@ const STOP_TYPES = {
   sonstiges:  { label: 'Sonstiges',                   prefix: '' }
 };
 
-// Teilt eine Stop-Liste an "Unterbrochen"/"Autobahnanfang"-Markern in mehrere Teilstücke
-function splitStopsOnBreaks(stops){
-  const segments = [[]];
-  stops.forEach(s=>{
-    if(s.kind==='info' && /Unterbrochen|Autobahnanfang/i.test(s.text)){
-      const cur = segments[segments.length-1];
-      if(cur.some(x=>x.kind!=='region' && x.kind!=='info')) segments.push([]);
-      return; // Marker-Zeile selbst wird nicht übernommen
-    }
-    segments[segments.length-1].push(s);
-  });
-  return segments.filter(seg=>seg.some(x=>x.kind!=='region' && x.kind!=='info'));
-}
-
 function stopsToSteps(stopsArr){
   const steps = [];
   stopsArr.forEach(s=>{
@@ -1003,15 +989,7 @@ window.migrateProjectData = migrateProjectData;
 let PROJECT = { routes: {} };
 Object.keys(ROUTES).forEach(k=>{
   const r = ROUTES[k];
-  const segments = splitStopsOnBreaks(r.stops);
-  if(segments.length<=1){
-    PROJECT.routes[k] = buildRouteEntry(k, r.name, r.von, r.nach, r.km, r.stops);
-  } else {
-    segments.forEach((seg,i)=>{
-      const segKey = `${k}-T${i+1}`;
-      PROJECT.routes[segKey] = buildRouteEntry(segKey, `${r.name} (Teil ${i+1})`, r.von, r.nach, r.km, seg);
-    });
-  }
+  PROJECT.routes[k] = buildRouteEntry(k, r.name, r.von, r.nach, r.km, r.stops);
 });
 
 let activeRouteKey = Object.keys(PROJECT.routes)[0] || null;
@@ -1165,38 +1143,16 @@ function renderForm(){
     ${field('Name', `<input value="${s.name}" oninput="updateStep('name', this.value)">`)}
     ${field('Fahrstreifen (z.B. 2+2, 3+3)', `<input value="${s.lanes}" oninput="updateStep('lanes', this.value)">`)}
     ${field('Routen-Override (z.B. A↔S Wechsel)', `<input value="${s.routeOverride}" placeholder="z.B. S8" oninput="updateStep('routeOverride', this.value)">`)}
-   ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? field('Vorwegweiser-Schema', `<select onchange="updateStep('vorwegweiserScheme', this.value)">
-  <option value="1000-500" ${(!s.vorwegweiserScheme||s.vorwegweiserScheme==='1000-500')?'selected':''}>1000 m / 500 m (Standard)</option>
-
-  <option value="800-400" ${s.vorwegweiserScheme==='800-400'?'selected':''}>
-    800 m / 400 m
-  </option>
-
-  <option value="1200-600" ${s.vorwegweiserScheme==='1200-600'?'selected':''}>
-    1200 m / 600 m
-  </option>
-
-  <option value="1200-800-400" ${s.vorwegweiserScheme==='1200-800-400'?'selected':''}>
-    1200 m / 800 m / 400 m
-  </option>
-
-  <option value="1400-800-400" ${s.vorwegweiserScheme==='1400-800-400'?'selected':''}>
-    1400 m / 800 m / 400 m
-  </option>
-
-  <option value="1500-1000-500" ${s.vorwegweiserScheme==='1500-1000-500'?'selected':''}>
-    1500 m / 1000 m / 500 m
-  </option>
-
-  <option value="1800-1000-500" ${s.vorwegweiserScheme==='1800-1000-500'?'selected':''}>
-    1800 m / 1000 m / 500 m
-  </option>
-
-  <option value="2000-1000-500" ${s.vorwegweiserScheme==='2000-1000-500'?'selected':''}>
-    2000 m / 1000 m / 500 m
-  </option>
-
-</select>`) : ''}
+    ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? field('Vorwegweiser-Schema', `<select onchange="updateStep('vorwegweiserScheme', this.value)">
+      <option value="1000-500" ${(!s.vorwegweiserScheme||s.vorwegweiserScheme==='1000-500')?'selected':''}>1000 m / 500 m (Standard)</option>
+      <option value="800-400" ${s.vorwegweiserScheme==='800-400'?'selected':''}>800 m / 400 m</option>
+      <option value="1200-600" ${s.vorwegweiserScheme==='1200-600'?'selected':''}>1200 m / 600 m</option>
+      <option value="1200-800-400" ${s.vorwegweiserScheme==='1200-800-400'?'selected':''}>1200 m / 800 m / 400 m</option>
+      <option value="1400-800-400" ${s.vorwegweiserScheme==='1400-800-400'?'selected':''}>1400 m / 800 m / 400 m</option>
+      <option value="1500-1000-500" ${s.vorwegweiserScheme==='1500-1000-500'?'selected':''}>1500 m / 1000 m / 500 m</option>
+      <option value="1800-1000-500" ${s.vorwegweiserScheme==='1800-1000-500'?'selected':''}>1800 m / 1000 m / 500 m</option>
+      <option value="2000-1000-500" ${s.vorwegweiserScheme==='2000-1000-500'?'selected':''}>2000 m / 1000 m / 500 m</option>
+    </select>`) : ''}
     ${(s.stopType==='ausfahrt'||s.stopType==='kreuz') ? `<div class="checkline">
       <input type="checkbox" id="show1000Chk" ${s.show1000===false?'':'checked'} onchange="updateStep('show1000', this.checked)">
       <label for="show1000Chk" style="font-size:.8rem">Erste (weiteste) Vorankündigung anzeigen</label>
@@ -1491,7 +1447,6 @@ function renderPreview(){
 
   let clusterHtml = '';
   if(isMultiJunction){
-    // one board per adjacent route, side by side (gantry-style), each on own posts
     clusterHtml += `<div class="sign-cluster gantry-mode">`;
     clusterHtml += `<div style="display:flex;flex-direction:column;align-items:center">${boardHtml(displayRoute, s.name, s.signKey&&SIGNS[s.signKey], showNum?s.num:null)}<div class="sign-posts"><div class="post"></div><div class="post"></div></div></div>`;
     (s.adj||[]).forEach(a=>{
@@ -1625,7 +1580,8 @@ let state = {dir:'A', steps:[], idx:0, realIdxList:[]};
 function setDir(d){ state.dir=d; document.getElementById('dirA').classList.toggle('active',d==='A'); document.getElementById('dirB').classList.toggle('active',d==='B'); }
 
 function loadRoute(dir){
-  state.steps = dir==='B' ? [...ROUTE.steps].reverse() : ROUTE.steps;
+  const baseSteps = Array.isArray(ROUTE.stepsA) ? ROUTE.stepsA : (ROUTE.steps || []);
+  state.steps = dir==='B' ? (Array.isArray(ROUTE.stepsB) ? ROUTE.stepsB : [...baseSteps].reverse()) : baseSteps;
   state.realIdxList=[];
   state.steps.forEach((s,i)=>{ if(s.type==='stop') state.realIdxList.push(i); });
   state.idx=0;
@@ -1766,7 +1722,7 @@ function setMode(mode){
 // ═══════════════════════════════════════════════════════
 // SIMULATOR (nutzt PROJECT live, kein Export nötig)
 // ═══════════════════════════════════════════════════════
-let simState = { key:null, route:null, dir:'A', steps:[], idx:0, realIdxList:[], switchNotice:null, phase:0 };
+let simState = { key:null, route:null, dir:'A', steps:[], idx:0, realIdxList:[], switchNotice:null, phase:0, urlCode:null };
 
 function isJRoute(key){ return /^J[-\d]/i.test(key); }
 
@@ -1822,6 +1778,15 @@ function simStart(){
   simRenderStep();
 }
 
+function simResolveStepIndex(stepNum){
+  const targetPos = Math.max(0, (parseInt(stepNum, 10) || 1) - 1);
+  if(!simState.realIdxList.length) return 0;
+  if(targetPos < simState.realIdxList.length) return targetPos;
+  const matched = simState.realIdxList.findIndex(stepIdx => stepIdx >= targetPos);
+  if(matched !== -1) return matched;
+  return simState.realIdxList.length - 1;
+}
+
 function simLoadRoute(key, dir){
   const route = PROJECT.routes[key];
   simState.key = key; simState.route = route;
@@ -1829,6 +1794,7 @@ function simLoadRoute(key, dir){
   simState.realIdxList = [];
   simState.steps.forEach((s,i)=>{ if(s.type==='stop') simState.realIdxList.push(i); });
   simState.idx = 0;
+  simState.urlCode = null;
 }
 
 function simFindStopAt(pos){ return simState.steps[simState.realIdxList[pos]]; }
@@ -1855,7 +1821,7 @@ function simNarrativeFor(pos){
   return sentences.join(' ');
 }
 
-// Parst einen vollen Zielcode wie "A5-A-1" (Route-Richtung-Schritt) oder "A5-T1-B-12".
+// Parst einen vollen Zielcode wie "A5-A-1" (Route-Richtung-Schritt).
 // Gibt {routeKey, dir, stepNum} zurück, oder null wenn ungültig/Route nicht vorhanden.
 function simParseCode(code){
   if(!code) return null;
@@ -1867,14 +1833,15 @@ function simParseCode(code){
   return { routeKey, dir, stepNum: parseInt(stepNumStr,10)||1 };
 }
 
-// Wechselt exakt zu Route+Richtung+Schrittnummer aus einem Zielcode (für "Weiterfahrt auf andere Route").
+// Wechselt exakt zu Route+Richtung+Schrittnummer aus einem Zielcode (für "Weiterfahrt auf andere Route" / "Übergang").
 function simSwitchToCode(code, fromRouteName){
   const parsed = simParseCode(code);
   if(!parsed) return;
   simLoadRoute(parsed.routeKey, parsed.dir);
   simState.dir = parsed.dir;
   simUpdateDirButtons(PROJECT.routes[parsed.routeKey], parsed.routeKey, parsed.dir);
-  simState.idx = Math.max(0, Math.min(parsed.stepNum-1, simState.realIdxList.length-1));
+  simState.idx = simResolveStepIndex(parsed.stepNum);
+  simState.urlCode = `${parsed.routeKey}-${parsed.dir}-${parsed.stepNum}`;
   simState.phase = 0;
   simState.switchNotice = `Du bist von der ${fromRouteName} auf die ${PROJECT.routes[parsed.routeKey].name} gewechselt.`;
   const sel = document.getElementById('simRouteSelect');
@@ -1901,17 +1868,15 @@ function simSwitchRoute(newKey, fromCode){
 
 function simIsPhased(s){ return s.stopType==='ausfahrt' || s.stopType==='kreuz'; }
 
-// Vorwegweiser-Schemata: jede Phase ist 'far' (1000m-Stil: Nummer im Kreis, Name, Distanz)
-// oder 'near' (500m-Stil: Geradeaus-Ziele über dem Pfeil, Ziele rechts, Distanz unten)
 const VORWEGWEISER_SCHEMES = {
   '1000-500':      [{dist:'1000 m', style:'far'}, {dist:'500 m', style:'near'}],
   '800-400':       [{dist:'800 m',  style:'far'}, {dist:'400 m', style:'near'}],
   '1500-1000-500': [{dist:'1500 m', style:'far'}, {dist:'1000 m', style:'near'}, {dist:'500 m', style:'near'}],
-  '1400-800-400': [{dist:'1400 m', style:'far'}, {dist:'800 m', style:'near'}, {dist:'400 m', style:'near'}],
-  '1200-800-400': [{dist:'1200 m', style:'far'}, {dist:'800 m', style:'near'}, {dist:'400 m', style:'near'}],
-  '1200-600': [{dist:'1200 m', style:'far'}, {dist:'600 m', style:'near'}],
+  '1400-800-400':  [{dist:'1400 m', style:'far'}, {dist:'800 m', style:'near'}, {dist:'400 m', style:'near'}],
+  '1200-800-400':  [{dist:'1200 m', style:'far'}, {dist:'800 m', style:'near'}, {dist:'400 m', style:'near'}],
+  '1200-600':      [{dist:'1200 m', style:'far'}, {dist:'600 m', style:'near'}],
   '2000-1000-500': [{dist:'2000 m', style:'far'}, {dist:'1000 m', style:'near'}, {dist:'500 m', style:'near'}],
-  '1800-1000-500': [{dist:'1800 m', style:'far'}, {dist:'1000 m', style:'near'},{dist:'500 m', style:'near'}]
+  '1800-1000-500': [{dist:'1800 m', style:'far'}, {dist:'1000 m', style:'near'}, {dist:'500 m', style:'near'}]
 };
 function simVorwegweiserList(s){
   const scheme = VORWEGWEISER_SCHEMES[s.vorwegweiserScheme] || VORWEGWEISER_SCHEMES['1000-500'];
@@ -1962,7 +1927,6 @@ function simRenderStep(){
   const adj = s.adj || [];
   const displayRoute = s.routeOverride || route.name;
   const cls = badgeClassLocal(displayRoute);
-  const signColorKey = cls==='s' ? 'Blau' : 'Grün';
   const phased = simIsPhased(s);
   const pInfo = phased ? simPhaseInfo(s, simState.phase) : { isAnnouncement:false };
   const showNum = (s.stopType==='ausfahrt' || s.stopType==='abfahrt_direkt') && s.num;
@@ -1971,7 +1935,6 @@ function simRenderStep(){
   let phaseLabel = '';
 
   if(phased && pInfo.isAnnouncement && pInfo.style==='far'){
-    // ── Weite Vorankündigung (z.B. 1000m/800m/1500m): echtes AS/Kreuz-Schild aus deinen SVGs, keine Pfeile ──
     phaseLabel = 'Vorankündigung · ' + pInfo.dist;
     const icon1000 = s.stopType==='kreuz' ? SIGNS['Icon1000Kreuz'] : SIGNS['Icon1000AS'];
     const board = `<div class="sign-board-single${(cls!=='a'?' '+cls:'')}" style="min-width:170px">
@@ -1983,14 +1946,11 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(board)}</div>`;
 
   } else if(phased && pInfo.isAnnouncement && pInfo.style==='near' && s.stopType==='kreuz' && adj.length>0){
-    // ── Nahe Vorankündigung an Autobahnkreuzen/-dreiecken (500m-Stil): oben bis zu 4 Routennummern
-    //    (eigene Route + angrenzende Autobahnen), rechts alle Ziele der angrenzenden Straßen je mit Nummer ──
     phaseLabel = 'Vorankündigung · ' + pInfo.dist;
     const icon = SIGNS['PfeilGeradeausRechts'];
     const geradeausLinesK = simGeradeausDests(pos).join('<br>');
     const ownLines = [displayRoute].concat((s.extraDests||[]).filter(Boolean)).slice(0,4);
-    const adjForRight = adj;
-    const rightBlocksHtml = adjForRight.map(a=>{
+    const rightBlocksHtml = adj.map(a=>{
       const aLines = [a.code].concat((a.extraDests||[]).filter(Boolean));
       return `<div style="margin-bottom:.35rem">${aLines.map((l,i)=>i===0?`<b>${l}</b>`:l).join('<br>')}</div>`;
     }).join('');
@@ -2008,7 +1968,6 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(board)}</div>`;
 
   } else if(phased && pInfo.isAnnouncement && pInfo.style==='near'){
-    // ── Nahe Vorankündigung (z.B. 500m/400m/1000m-als-500m-Stil): über dem Pfeil die Geradeaus-Ziele, rechts die Ziele dieser Ausfahrt ──
     phaseLabel = 'Vorankündigung · ' + pInfo.dist;
     const icon = SIGNS['PfeilGeradeausRechts'];
     const destLines = simDestLines(s).join('<br>');
@@ -2027,7 +1986,6 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(board)}</div>`;
 
   } else if(s.stopType==='ausfahrt' ? (phased && !pInfo.isAnnouncement) : s.stopType==='abfahrt_direkt'){
-    // ── Ausfahrt selbst: Ziele (Pfeil rechts, bis zu 3 weitere Ziele) + Geradeaus-Ziele (Pfeil geradeaus) auf einer Schilderbrücke ──
     phaseLabel = 'Ausfahrt';
     const exitIcon = SIGNS['PfeilRechts'];
     const straightIcon = SIGNS['PfeilGeradeaus'];
@@ -2047,12 +2005,11 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster gantry-mode">${simPostsWrap(boardStraight)}${simPostsWrap(boardExit)}</div>`;
 
   } else if(s.stopType==='uebergang'){
-    // ── Übergang: Straße läuft unter neuer Bezeichnung weiter (Ende-Schild + "Übergang in X") ──
     phaseLabel = 'Übergang';
     const parsedU = simParseCode(s.targetRoute||'');
     const targetNameU = parsedU ? parsedU.routeKey : (s.targetRoute||'?');
     const clsU = badgeClassLocal(targetNameU);
-    const endIconU = cls==='a' ? SIGNS['ABGrünEnde'] : (cls==='s' ? SIGNS['ABBlauEnde'] : null);
+    const endIconU = clsU==='a' ? SIGNS['ABGrünEnde'] : (clsU==='s' ? SIGNS['ABBlauEnde'] : null);
     const swAttrU = parsedU ? ` onclick="simSwitchToCode('${(s.targetRoute||'').replace(/'/g,"\\'")}','${route.name}')"` : '';
     const boardU = `<div class="sign-board-single${(clsU!=='a'?' '+clsU:'')}${parsedU?' switchable':''}"${swAttrU} style="min-width:180px">
         ${endIconU?`<div class="custom-svg" style="width:56px;height:56px;margin:0 auto .3rem">${endIconU}</div>`:''}
@@ -2061,7 +2018,6 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(boardU)}</div>`;
 
   } else if(s.stopType==='weiterauf'){
-    // ── Eigener Step: Weiterfahrt auf einen exakten Zielcode (Route-Richtung-Schritt, z.B. A5-A-1) — NUR durch Klick auf das Schild (manuell) ──
     phaseLabel = 'Weiterfahrt auf andere Route';
     const parsedW = simParseCode(s.targetRoute||'');
     const switchableW = !!parsedW;
@@ -2074,7 +2030,6 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(boardW)}</div>`;
 
   } else if(s.stopType==='schild'){
-    // ── Schild mit optionalen Zusatzzeichen darunter ──
     phaseLabel = 'Schild';
     const mainBoardS = simBoardHtml(displayRoute, s.name, s.signKey&&SIGNS[s.signKey], showNum?s.num:null, false);
     const zzHtml = (s.zusatzzeichen||[]).filter(Boolean).map(z=>`
@@ -2083,7 +2038,6 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(mainBoardS + zzHtml)}</div>`;
 
   } else if(s.stopType==='vba'){
-    // ── VBA: je Fahrstreifen ein Tempo-Schild (A), dazwischen ein Symbol-Schild (B) ──
     phaseLabel = 'Verkehrsbeeinflussungsanlage';
     const n = Math.max(2, laneCountFromString(s.lanes) || 2);
     function vbaPick(opts){ return opts[Math.floor(Math.random()*opts.length)]; }
@@ -2092,18 +2046,16 @@ function simRenderStep(){
         return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.8rem;color:#e02020;line-height:1">✕</div>`;
       }
       if(val==='mergeLeft'){
-        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1;transform:rotate(0deg)">↙</div>`;
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1">↙</div>`;
       }
       if(val==='mergeRight'){
-        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1;transform:rotate(0deg)">↘</div>`;
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1">↘</div>`;
       }
-      
       if(val==='clear'){
-        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1;transform:rotate(0deg)"> </div>`;
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#FFB300;line-height:1"> </div>`;
       }
-      
       if(val==='open'){
-        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#2fcf6a;line-height:1;transform:rotate(0deg)">↓</div>`;
+        return `<div style="background:#111;border-radius:4px;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.6rem;color:#2fcf6a;line-height:1">↓</div>`;
       }
       const label = val ? val : '';
       return `<div style="background:#fff;border:4px solid #c0392b;border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;color:#1b2430">${label}</div>`;
@@ -2127,7 +2079,6 @@ function simRenderStep(){
       </div>`;
 
   } else if(s.stopType==='kreuzung'){
-    // ── Normale Kreuzung: Wegweiser mit Zielbeschriftung, Regelung nur als kleines Eck-Badge ──
     phaseLabel = 'Kreuzung';
     const kreuzIcons = { ampel:'Ampel', stop:'Stoppschild', vorfahrtachten:'VorfahrtAchten', vorfahrtstrasse:'Vorfahrtstraße' };
     const iconKey = kreuzIcons[s.kreuzungTyp] || 'Ampel';
@@ -2142,9 +2093,7 @@ function simRenderStep(){
     clusterHtml = `<div class="sign-cluster">${simPostsWrap(boardK)}</div>`;
 
   } else if(s.stopType==='kreisverkehr'){
-    // ── Kreisverkehr: Wegweiser mit Zielbeschriftung, Kreisel-Icon nur als kleines Eck-Badge ──
     phaseLabel = 'Kreisverkehr';
-    const resolveKeyR = (code)=> PROJECT.routes[code] ? code : (PROJECT.routes[code+'-T1'] ? code+'-T1' : null);
     const kreiselIcon = SIGNS['Kreisel'];
     const straightIconR = SIGNS['PfeilGeradeaus'];
     const mainBoardR = `<div class="sign-board-single" style="min-width:150px;position:relative">
@@ -2155,7 +2104,7 @@ function simRenderStep(){
     clusterHtml += `<div class="sign-cluster gantry-mode">`;
     clusterHtml += simPostsWrap(mainBoardR);
     adj.forEach(a=>{
-      const targetKeyR = resolveKeyR(a.code);
+      const targetKeyR = PROJECT.routes[a.code] ? a.code : null;
       const switchableR = !!targetKeyR;
       const swAttrR = switchableR ? ` onclick="simSwitchRoute('${targetKeyR}','${route.name}')"` : '';
       const exitDests = [a.code].concat((a.extraDests||[]).filter(Boolean));
@@ -2167,14 +2116,12 @@ function simRenderStep(){
     clusterHtml += `</div>`;
 
   } else {
-    // ── Kreuz (0m) oder Nicht-Ausfahrt-Typen (Raststätte/Tunnel/Brücke/Grenze/Sonstiges): einfaches Schild ──
     phaseLabel = s.stopType==='kreuz' ? 'Kreuz/Dreieck' : (STOP_TYPES[s.stopType]||STOP_TYPES.ausfahrt).label;
     const isMultiJunction = s.stopType==='kreuz' && adj.length>0;
     if(isMultiJunction){
       const straightIconK = SIGNS['PfeilGeradeaus'];
       const turnIconK = SIGNS['PfeilRechts'];
-      const resolveKey = (code)=> PROJECT.routes[code] ? code : (PROJECT.routes[code+'-T1'] ? code+'-T1' : null);
-      const mainSwitchKey = resolveKey(displayRoute);
+      const mainSwitchKey = PROJECT.routes[displayRoute] ? displayRoute : null;
       const mainSwitchable = !!mainSwitchKey && displayRoute !== route.name;
       const mainSwAttr = mainSwitchable ? ` onclick="simSwitchRoute('${mainSwitchKey}','${route.name}')"` : '';
       const mainBoard = `<div class="sign-board-single${(cls!=='a'?' '+cls:'')}${mainSwitchable?' switchable':''}"${mainSwAttr} style="min-width:150px">
@@ -2185,7 +2132,7 @@ function simRenderStep(){
       clusterHtml += `<div class="sign-cluster gantry-mode">`;
       clusterHtml += simPostsWrap(mainBoard);
       adj.forEach(a=>{
-        const targetKey = resolveKey(a.code);
+        const targetKey = PROJECT.routes[a.code] ? a.code : null;
         const switchable = !!targetKey;
         const swAttr = switchable ? ` onclick="simSwitchRoute('${targetKey}','${route.name}')"` : '';
         const rampDests = [a.code].concat((a.extraDests||[]).filter(Boolean));
@@ -2206,7 +2153,6 @@ function simRenderStep(){
 
   let endControls = '';
   if(isLastPhaseOfLastStop && !(s.stopType==='uebergang' && simParseCode(s.targetRoute||''))){
-    // ── Streckenende: Richtungswechsel anbieten. Bei "weiterauf" erfolgt der Routenwechsel ausschließlich durch Klick auf das Schild oben (manuell). ──
     const otherDir = simState.dir==='A' ? 'B' : 'A';
     const otherDirLabel = otherDir==='A' ? (route.dirA||'Richtung A') : (route.dirB||'Richtung B');
     endControls = `<div class="controls" style="gap:.6rem">
@@ -2244,12 +2190,14 @@ function simRenderStep(){
 // ═══════════════════════════════════════════════════════
 function simCurrentUrl(){
   if(!simState.key) return location.origin + location.pathname;
-  return `${location.origin}${location.pathname}?${simState.key}-${simState.dir}-${simState.idx+1}`;
+  const code = simState.urlCode || `${simState.key}-${simState.dir}-${simState.idx+1}`;
+  return `${location.origin}${location.pathname}?${code}`;
 }
 function simUpdateAddressBar(){
   try{
     if(!simState.key) return;
-    const newUrl = `${location.pathname}?${simState.key}-${simState.dir}-${simState.idx+1}${location.hash||''}`;
+    const code = simState.urlCode || `${simState.key}-${simState.dir}-${simState.idx+1}`;
+    const newUrl = `${location.pathname}?${code}${location.hash||''}`;
     history.replaceState(null, '', newUrl);
   }catch(e){ /* z.B. in sandboxed Artifact-Vorschau nicht erlaubt — einfach ignorieren */ }
 }
@@ -2271,7 +2219,7 @@ function simTryLoadFromUrl(){
     if(!m) return false;
     const [, routeKey, dir, stepNumStr] = m;
     if(!PROJECT.routes[routeKey]) return false;
-    if(dir==='J' && !isJRoute(routeKey)) return false; // J-Richtung nur für J-Routen gültig
+    if(dir==='J' && !isJRoute(routeKey)) return false;
     const sel = document.getElementById('simRouteSelect');
     sel.value = routeKey;
     simOnRouteChange();
@@ -2279,7 +2227,8 @@ function simTryLoadFromUrl(){
     simState.dir = dir;
     simUpdateDirButtons(PROJECT.routes[routeKey], routeKey, dir);
     const stepNum = parseInt(stepNumStr, 10) || 1;
-    simState.idx = Math.max(0, Math.min(stepNum-1, simState.realIdxList.length-1));
+    simState.idx = simResolveStepIndex(stepNum);
+    simState.urlCode = `${routeKey}-${dir}-${stepNum}`;
     simState.phase = 0;
     simRenderStep();
     return true;
@@ -2287,7 +2236,7 @@ function simTryLoadFromUrl(){
 }
 
 function simReverseDirection(){
-  if(isJRoute(simState.key)) return; // J-Routen haben nur eine Fahrtrichtung
+  if(isJRoute(simState.key)) return;
   const newDir = simState.dir==='A' ? 'B' : 'A';
   simState.dir = newDir;
   simUpdateDirButtons(simState.route, simState.key, newDir);
@@ -2304,21 +2253,21 @@ function simNext(){
   }
   const maxPhase = simPhaseCount(s)-1;
   if(simState.phase < maxPhase){ simState.phase++; }
-  else if(simState.idx < simState.realIdxList.length-1){ simState.idx++; simState.phase=0; }
+  else if(simState.idx < simState.realIdxList.length-1){ simState.idx++; simState.phase=0; simState.urlCode=null; }
   else return;
   simState.switchNotice=null;
   simRenderStep();
 }
 function simPrev(){
   if(simState.phase > 0){ simState.phase--; }
-  else if(simState.idx > 0){ simState.idx--; const prevS = simFindStopAt(simState.idx); simState.phase = simPhaseCount(prevS)-1; }
+  else if(simState.idx > 0){ simState.idx--; const prevS = simFindStopAt(simState.idx); simState.phase = simPhaseCount(prevS)-1; simState.urlCode=null; }
   else return;
   simState.switchNotice=null;
   simRenderStep();
 }
 
 document.getElementById('simSceneWrap').innerHTML = '<p style="color:var(--muted);padding:2rem;text-align:center">Wähle oben eine Route und Richtung, dann „Starten".</p>';
-simTryLoadFromUrl(); // überschreibt den Platzhalter, falls die URL einen gültigen Step adressiert (z.B. ?A1-B-80)
+simTryLoadFromUrl();
 </script>
 
 <!-- ═══ FIREBASE (Speichern/Laden des gesamten Projekts) ═══ -->
@@ -2375,7 +2324,6 @@ simTryLoadFromUrl(); // überschreibt den Platzhalter, falls die URL einen gült
     }
   };
 
-  // ── Auto-Load beim Start: lädt stillschweigend den gespeicherten Stand, falls vorhanden ──
   (async function autoLoad(){
     try{
       statusEl.textContent = 'prüfe Cloud-Stand…';
